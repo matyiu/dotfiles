@@ -19,6 +19,8 @@ client.background       $bg
 #-------------------------------------------------------------------
 # Hide title-bar and set border-width
 for_window [class="^.*"] border pixel 2
+for_window [class="^Ulauncher*"] border none, floating enable
+
 gaps inner 10
 gaps outer 0
 
@@ -27,13 +29,12 @@ set $mod Mod4
 #------------------------------------------------------------------
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
- font pango:monospace 8
+ font Roboto 10
 
 #------------------------------------------------------------------
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-bindsym $mod+d exec --no-startup-id "ulauncher"
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -167,20 +168,16 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-#bar {
-#        #status_command i3status
-#	position top
-#}
-
 # ---------------------------------
-# Bindyms
+# Custom Bindyms
 # ---------------------------------
 bindsym $mod+Tab exec "flameshot gui"
+bindsym $mod+d exec --no-startup-id "ulauncher"
 
-# ---------------------------------
-# EXEC PROGRAMS
-# ---------------------------------
+#: ---------------------------------
+#: EXEC PROGRAMS {{{
+#: ---------------------------------
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec_always feh --bg-fill $HOME/.wallpapers/selected
+#: }}}
 
