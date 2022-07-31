@@ -59,11 +59,6 @@ bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
-# move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -172,7 +167,12 @@ bindsym $mod+r mode "resize"
 # Custom Bindyms
 # ---------------------------------
 bindsym $mod+Tab exec "flameshot gui"
-bindsym $mod+d exec --no-startup-id "ulauncher"
+bindsym $mod+t exec --no-startup-id "kitty"
+bindsym $mod+p exec "phpstorm"
+bindsym $mod+b exec "brave"
+bindsym $mod+d exec --no-startup-id "rofi -modi combi -show combi -combi-modi drun"
+bindsym $mod+Shift+d exec --no-startup-id "rofi -modi emoji -show emoji "
+bindsym $mod+c exec --no-startup-id "rofi -modi calc -show calc"
 
 #: ---------------------------------
 #: EXEC PROGRAMS {{{
