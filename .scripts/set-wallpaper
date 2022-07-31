@@ -1,0 +1,7 @@
+#!/bin/zsh
+setopt extendedglob
+WALLPAPER_PATH="$HOME/.wallpapers"
+
+theme="$(ls "$WALLPAPER_PATH"/*.jpg | fzf --prompt "Select a Wallpaper: ")"
+
+ln -sfn $theme "$WALLPAPER_PATH/selected"

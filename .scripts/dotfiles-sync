@@ -1,0 +1,29 @@
+#!/bin/bash
+ROOT_DIR=$HOME/Dotfiles
+
+DOTFILES_DIR=$HOME/.config
+SCRIPTS_DIR=$HOME/.scripts
+
+BACKUP_DIR=$ROOT_DIR/backup
+
+files="i3 rofi autorandr ncmpcpp mpv mpd kitty picom polybar pulse ranger redshift"
+
+echo "Creating $BACKUP_DIR for backup of any existing dotfiles in $HOME ..."
+mkdir -p $BACKUP_DIR
+mkdir -p $BACKUP_DIR/.scripts
+mkdir -p $BACKUP_DIR/.config
+echo "Done"
+
+for file in $files; do
+	echo "Moving dotfiles from $HOME to $BACKUP_DIR"
+	mv $DOTFILES_DIR/$file $BACKUP_DIR/.config
+
+	echo "Moving scripts from $HOME to $BACKUP_DIR"
+	mv $SCRIPTS_DIR/* $BACKUP_DIR/.scripts
+
+	echo "Creating symlink to $file in home directory"
+	ln -s $ROOT_DIR/.config/$file $DOTFILES_DIR
+	
+	echo "Creating scripts symlink in home directory"
+	ln -s $ROOT_DIR/.scripts/* $SCRIPTS_DIR
+done
