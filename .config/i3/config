@@ -144,6 +144,7 @@ bindsym $mod+b exec "brave"
 bindsym $mod+d exec --no-startup-id "rofi -modi combi -show combi -combi-modi drun"
 bindsym $mod+Shift+d exec --no-startup-id "rofi -modi emoji -show emoji "
 bindsym $mod+c exec --no-startup-id "rofi -modi calc -show calc"
+bindsym Mod1+Tab exec "rofi -show window"
 
 #: ---------------------------------
 #: EXEC PROGRAMS {{{
