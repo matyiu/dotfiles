@@ -124,6 +124,20 @@ bindsym $mod+Shift+Mod2+KP_Prior move container to workspace $ws9
 bindsym $mod+Shift+Mod2+KP_Insert move container to workspace $ws10
 
 # ---------------------------------
+# Workspace assignments to screens
+# ---------------------------------
+workspace $ws1 output HDMI-1
+workspace $ws2 output HDMI-1
+workspace $ws3 output HDMI-1
+workspace $ws4 output HDMI-1
+workspace $ws5 output HDMI-1
+workspace $ws6 output HDMI-0
+workspace $ws7 output HDMI-0
+workspace $ws8 output HDMI-0
+workspace $ws9 output HDMI-0
+workspace $ws10 output HDMI-0
+
+# ---------------------------------
 # App assignments to workspaces
 # ---------------------------------
 assign [class="jetbrains-phpstorm"] $ws6
