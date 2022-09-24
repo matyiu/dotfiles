@@ -7,8 +7,21 @@ polybar-msg cmd quit
 # killall -q polybar
 
 # Launch bar1 and bar2
-echo "---" | tee -a /tmp/polybar1.log /tmp/polybar2.log
-polybar primary 2>&1 | tee -a /tmp/polybar1.log & disown
-polybar secondary 2>&1 | tee -a /tmp/polybar2.log & disown
+
+if type "xrandr" > /dev/null; then
+      for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
+	if [ $m == 'HDMI-1' ] 
+	then		
+		MONITOR=$m polybar primary 2>&1 & disown	
+	elif [ $m == 'HDMI-0' ]
+	then
+		MONITOR=$m polybar secondary 2>&1 & disown
+	else
+		MONITOR=$m polybar primary 2>&1 & disown
+	fi
+      done
+    else
+    	polybar primary -c ~/.config/polybar/config &
+    fi
 
 echo "Bars launched..."

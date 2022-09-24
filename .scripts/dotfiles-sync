@@ -1,5 +1,5 @@
 #!/bin/bash
-ROOT_DIR=$HOME/Dotfiles
+ROOT_DIR=$HOME/dotfiles
 
 DOTFILES_DIR=$HOME/.config
 SCRIPTS_DIR=$HOME/.scripts
@@ -12,6 +12,10 @@ echo "Creating $BACKUP_DIR for backup of any existing dotfiles in $HOME ..."
 mkdir -p $BACKUP_DIR
 mkdir -p $BACKUP_DIR/.scripts
 mkdir -p $BACKUP_DIR/.config
+echo "Done"
+
+echo "Creating Scripts dir if it not exists $HOME ..."
+mkdir -p $SCRIPTS_DIR
 echo "Done"
 
 for file in $files; do
