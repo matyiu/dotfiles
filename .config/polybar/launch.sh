@@ -17,11 +17,11 @@ if type "xrandr" > /dev/null; then
 	then
 		MONITOR=$m polybar secondary 2>&1 & disown
 	else
-		MONITOR=$m polybar primary 2>&1 & disown
+		MONITOR=$m polybar secondary 2>&1 & disown
 	fi
       done
     else
-    	polybar primary -c ~/.config/polybar/config &
+    	polybar primary 2>&1 & disown
     fi
 
 echo "Bars launched..."

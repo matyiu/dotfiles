@@ -82,7 +82,7 @@ cursor-scroll = ns-resize
 enable-ipc = true
 
 # Tray
-tray-position = none
+# tray-position = none
 #tray-position = right
 #tray-maxsize = 16
 #tray-background = ${root.background}
