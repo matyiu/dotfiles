@@ -140,10 +140,13 @@ workspace $ws10 output DP-0
 # ---------------------------------
 # App assignments to workspaces
 # ---------------------------------
+assign [class="Brave-browser"] $ws1
 assign [class="jetbrains-phpstorm"] $ws6
-assign [class="Telegram"] $ws9
-assign [class="discord"] $ws9
-assign [class="notion"] $ws10
+assign [class="jetbrains-webstorm"] $ws6
+assign [class="jetbrains-pycharm"] $ws6
+assign [class="notion"] $ws9
+assign [class="Telegram"] $ws10
+assign [class="discord"] $ws10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
