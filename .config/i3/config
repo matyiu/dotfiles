@@ -140,11 +140,13 @@ workspace $ws10 output DP-0
 # ---------------------------------
 # App assignments to workspaces
 # ---------------------------------
-assign [class="Brave-browser"] $ws1
+assign [instance="brave-browser"] $ws1
 assign [class="jetbrains-phpstorm"] $ws6
 assign [class="jetbrains-webstorm"] $ws6
 assign [class="jetbrains-pycharm"] $ws6
+assign [class="kitty"] $ws7
 assign [class="notion"] $ws9
+assign [title="^Catd"] $ws9
 assign [class="Telegram"] $ws10
 assign [class="discord"] $ws10
 
