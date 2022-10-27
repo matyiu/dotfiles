@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+languages=('es,' 'ru,phonetic_YAZHERTY')
+
+str_to_list() {
+  str=$1
+
+  echo ${str//,/ }
+}
+
+first_lang=($(str_to_list ${languages[0]}))
+last_lang=($(str_to_list ${languages[-1]}))
+
+set_keymap() {
+  layout=$1
+  variant=$2
+
+  setxkbmap -layout $layout -variant $variant
+}
+
+next_keymap() {
+  current_layout=$1
+  is_keymap_found=false
+
+  for language in ${languages[@]}; do
+  	layout_list=($(str_to_list $language))
+  	layout=${layout_list[0]}
+  	variant=${layout_list[1]}
+
+  	if [ $layout == $current_layout ]; then
+  		is_keymap_found=true
+  	fi
+
+  	if [ $is_keymap_found == true -a $current_layout != ${last_lang[0]} ]; then
+  		set_keymap $layout $variant
+  	elif [ $is_keymap_found == true ]; then
+  		set_keymap ${first_lang[0]} ${first_lang[1]}
+  	fi
+  done
+}
+
+
+query=$(setxkbmap -query | grep layout | awk '{ print $2 }')
+next_keymap $query
