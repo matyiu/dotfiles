@@ -2,6 +2,8 @@
 setopt extendedglob
 WALLPAPER_PATH="$HOME/.wallpapers"
 
-theme="$(ls "$WALLPAPER_PATH"/*.jpg | fzf --prompt "Select a Wallpaper: ")"
+theme="$(ls "$WALLPAPER_PATH"/*.* | fzf --prompt "Select a Wallpaper: ")"
 
 ln -sfn $theme "$WALLPAPER_PATH/selected"
+
+feh --bg-fill $WALLPAPER_PATH/selected
