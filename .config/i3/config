@@ -4,13 +4,13 @@ exec_always --no-startup-id picom
 
 #--------------------------------------------------------------------
 # Set colors from wal
-set_from_resource $fg i3wm.color7 #f0f0f0
-set_from_resource $bg i3wm.color4 #f0f0f0
-set_from_resource $ib i3wm.color3 #f0f0f0
+set $fg #DAEDEB
+set_from_resource $bg i3wm.color8 #252B39
+set_from_resource $ib i3wm.color3 #E47878
 # class                 border  backgr. text indicator child_border
-client.focused          $bg     $bg     $fg  $bg       $bg
-client.focused_inactive $ib     $bg     $fg  $bg       $ib
-client.unfocused        $ib     $bg     $fg  $bg       $ib
+client.focused          $ib     $bg     $fg  $bg       $ib
+client.focused_inactive $bg     $bg     $fg  $bg       $bg
+client.unfocused        $ib     $bg     $fg  $bg       $bg
 client.urgent           $bg     $bg     $fg  $bg       $bg
 client.placeholder      $bg     $bg     $fg  $bg       $bg
 
@@ -19,7 +19,6 @@ client.background       $bg
 #-------------------------------------------------------------------
 # Hide title-bar and set border-width
 for_window [class="^.*"] border pixel 2
-for_window [class="^Ulauncher*"] border none, floating enable
 
 #------------------------------------------------------------------
 set $mod Mod4
@@ -38,7 +37,7 @@ bindsym $mod+Shift+q kill
 # ---------------------------------
 # Gaps
 # ---------------------------------
-gaps inner 10
+gaps inner 30
 gaps outer 0
 
 bindsym $mod+plus gaps inner current plus 5

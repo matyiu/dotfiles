@@ -1,3 +1,5 @@
-kitty-themes
 .idea
 backup
+
+.config/kitty/kitty-themes/*
+!.config/kitty/kitty-themes/Rjeffvalle*.conf
