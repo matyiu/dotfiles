@@ -1,17 +1,18 @@
 #!/bin/sh
 
-DOMAIN=localhost
+DOMAIN=SET_DOMAIN
 PORT=5000
 CERT_PATH=$HOME/certs
-DOCKER_CERT_PATH=/etc/docker/docker.d/$DOMAIN:$PORT
+DOCKER_CERT_PATH=/etc/docker/certs.d/$DOMAIN:$PORT
 
 echo "Generating cert keys..."
-openssl req -newkey rsa:4096 \
-	-nodes -sha256 \
-	-keyout $CERT_PATH/domain.key -x509 -days 365 \
-	-out $CERT_PATH/domain.crt
+openssl req -new -nodes -x509 -days 365 \
+	-keyout $CERT_PATH/domain.key \
+	-out $CERT_PATH/domain.crt \
+	-config $CERT_PATH/san.cnf
 
-cp $CERT_PATH/certs/domain.crt $DOCKER_CERT_PATH/ca.crt
+mkdir -p $DOCKER_CERT_PATH
+cp $CERT_PATH/domain.crt $DOCKER_CERT_PATH/ca.crt
 
 echo "Restarting Docker Engine..."
 /etc/init.d/docker restart
