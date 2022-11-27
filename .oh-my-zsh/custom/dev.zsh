@@ -1,0 +1,7 @@
+alias ydev="yarn dev"
+alias nsdev="npm run start:dev"
+alias ndev="npm run dev"
+alias ntsc="npm run tsc"
+alias nlint="npm run lint"
+alias clsm="ssh root@LearningSwarmManager"
+alias kb="microk8s.kubectl"

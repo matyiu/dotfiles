@@ -1,5 +1,7 @@
 .idea
 backup
 
+.oh-my-zsh
+
 .config/kitty/kitty-themes/*
 !.config/kitty/kitty-themes/Rjeffvalle*.conf

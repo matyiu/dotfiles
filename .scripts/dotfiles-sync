@@ -31,3 +31,10 @@ for file in $files; do
 	echo "Creating scripts symlink in home directory"
 	ln -s $ROOT_DIR/.scripts/* $SCRIPTS_DIR
 done
+
+echo "Setting Zsh and Oh My Zsh symlinks..."
+ln -sf $ROOT_DIR/.zshrc $HOME/.zshrc
+ln -sf $ROOT_DIR/.zprofile $HOME/.zprofile
+ln -sf $ROOT_DIR/.oh-my-zsh $HOME/.oh-my-zsh
+
+cd .oh-my-zsh && git init && git remote add https://github.com/ohmyzsh/ohmyzsh.git
