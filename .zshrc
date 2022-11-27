@@ -91,7 +91,7 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-PROMPT='%F{green}%1~%f %F{1}($(git_current_branch))%f %# '
+PROMPT='%F{green}%1~%f %F{1}$(git_get.sh curr_branch)%f %# '
 
 export PATH="$PATH:$HOME/.local/bin:$HOME/.scripts:$HOME/.config/rofi/bin"
 export LANG=es_ES.UTF-8

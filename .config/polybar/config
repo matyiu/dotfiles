@@ -61,7 +61,7 @@ inherit = bar/common
 monitor = ${env:MONITOR:}
 
 modules-left = i3 xwindow
-modules-right = filesystem pulseaudio xkeyboard memory cpu wlan eth date
+modules-right = filesystem pulseaudio xkeyboard memory cpu wlan eth date power
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -80,7 +80,7 @@ inherit = bar/common
 monitor = ${env:MONITOR:}
 
 modules-left = i3 xwindow
-modules-right = filesystem pulseaudio xkeyboard memory cpu wlan eth date
+modules-right = filesystem pulseaudio xkeyboard memory cpu wlan eth date power
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -94,6 +94,15 @@ enable-ipc = true
 #tray-background = ${root.background}
 
 bottom = true
+
+[module/power]
+type = custom/script
+exec = sleep
+
+label = %{F#5DA5DE}%{F}
+tail = true
+
+click-left = $HOME/.scripts/rofi-power-menu.sh
 
 [module/i3]
 type = internal/i3
@@ -159,7 +168,7 @@ interval = 25
 
 mount-0 = /
 
-label-mounted = %{F#F0C674}%mountpoint%%{F-} %percentage_used%%
+label-mounted = %{F#0DB9A2}%{F-} %percentage_used%%
 
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.disabled}
@@ -167,13 +176,18 @@ label-unmounted-foreground = ${colors.disabled}
 [module/pulseaudio]
 type = internal/pulseaudio
 
-format-volume-prefix = "VOL "
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-foreground = ${colors.primary}
+
+format-volume-prefix = ""
 format-volume-prefix-foreground = ${colors.primary}
-format-volume = <label-volume>
+format-volume = <ramp-volume> <label-volume>
 
 label-volume = %percentage%%
 
-label-muted = muted
+label-muted = 
 label-muted-foreground = ${colors.disabled}
 
 click-right = pavucontrol
@@ -193,14 +207,14 @@ label-indicator-background = ${colors.secondary}
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = "RAM "
+format-prefix = " "
 format-prefix-foreground = ${colors.primary}
 label = %percentage_used:2%%
 
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = "CPU "
+format-prefix = ""
 format-prefix-foreground = ${colors.primary}
 label = %percentage:2%%
 
@@ -214,14 +228,14 @@ label-disconnected = %{F#F0C674}%ifname%%{F#707880} disconnected
 [module/wlan]
 inherit = network-base
 interface-type = wireless
-;label-connected = %{F#F0C674}%ifname%%{F-} %essid% %local_ip%
-label-connected = 📶 Connected
-label-disconnected = %{A1:$HOME/.scripts/rofi-wifi-menu.sh &:}🌐 Disconnected%{A}
+label-connected = %{A1:$HOME/.scripts/rofi-wifi-menu.sh &:}%{F#0DB9A2}%{F} Connected%{A}
+label-disconnected = %{A1:$HOME/.scripts/rofi-wifi-menu.sh &:}%{F#E47878}%{F} Wlan%{A}
 
 [module/eth]
 inherit = network-base
 interface-type = wired
-label-connected = %{F#F0C674}%ifname%%{F-} %local_ip%
+label-connected = %{F#0DB9A2}%{F-} Eth
+label-disconnected = %{F#E47878}%{F-} Eth
 
 [module/date]
 type = internal/date
@@ -231,7 +245,6 @@ date = %H:%M
 date-alt = %Y-%m-%d %H:%M:%S
 
 label = %date%
-label-foreground = ${colors.primary}
 
 [settings]
 screenchange-reload = true
