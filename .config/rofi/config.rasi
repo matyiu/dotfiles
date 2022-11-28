@@ -8,3 +8,9 @@ configuration {
 //@theme "theme"
 
 @theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+
+inputbar {
+	background-image: url("~/.config/backgrounds/rofi/2.png", width);
+	padding: 218 0 0;
+	margin: 0 0 0 0;
+} 
