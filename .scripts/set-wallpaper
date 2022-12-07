@@ -2,8 +2,11 @@
 setopt extendedglob
 WALLPAPER_PATH="$HOME/.wallpapers"
 
-theme="$(ls "$WALLPAPER_PATH"/*.* | fzf --prompt "Select a Wallpaper: ")"
+theme="$(ls "$WALLPAPER_PATH"/*.{jpg,png} | grep -E '[[:digit:]]+'  | fzf --prompt "Select a Wallpaper: " --preview='feh --bg-fill {}' --preview-window=0)"
+file_ext="$(basename $theme | awk -F. '{print $NF}')"
 
-ln -sfn $theme "$WALLPAPER_PATH/selected"
+rm $WALLPAPER_PATH/selected.*
 
-feh --bg-fill $WALLPAPER_PATH/selected
+ln -sfn $theme "$WALLPAPER_PATH/selected.$file_ext"
+
+feh --bg-fill "$WALLPAPER_PATH/selected.$file_ext"

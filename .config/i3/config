@@ -169,7 +169,7 @@ bindsym $mod+t exec --no-startup-id "kitty"
 bindsym $mod+p exec "phpstorm"
 bindsym $mod+b exec "brave"
 bindsym $mod+m exec "org.telegram.desktop"
-bindsym $mod+d exec "rofi -modi combi -show combi -combi-modi drun,run,find:~/.scripts/finder.sh"
+bindsym $mod+d exec "rofi -modi combi -show combi -combi-modi drun,run"
 bindsym $mod+Shift+d exec "$HOME/.scripts/rofi-emoji"
 bindsym $mod+c exec --no-startup-id "rofi -modi calc -show calc"
 bindsym Mod1+Tab exec "rofi -show window"
@@ -179,7 +179,7 @@ bindcode $mod+53 exec "$HOME/.scripts/change-kbd"
 # EXEC PROGRAMS
 # ---------------------------------
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-exec_always feh --bg-fill $HOME/.wallpapers/selected
+exec_always feh --bg-fill $HOME/.wallpapers/selected.*
 exec_always blueman-applet
 exec_always nm-applet
 # exec_always xrandr --output HDMI-1 --rate 143.98 --left-of HDMI-0 --mode 1920x1080
