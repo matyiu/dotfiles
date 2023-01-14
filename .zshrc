@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# export PATH=$HOME/bin:/usr/local/bin:~/.dotnet/tools:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -93,7 +93,7 @@ source $ZSH/oh-my-zsh.sh
 
 PROMPT='%F{green}%1~%f %F{1}$(git_get.sh curr_branch)%f %# '
 
-export PATH="$PATH:$HOME/.local/bin:$HOME/.scripts:$HOME/.config/rofi/bin"
+export PATH="$PATH:$HOME/.local/bin:$HOME/.scripts:$HOME/.config/rofi/bin:$HOME/ide"
 export LANG=es_ES.UTF-8
 export LC_ALL=es_ES.UTF-8
 export XDG_DATA_DIRS="$XDG_DATA_DIRS:~/.local/share/flatpak/exports/share/applications:/var/lib/flatpak/exports/share/applications"

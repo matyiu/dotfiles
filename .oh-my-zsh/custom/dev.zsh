@@ -1,5 +1,6 @@
 alias ydev="yarn dev"
 alias nsdev="npm run start:dev"
+alias nstr="npm start"
 alias ndev="npm run dev"
 alias ntsc="npm run tsc"
 alias nlint="npm run lint"
