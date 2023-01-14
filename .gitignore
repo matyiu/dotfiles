@@ -5,3 +5,7 @@ backup
 
 .config/kitty/kitty-themes/*
 !.config/kitty/kitty-themes/Rjeffvalle*.conf
+
+# Ignore tmux plugins folder except for the tpm plugin
+.tmux/plugins/*
+!.tmux/plugins/tpm

@@ -38,3 +38,7 @@ ln -sf $ROOT_DIR/.zprofile $HOME/.zprofile
 ln -sf $ROOT_DIR/.oh-my-zsh $HOME/.oh-my-zsh
 
 cd .oh-my-zsh && git init && git remote add https://github.com/ohmyzsh/ohmyzsh.git
+
+echo "Setting up Tmux..."
+ln -sf $ROOT_DIR/.tmux $HOME
+ln -sf $ROOT_DIR/.tmux.conf $HOME
