@@ -186,5 +186,4 @@ exec_always nm-applet
 # exec --no-startup-id ulauncher --hide-window
 exec --no-startup-id xfsettingsd
 exec xscreensaver -no-splash
-exec rescuetime
 exec_always autorandr --change dual-hd60-hd144DP
