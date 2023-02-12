@@ -9,3 +9,5 @@ backup
 # Ignore tmux plugins folder except for the tpm plugin
 .tmux/plugins/*
 !.tmux/plugins/tpm
+
+.tmux/resurrect
