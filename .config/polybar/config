@@ -60,7 +60,7 @@ font-3 = Font Awesome 6 Brands:pixelsize=10;3
 inherit = bar/common
 monitor = ${env:MONITOR:}
 
-modules-left = i3 xwindow
+modules-left = i3
 modules-right = filesystem pulseaudio xkeyboard memory cpu wlan eth date power
 
 cursor-click = pointer
@@ -79,7 +79,7 @@ bottom = true
 inherit = bar/common
 monitor = ${env:MONITOR:}
 
-modules-left = i3 xwindow
+modules-left = i3
 modules-right = filesystem pulseaudio xkeyboard memory cpu wlan eth date power
 
 cursor-click = pointer
@@ -128,7 +128,7 @@ label-unfocused = %icon%
 label-unfocused-foreground = ${colors.disabled}
 label-unfocused-padding = 1
 
-ws-icon-0 = 1;
+ws-icon-0 = 1;
 ws-icon-1 = 2;
 ws-icon-2 = 3;
 ws-icon-3 = 4;
@@ -136,8 +136,8 @@ ws-icon-4 = 5;
 ws-icon-5 = 6;
 ws-icon-6 = 7;
 ws-icon-7 = 8;8
-ws-icon-8 = 9;9
-ws-icon-9 = 10;
+ws-icon-8 = 9;
+ws-icon-9 = 10;
 
 [module/xworkspaces]
 type = internal/xworkspaces
