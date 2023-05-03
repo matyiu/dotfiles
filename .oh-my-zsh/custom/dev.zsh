@@ -6,6 +6,6 @@ alias nstr="npm start"
 alias ndev="npm run dev"
 alias ntsc="npm run tsc"
 alias nlint="npm run lint"
-alias clsm="ssh root@LearningSwarmManager"
 alias kb="microk8s.kubectl"
-alias nuf="nvm use 12"
+
+alias vim="nvim"
