@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ZSH_FILE=$HOME/.zshrc
 BASH_FILE=$HOME/.bashrc
 
