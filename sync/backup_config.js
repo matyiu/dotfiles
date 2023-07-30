@@ -19,7 +19,7 @@ const backup_config = () => {
             return
         }
 
-        const backupPath = `${BACKUP_DIR}/${dir}`;
+        const backupPath = `${BACKUP_DIR}/.config/${dir}`;
         renameSync(pathToBackup, backupPath)
     })
 
