@@ -4,7 +4,7 @@ const { DIRECTORIES, DOTFILES_DIR, CONFIG_DIR, SCRIPTS_DIR, HOME} = require("./c
 const setup_config = () => {
     console.log('Setting up .config dir...')
     DIRECTORIES.forEach((dir) => {
-        symlinkSync(`${DOTFILES_DIR}/.config/${dir}`, CONFIG_DIR)
+        symlinkSync(`${DOTFILES_DIR}/.config/${dir}`, `${CONFIG_DIR}/${dir}`)
     })
 
     console.log('Setting up .scripts dir...')

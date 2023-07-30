@@ -1,5 +1,5 @@
 const { mkdirSync, renameSync } = require('fs')
-const { BACKUP_DIR, SCRIPTS_DIR, CONFIG_DIR, DIRECTORIES, DOTFILES_DIR} = require("./constants");
+const { BACKUP_DIR, SCRIPTS_DIR, CONFIG_DIR, DIRECTORIES} = require("./constants");
 
 const backup_config = () => {
     mkdirSync(BACKUP_DIR, { recursive: true })
@@ -8,7 +8,7 @@ const backup_config = () => {
     mkdirSync(SCRIPTS_DIR, { recursive: true })
 
     DIRECTORIES.forEach((dir) => {
-        renameSync(DOTFILES_DIR + `/${dir}`, `${BACKUP_DIR}/${dir}`)
+        renameSync(CONFIG_DIR + `/${dir}`, `${BACKUP_DIR}/${dir}`)
     })
 
     renameSync(SCRIPTS_DIR, BACKUP_DIR + '/.scripts')
