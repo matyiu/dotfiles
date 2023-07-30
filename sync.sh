@@ -1,8 +1,8 @@
 #!/bin/bash
 
-./sync/preparation.sh
+. ./sync/preparation.sh
 
-source "$HOME"/.bashrc
+. "$HOME"/.bashrc
 
 ./sync/sync.js
 
