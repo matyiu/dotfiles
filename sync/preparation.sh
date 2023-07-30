@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Update the system and install wget
-sudo pacman -Syu wget
+sudo pacman -Syu --no-confirm wget
 
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
 
