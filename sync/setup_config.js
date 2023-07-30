@@ -23,11 +23,12 @@ const setup_config = async () => {
     symlinkSync(`${DOTFILES_DIR}/.zshrc`, `${HOME}/.zshrc`)
     symlinkSync(`${DOTFILES_DIR}/.zprofile`, `${HOME}/.zprofile`)
 
-    if (!existsSync(`${OH_MY_ZSH_PATH}/.git`)) {
+    if (!existsSync(`${DOTFILES_DIR}/.oh-my-zsh/.git`)) {
         await exec_command('cd .oh-my-zsh && git init && git remote add origin https://github.com/ohmyzsh/ohmyzsh.git && git pull origin master')
     }
-    if (!existsSync(`${OH_MY_ZSH_PATH}/custom/plugins/zsh-autosuggestions`)) {
-        await exec_command(`git clone https://github.com/zsh-users/zsh-autosuggestions ${OH_MY_ZSH_PATH}/custom/plugins/zsh-autosuggestions`)
+
+    if (!existsSync(`${DOTFILES_DIR}/.oh-my-zsh/custom/plugins/zsh-autosuggestions`)) {
+        await exec_command(`git clone https://github.com/zsh-users/zsh-autosuggestions ${DOTFILES_DIR}/.oh-my-zsh/custom/plugins/zsh-autosuggestions`)
     }
     symlinkSync(`${DOTFILES_DIR}/.oh-my-zsh`, OH_MY_ZSH_PATH)
 
