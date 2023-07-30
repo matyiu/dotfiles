@@ -2,7 +2,7 @@
 
 ./sync/preparation.sh
 
-source ./sync/utils/source_config.sh
+source "$HOME"/.bashrc
 
 ./sync/sync.js
 
