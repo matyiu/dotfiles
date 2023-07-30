@@ -19,7 +19,7 @@ const setup_config = async () => {
     const OH_MY_ZSH_PATH = `${HOME}/.oh-my-zsh`
 
     console.log('Setting up Zsh & Oh My Zsh...')
-    await exec_command('chsh -s $(which zsh)')
+    await exec_command('sudo chsh -s $(which zsh)')
     symlinkSync(`${DOTFILES_DIR}/.zshrc`, `${HOME}/.zshrc`)
     symlinkSync(`${DOTFILES_DIR}/.zprofile`, `${HOME}/.zprofile`)
     symlinkSync(`${DOTFILES_DIR}/.oh-my-zsh`, OH_MY_ZSH_PATH)

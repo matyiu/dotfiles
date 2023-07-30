@@ -1,10 +1,10 @@
-const { exec } = require('child_process')
+const { exec, spawn } = require('child_process')
 
 const { PACKAGES } = require("./constants");
 
 const exec_command = (command) => {
     return new Promise((resolve, reject) => {
-        const process = exec(command)
+        const process = spawn(command, { stdio: 'inherit' })
 
         process.stdout.on('data', (data) => {
             console.log(data.toString())
@@ -14,9 +14,9 @@ const exec_command = (command) => {
             console.error(data.toString())
         })
 
-        process.on('close', (code) => {
+        process.on('exit', (code) => {
             if (code === 0) {
-                console.log('Successfull instalation.')
+                console.log('Successful installation.')
                 resolve()
             } else {
                 reject(new Error(`Command exited with code ${code}`))
