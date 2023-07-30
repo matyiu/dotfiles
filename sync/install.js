@@ -26,10 +26,10 @@ const exec_command = (command) => {
 }
 
 const install_packages = async () => {
-    console.log('Installing packages...')
     const command = `sudo pacman -S --noconfirm ${PACKAGES.join(' ')}`;
 
     try {
+        console.log('Installing packages...')
         await exec_command(command);
         console.log('Packages installed successfully.');
     } catch (error) {
@@ -38,5 +38,6 @@ const install_packages = async () => {
 }
 
 module.exports = {
-    install_packages
+    install_packages,
+    exec_command,
 }

@@ -1,7 +1,8 @@
 const { symlinkSync, existsSync } = require('fs');
 const { DIRECTORIES, DOTFILES_DIR, CONFIG_DIR, SCRIPTS_DIR, HOME} = require("./constants");
+const {exec_command} = require("./install");
 
-const setup_config = () => {
+const setup_config = async () => {
     console.log('Setting up .config dir...')
     DIRECTORIES.forEach((dir) => {
         const fileOrDir = `${DOTFILES_DIR}/.config/${dir}`
@@ -18,6 +19,7 @@ const setup_config = () => {
     const OH_MY_ZSH_PATH = `${HOME}/.oh-my-zsh`
 
     console.log('Setting up Zsh & Oh My Zsh...')
+    await exec_command('chsh -s $(which zsh)')
     symlinkSync(`${DOTFILES_DIR}/.zshrc`, `${HOME}/.zshrc`)
     symlinkSync(`${DOTFILES_DIR}/.zprofile`, `${HOME}/.zprofile`)
     symlinkSync(`${DOTFILES_DIR}/.oh-my-zsh`, OH_MY_ZSH_PATH)

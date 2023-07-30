@@ -7,7 +7,6 @@ const { setup_config} = require("./setup_config");
 
 (async () => {
     await install_packages()
-
     backup_config()
-    setup_config()
+    await setup_config()
 })()

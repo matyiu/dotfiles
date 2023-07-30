@@ -15,6 +15,8 @@ const PACKAGES = [
     "wireplumber",
     "neovim",
     "fd",
+    "zsh",
+    "tmux",
 ]
 
 const DIRECTORIES = [
