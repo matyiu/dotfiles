@@ -34,6 +34,14 @@ const DIRECTORIES = [
     'redshift'
 ]
 
+const HOME_DIRECTORIES = [
+    '.zshrc',
+    '.zprofile',
+    '.oh-my-zsh',
+    '.tmux',
+    '.tmux.conf',
+]
+
 const HOME = process.env.HOME
 
 const CONFIG_DIR = HOME + '/.config'
@@ -52,4 +60,5 @@ module.exports = {
     SCRIPTS_DIR,
     BACKUP_DIR,
     DOTFILES_DIR,
+    HOME_DIRECTORIES,
 }
