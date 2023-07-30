@@ -1,5 +1,5 @@
-const { mkdirSync, renameSync, existsSync, rmdirSync } = require('fs')
-const { BACKUP_DIR, SCRIPTS_DIR, CONFIG_DIR, DIRECTORIES, DOTFILES_DIR} = require("./constants");
+const { mkdirSync, renameSync, existsSync, rmdirSync, symlinkSync} = require('fs')
+const { BACKUP_DIR, SCRIPTS_DIR, CONFIG_DIR, DIRECTORIES, DOTFILES_DIR, HOME} = require("./constants");
 
 const backup_config = () => {
     console.log('Setting up backup folders...')
@@ -24,6 +24,15 @@ const backup_config = () => {
 
     console.log('Backing up scripts...')
     renameSync(SCRIPTS_DIR, BACKUP_DIR + '/.scripts')
+
+    console.log('Backing up Zsh & Oh My Zsh...')
+    renameSync(`${HOME}/.zshrc`, `${BACKUP_DIR}/.zshrc`)
+    renameSync(`${HOME}/.zprofile`, `${BACKUP_DIR}/.zprofile`)
+    renameSync(`${HOME}/.oh-my-zsh`, `${BACKUP_DIR}/.oh-my-zsh`)
+
+    console.log('Backing up Tmux...')
+    renameSync(`${HOME}/.tmux`, `${BACKUP_DIR}/.tmux`)
+    renameSync(`${HOME}/.tmux.conf`, `${BACKUP_DIR}/.tmux.conf`)
 }
 
 module.exports = {
