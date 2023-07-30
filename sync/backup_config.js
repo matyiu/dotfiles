@@ -8,7 +8,6 @@ const backup_config = () => {
     }
 
     mkdirSync(BACKUP_DIR, { recursive: true })
-    mkdirSync(BACKUP_DIR + '/.scripts', { recursive: true })
     mkdirSync(BACKUP_DIR + '/.config', { recursive: true })
     mkdirSync(SCRIPTS_DIR, { recursive: true })
 
