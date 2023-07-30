@@ -17,6 +17,7 @@ const PACKAGES = [
     "fd",
     "zsh",
     "tmux",
+    "zsh-autosuggestions"
 ]
 
 const DIRECTORIES = [
