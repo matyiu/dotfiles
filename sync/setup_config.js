@@ -23,7 +23,7 @@ const setup_config = async () => {
     symlinkSync(`${DOTFILES_DIR}/.zshrc`, `${HOME}/.zshrc`)
     symlinkSync(`${DOTFILES_DIR}/.zprofile`, `${HOME}/.zprofile`)
     
-    await exec_command(`git clone https://github.com/ohmyzsh/ohmyzsh.git ${DOTFILES_DIR}/.oh-my-zsh`)
+    await exec_command('cd .oh-my-zsh && git init && git remote add https://github.com/ohmyzsh/ohmyzsh.git && git pull')
     symlinkSync(`${DOTFILES_DIR}/.oh-my-zsh`, OH_MY_ZSH_PATH)
 
     console.log('Setting up Tmux...')
