@@ -22,8 +22,8 @@ const setup_config = async () => {
     await exec_command('sudo chsh -s $(which zsh)')
     symlinkSync(`${DOTFILES_DIR}/.zshrc`, `${HOME}/.zshrc`)
     symlinkSync(`${DOTFILES_DIR}/.zprofile`, `${HOME}/.zprofile`)
-    
-    await exec_command('cd .oh-my-zsh && git init && git remote add https://github.com/ohmyzsh/ohmyzsh.git && git pull')
+
+    await exec_command('cd .oh-my-zsh && git init && git branch -M master && git remote add https://github.com/ohmyzsh/ohmyzsh.git && git pull origin master')
     symlinkSync(`${DOTFILES_DIR}/.oh-my-zsh`, OH_MY_ZSH_PATH)
 
     console.log('Setting up Tmux...')
