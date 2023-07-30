@@ -8,8 +8,6 @@ NVM_DIR_INSTALL='export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${
 
 if [[ -f "$ZSH_FILE" ]]; then
   echo "$NVM_DIR_INSTALL" >> "$ZSH_FILE"
-  source $ZSH_FILE
 else
   echo "$NVM_DIR_INSTALL" >> "$BASH_FILE"
-  source $BASH_FILE
 fi
