@@ -4,7 +4,7 @@ const { PACKAGES } = require("./constants");
 
 const exec_command = (command) => {
     return new Promise((resolve, reject) => {
-        const process = spawn(command, { stdio: 'inherit' })
+        const process = exec(command)
 
         process.stdout.on('data', (data) => {
             console.log(data.toString())
@@ -14,7 +14,7 @@ const exec_command = (command) => {
             console.error(data.toString())
         })
 
-        process.on('exit', (code) => {
+        process.on('close', (code) => {
             if (code === 0) {
                 console.log('Successful installation.')
                 resolve()
