@@ -24,6 +24,9 @@ g.neovide_no_idle = false;
 
 
 vim.opt.guifont = { "JetBrains Mono NL", ":h16" }
+vim.opt.wildignore:append('**/node_modules')
+vim.opt.wildignore:append('node_modules')
+vim.opt.wildignore:append('.git')
 
 -- Tokyo night 
 -- vim.g.tokyonight_style = "night"

@@ -111,6 +111,12 @@ M.null_ls = {
       -- Lua
       b.formatting.stylua,
 
+      -- Microsoft
+      b.formatting.csharpier.with {
+        command = "dotnet",
+        args = { "csharpier", "--write-stdout" }
+      },
+
       -- Shell
       b.formatting.shfmt,
       b.diagnostics.shellcheck.with { diagnostics_format = "#{m} [#{c}]" },
@@ -196,9 +202,11 @@ M.auto_save = {
   end
 }
 
-M.vim_gutentags = {}
-
-M.vim_js_file_import = {}
+M.markdown_preview = {
+  run = "cd app && npm install",
+  setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
+  ft = { "markdown" }
+}
 
 return {
   ["L3MON4D3/LuaSnip"] = {},
@@ -220,6 +228,6 @@ return {
   ["neovim/nvim-lspconfig"] = M.nvim_lspconfig,
   ["christoomey/vim-tmux-navigator"] = M.vim_tmux_navigator,
   ["Pocco81/auto-save.nvim"] = M.auto_save,
-  ["ludovicchabant/vim-gutentags"] = M.vim_gutentags,
-  ["kristijanhusak/vim-js-file-import"] = M.vim_js_file_import,
+  ["mfussenegger/nvim-dap"] = {},
+  ["iamcco/markdown-preview.nvim"] = M.markdown_preview,
 }

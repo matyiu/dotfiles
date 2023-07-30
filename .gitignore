@@ -11,3 +11,5 @@ backup
 !.tmux/plugins/tpm
 
 .tmux/resurrect
+
+azcopy

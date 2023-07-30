@@ -156,10 +156,10 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
-bindsym $mod+Shift+j resize shrink width 2 px or 2 ppt
+bindsym $mod+Shift+h resize shrink width 2 px or 2 ppt
 bindsym $mod+Shift+k resize grow height 2 px or 2 ppt
-bindsym $mod+Shift+l resize shrink height 2 px or 2 ppt
-bindsym $mod+Shift+semicolon resize grow width 2 px or 2 ppt
+bindsym $mod+Shift+j resize shrink height 2 px or 2 ppt
+bindsym $mod+Shift+l resize grow width 2 px or 2 ppt
 
 # ---------------------------------
 # Custom Bindyms
@@ -168,7 +168,7 @@ bindsym $mod+Tab exec "flameshot gui"
 bindsym $mod+t exec --no-startup-id "kitty"
 bindsym $mod+p exec "phpstorm"
 bindsym $mod+b exec "brave"
-bindsym $mod+m exec "org.telegram.desktop"
+bindsym $mod+m exec "telegram-desktop"
 bindsym $mod+d exec "rofi -modi combi -show combi -combi-modi drun,run"
 bindsym $mod+Shift+d exec "$HOME/.scripts/rofi-emoji"
 bindsym $mod+c exec --no-startup-id "rofi -modi calc -show calc"
@@ -188,3 +188,4 @@ exec --no-startup-id xfsettingsd
 exec xscreensaver -no-splash
 exec_always autorandr --change dual-hd60-hd144DP
 exec --no-startup-id redshift
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
