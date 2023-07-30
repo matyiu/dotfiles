@@ -26,7 +26,7 @@ const exec_command = (command) => {
 }
 
 const install_packages = async () => {
-    const command = `sudo pacman -S --no-confirm ${PACKAGES.join(' ')}`;
+    const command = `sudo pacman -S --noconfirm ${PACKAGES.join(' ')}`;
 
     try {
         await exec_command(command);
