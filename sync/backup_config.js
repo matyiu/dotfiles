@@ -1,8 +1,12 @@
-const { mkdirSync, renameSync, existsSync} = require('fs')
+const { mkdirSync, renameSync, existsSync, rmdirSync } = require('fs')
 const { BACKUP_DIR, SCRIPTS_DIR, CONFIG_DIR, DIRECTORIES, DOTFILES_DIR} = require("./constants");
 
 const backup_config = () => {
     console.log('Setting up backup folders...')
+    if (existsSync(BACKUP_DIR)) {
+        rmdirSync(BACKUP_DIR, { recursive: true })
+    }
+
     mkdirSync(BACKUP_DIR, { recursive: true })
     mkdirSync(BACKUP_DIR + '/.scripts', { recursive: true })
     mkdirSync(BACKUP_DIR + '/.config', { recursive: true })
@@ -10,12 +14,13 @@ const backup_config = () => {
 
     console.log('Backing up config files...')
     DIRECTORIES.forEach((dir) => {
-        const fileOrDir = `${CONFIG_DIR}/${dir}`
-        if (!existsSync(fileOrDir)) {
+        const pathToBackup = `${CONFIG_DIR}/${dir}`
+        if (!existsSync(pathToBackup)) {
             return
         }
 
-        renameSync(fileOrDir, `${BACKUP_DIR}/${dir}`)
+        const backupPath = `${BACKUP_DIR}/${dir}`;
+        renameSync(pathToBackup, backupPath)
     })
 
     console.log('Backing up scripts...')
