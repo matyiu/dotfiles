@@ -1,9 +1,12 @@
 local g = vim.g
 
 vim.wo.wrap = false
+
+--[[
 vim.api.nvim_set_keymap('i', '<c-j>', 'pumvisible() ? "\\<c-n>" : "\\<c-j>"' , { noremap = true, expr=true })
 vim.api.nvim_set_keymap('i', '<c-k>', 'pumvisible() ? "\\<c-p>" : "\\<c-j>"' , { noremap = true, expr=true })
 vim.api.nvim_set_keymap('n', '<space>f', function () vim.lsp.buf.format { async = true } end, { noremap = true, expr = true })
+--]]
 
 g.neovide_refresh_rate=65
 g.neovide_transparency=0.8
@@ -18,22 +21,13 @@ g.neovide_remember_dimensions = true;
 g.neovide_remember_window_size = true
 g.neovide_no_idle = false;
 
--- g.neovide_cursor_vfx_particle_phase=1.5
--- g.neovide_cursor_vfx_particle_curl=1.0
--- g.neovide_profiler = true;
-
-
 vim.opt.guifont = { "JetBrains Mono NL", ":h16" }
 vim.opt.wildignore:append('**/node_modules')
 vim.opt.wildignore:append('node_modules')
 vim.opt.wildignore:append('.git')
 
--- Tokyo night 
--- vim.g.tokyonight_style = "night"
--- vim.cmd[[colorscheme tokyonight]]
--- vim.cmd("colorscheme tokyonight")
-
 -- Rememeber last editing position.
+--[[
 local api = vim.api
 api.nvim_create_autocmd({ 'BufRead', 'BufReadPost' }, {
   callback = function()
@@ -45,6 +39,7 @@ api.nvim_create_autocmd({ 'BufRead', 'BufReadPost' }, {
     end
   end,
 })
+--]]
 
 
 -- LSP diagnostics tweaks

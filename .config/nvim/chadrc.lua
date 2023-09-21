@@ -2,7 +2,7 @@ local M = {}
 
 M.ui = {theme = "palenight"}
 
-M.plugins = require "custom.plugins"
+M.plugins = "custom.plugins"
 
 M.mappings = require "custom.mappings"
 

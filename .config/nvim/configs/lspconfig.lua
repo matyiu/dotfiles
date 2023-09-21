@@ -4,6 +4,13 @@ local capabilities = require("plugins.configs.lspconfig").capabilities
 local lspconfig = require "lspconfig"
 local servers = { "html", "phpactor", "tsserver", "vala_ls" }
 
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    on_attach = on_attach,
+    capabilities = capabilities
+  }
+end
+
 -- Setup omnisharp
 local pid = vim.fn.getpid()
 
@@ -27,11 +34,4 @@ lspconfig.bicep.setup {
 
 -- Bicep file detection
 vim.cmd [[ autocmd BufNewFile,BufRead *.bicep set filetype=bicep ]]
-
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities
-  }
-end
 
