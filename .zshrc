@@ -110,4 +110,5 @@ export XDG_DATA_DIRS="$XDG_DATA_DIRS:~/.local/share/flatpak/exports/share/applic
 alias cdcatdf="cd ~/Projects/catd-fire/catd-fire-front"
 alias cdcatdb="cd ~/Projects/catd-fire/catd-fire-api"
 
-source /usr/share/nvm/init-nvm.sh
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"

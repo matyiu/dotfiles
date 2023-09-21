@@ -3,6 +3,9 @@ const { DIRECTORIES, DOTFILES_DIR, CONFIG_DIR, SCRIPTS_DIR, HOME} = require("./c
 const {exec_command} = require("./install");
 
 const setup_config = async () => {
+    console.log('Setting keyboard layout')
+    await exec_command('localectl --no-convert set-x11-keymap');
+
     console.log('Setting up .config dir...')
     DIRECTORIES.forEach((dir) => {
         const fileOrDir = `${DOTFILES_DIR}/.config/${dir}`
