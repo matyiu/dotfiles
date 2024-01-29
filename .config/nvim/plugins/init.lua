@@ -171,10 +171,82 @@ return {
     "Pocco81/auto-save.nvim",
     config = function ()
       require("auto-save").setup {}
+    end,
+    lazy = false
+  },
+  {
+    "mfussenegger/nvim-dap",
+    lazy = false,
+  },
+  {
+    "mfussenegger/nvim-dap-python",
+    config = function ()
+      require('dap-python').setup('~/.virtualenvs/debugpy/bin/python')
     end
   },
   {
-    "mfussenegger/nvim-dap"
+    "microsoft/vscode-js-debug",
+    version = "v1.74.1",
+    run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+  },
+  {
+    "mxsdev/nvim-dap-vscode-js",
+    version = "v1.1.0",
+    config = function ()
+      require("dap-vscode-js").setup({
+        adapters = {
+          "pwa-node",
+        },
+        debugger_path = "/home/rjeffvalle/bin/vscode-js-debug",
+      })
+
+      for _, language in ipairs({ "typescript", "javascript" }) do
+        require('dap').configurations[language] = {
+          {
+            type = "pwa-node",
+            request = "attach",
+            name = "Attach",
+            processId = require 'dap.utils'.pick_process,
+            cwd = "${workspaceFolder}",
+            rootPath = "${workspaceFolder}"
+          },
+          {
+            type = "pwa-node",
+            request = "launch",
+            name = "Debug Mocha Tests",
+            -- trace = true, -- include debugger info
+            -- runtimeExecutable = require('custom.helpers.node').get_mocha_executable,
+            runtimeExecutabe = "node",
+            runtimeArgs = {
+              "--inspect-brk",
+              "./node_modules/mocha/bin/mocha",
+              "${file}",
+            },
+            cwd = require('custom.helpers.node').get_cwd,
+            console = "integratedTerminal",
+            internalConsoleOptions = "neverOpen",
+          }
+        }
+      end
+    end,
+    dependencies = {
+      "mfussenegger/nvim-dap"
+    },
+    lazy = false
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    config = function ()
+      require("dapui").setup()
+    end,
+    dependencies = {
+      "mfussenegger/nvim-dap"
+    },
+    lazy = false,
+  },
+  {
+    "theHamsta/nvim-dap-virtual-text",
+    lazy = false,
   },
   {
     "iamcco/markdown-preview.nvim",

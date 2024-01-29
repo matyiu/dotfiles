@@ -42,6 +42,17 @@ api.nvim_create_autocmd({ 'BufRead', 'BufReadPost' }, {
 --]]
 
 
+vim.api.nvim_create_user_command('SetCWD', function ()
+  local package_json_path = vim.fn.findfile('package.json', '.;', -1)[0]
+  if package_json_path ~= '' then
+    local project_dir = vim.fn.fnamemodify(package_json_path, ':h')
+    vim.fn.jobstart("pwd", { cwd = project_dir })
+  else
+    print("Error: package.json not found in the current or parent directories.")
+  end
+end
+, {})
+
 -- LSP diagnostics tweaks
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {

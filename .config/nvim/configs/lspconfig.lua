@@ -2,7 +2,27 @@ local on_attach = require("plugins.configs.lspconfig").on_attach
 local capabilities = require("plugins.configs.lspconfig").capabilities
 
 local lspconfig = require "lspconfig"
-local servers = { "html", "phpactor", "tsserver", "vala_ls" }
+local servers = { "html", "phpactor", "vala_ls", "eslint", "pylsp" }
+
+lspconfig.vtsls.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = {
+    vtsls = {
+      experimental = {
+        completion = {
+          enableServerSideFuzzyMatch = true,
+          entriesLimit = 10
+        },
+      },
+    },
+    typescript = {
+      preferences = {
+        includePackageJsonAutoImports = 'off'
+      }
+    }
+  },
+}
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
