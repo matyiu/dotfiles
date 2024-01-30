@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+BUILD_DIR=/home/build/
+BUILD_USER=build
+PKG_MANAGERS=(pacman snap flatpak yay)
+
+is_sudo=$(id -u)
+if [[ ! $is_sudo == 0 ]]; then
+  echo "Error: update-system needs to be run as sudo"
+  exit 1
+fi
+
+echo "Checking build directory..."
+if [[ ! -d $BUILD_DIR ]]; then
+  echo "Creating build directory..."
+  mkdir $BUILD_DIR
+  chgrp $BUILD_USER $BUILD_DIR
+
+  setfacl -m u::rwx,g::rwx $BUILD_DIR
+  setfacl -d --set u::rwx,grwx,o::- $BUILD_DIR
+else
+  echo "Build directory already exists."
+fi
+
+for pkg in ${PKG_MANAGERS[*]}
+do
+  pkg_path=$(which $pkg)
+  if [[ ! -f $pkg_path ]]; then
+    echo "Package manager $pkg not found in the system"
+    continue
+  fi
+
+  echo "Updaing packages with $pkg..."
+  case $pkg in
+    pacman)
+      $pkg -Syu --noconfirm
+    ;;
+    snap)
+      $pkg refresh
+    ;;
+    flatpak)
+      $pkg update
+    ;;
+    yay)
+      sudo -u $BUILD_USER $pkg -Syu --noconfirm
+    ;;
+  esac
+
+  wait $!
+  echo "Updated packages with $pkg."
+done
+
+echo "System updated"
