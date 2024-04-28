@@ -16,7 +16,7 @@ M.general = {
     ["<leader>dt"] = { "<cmd>lua require('dapui').toggle()<CR>", "Debugger: toggle UI" },
     ["<leader>dc"] = { "<cmd> DapContinue<CR>", "Debugger: continue" },
     ["<leader>sw"] = { "<cmd> SetCWD<CR>", "Debugger: set working directory" },
-  }
+  },
 }
 
 return M

@@ -206,18 +206,16 @@ return {
             type = "pwa-node",
             request = "attach",
             name = "Attach",
-            processId = require 'dap.utils'.pick_process,
             cwd = "${workspaceFolder}",
-            rootPath = "${workspaceFolder}"
+            rootPath = "${workspaceFolder}",
+            continueOnAttach = true,
           },
           {
             type = "pwa-node",
             request = "launch",
             name = "Debug Mocha Tests",
-            -- trace = true, -- include debugger info
-            -- runtimeExecutable = require('custom.helpers.node').get_mocha_executable,
             runtimeExecutabe = "node",
-            runtimeArgs = {
+            runtimeargs = {
               "--inspect-brk",
               "./node_modules/mocha/bin/mocha",
               "${file}",
@@ -225,7 +223,9 @@ return {
             cwd = require('custom.helpers.node').get_cwd,
             console = "integratedTerminal",
             internalConsoleOptions = "neverOpen",
-          }
+          },
+          require('custom.daps.job.flexxible').ProcessAgentLog,
+          require('custom.daps.azure.functions').functions
         }
       end
     end,
@@ -250,8 +250,16 @@ return {
   },
   {
     "iamcco/markdown-preview.nvim",
-    run = "cd app && npm install",
-    setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
-    ft = { "markdown" }
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = "cd app && npm install",
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
   },
+  -- {
+  --   "pmizio/typescript-tools.nvim",
+  --   dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+  --   opts = {},
+  -- }
 }
