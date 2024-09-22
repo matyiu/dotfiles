@@ -8,6 +8,7 @@ local languages = {
 	"pylsp",
 	"eslint",
 	"vtsls",
+  "csharp_ls"
 }
 
 return {
