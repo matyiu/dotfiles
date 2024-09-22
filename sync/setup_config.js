@@ -4,7 +4,10 @@ const {exec_command} = require("./install");
 
 const setup_config = async () => {
     console.log('Setting keyboard layout')
-    await exec_command('localectl --no-convert set-x11-keymap');
+    await exec_command('localectl --no-convert set-x11-keymap es');
+
+    console.log('Setting up .scripts dir...')
+    symlinkSync(`${DOTFILES_DIR}/.scripts`, SCRIPTS_DIR)
 
     console.log('Setting up .config dir...')
     DIRECTORIES.forEach((dir) => {
@@ -15,9 +18,6 @@ const setup_config = async () => {
 
         symlinkSync(fileOrDir, `${CONFIG_DIR}/${dir}`)
     })
-
-    console.log('Setting up .scripts dir...')
-    symlinkSync(`${DOTFILES_DIR}/.scripts`, SCRIPTS_DIR)
 
     const OH_MY_ZSH_PATH = `${HOME}/.oh-my-zsh`
 

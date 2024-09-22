@@ -19,7 +19,7 @@ const exec_command = (command) => {
                 console.log('Successful installation.')
                 resolve()
             } else {
-                reject(new Error(`Command exited with code ${code}`))
+                reject(new Error(`Command exited with code ${code}: ${command}`))
             }
         })
     })
