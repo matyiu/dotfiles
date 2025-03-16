@@ -37,7 +37,7 @@ bindsym $mod+Shift+q kill
 # ---------------------------------
 # Gaps
 # ---------------------------------
-gaps inner 30
+gaps inner 0
 gaps outer 0
 
 bindsym $mod+plus gaps inner current plus 5
@@ -127,28 +127,28 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 # ---------------------------------
 
 # -- Workspace assignments in Desktop
-# workspace $ws1 output HDMI-1
-# workspace $ws2 output HDMI-1
-# workspace $ws3 output HDMI-1
-# workspace $ws4 output HDMI-1
-# workspace $ws5 output HDMI-1
-# workspace $ws6 output DP-0
-# workspace $ws7 output DP-0
-# workspace $ws8 output DP-0
-# workspace $ws9 output DP-0
-# workspace $ws10 output DP-0
+workspace $ws1 output HDMI-1
+workspace $ws2 output HDMI-1
+workspace $ws3 output HDMI-1
+workspace $ws4 output HDMI-1
+workspace $ws5 output HDMI-1
+workspace $ws6 output DP-0
+workspace $ws7 output DP-0
+workspace $ws8 output DP-0
+workspace $ws9 output DP-0
+workspace $ws10 output DP-0
 
 # -- Workspace assignments in Laptop
-workspace $ws1 output eDP-1
-workspace $ws2 output eDP-1
-workspace $ws3 output eDP-1
-workspace $ws4 output eDP-1
-workspace $ws5 output eDP-1
-workspace $ws6 output HDMI-1
-workspace $ws7 output HDMI-1
-workspace $ws8 output HDMI-1
-workspace $ws9 output HDMI-1
-workspace $ws10 output HDMI-1
+# workspace $ws1 output eDP-1
+# workspace $ws2 output eDP-1
+# workspace $ws3 output eDP-1
+# workspace $ws4 output eDP-1
+# workspace $ws5 output eDP-1
+# workspace $ws6 output HDMI-1
+# workspace $ws7 output HDMI-1
+# workspace $ws8 output HDMI-1
+# workspace $ws9 output HDMI-1
+# workspace $ws10 output HDMI-1
 
 # ---------------------------------
 # App assignments to workspaces
