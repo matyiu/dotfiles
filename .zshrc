@@ -122,4 +122,4 @@ export MANPAGER="nvim +Man!"
 export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
 
 # Load sensitive conf
-source ~/zsh_private
+source ~/.zsh_private
