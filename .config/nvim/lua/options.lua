@@ -13,3 +13,6 @@ opt.numberwidth = 1
 
 -- Map leader key to space
 vim.g.mapleader = " "
+
+-- Conceallevel
+vim.opt.conceallevel = 2
