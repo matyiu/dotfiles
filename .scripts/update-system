@@ -1,53 +1,129 @@
 #!/usr/bin/env bash
 
-BUILD_DIR=/home/build/
-BUILD_USER=build
-PKG_MANAGERS=(pacman snap flatpak yay)
+set -e
 
-is_sudo=$(id -u)
-if [[ ! $is_sudo == 0 ]]; then
-  echo "Error: update-system needs to be run as sudo"
+BUILD_DIR="/home/build/"
+BUILD_USER="build"
+PKG_MANAGERS=(pacman snap flatpak yay)
+declare -A IGNORED_PACKAGES
+declare -A PKG_MANAGER_CMDS
+
+# Configuración de comandos para cada gestor de paquetes
+PKG_MANAGER_CMDS=(
+  [pacman]="pacman -Syu --noconfirm"
+  [snap]="snap refresh"
+  [flatpak]="flatpak update -y"
+  [yay]="sudo -u $SUDO_USER yay -Syu --noconfirm"
+)
+
+# Configuración de comandos para ignorar paquetes
+declare -A IGNORE_CMDS
+IGNORE_CMDS=(
+  [pacman]="--ignore"
+  [snap]="refresh --hold"
+  [flatpak]="mask"
+  [yay]="--ignore"
+)
+
+# Función para procesar los paquetes ignorados
+process_ignored_packages() {
+  local manager="$1"
+  local packages="$2"
+  local ignore_cmd="${IGNORE_CMDS[$manager]}"
+  
+  if [[ -z "$packages" ]]; then
+    return 0
+  fi
+
+  case "$manager" in
+    pacman|yay)
+      # Mantener los paquetes como lista separada por comas
+      local base_cmd=(${PKG_MANAGER_CMDS[$manager]})
+      # Reemplazar espacios por comas
+      packages=${packages// /,}
+      echo "${base_cmd[@]} $ignore_cmd=$packages"
+      ;;
+    snap)
+      IFS=',' read -ra PKG_LIST <<< "$packages"
+      for pkg in "${PKG_LIST[@]}"; do
+        echo "snap $ignore_cmd $pkg"
+      done
+      echo "${PKG_MANAGER_CMDS[$manager]}"
+      ;;
+    flatpak)
+      IFS=',' read -ra PKG_LIST <<< "$packages"
+      for pkg in "${PKG_LIST[@]}"; do
+        echo "flatpak $ignore_cmd $pkg"
+      done
+      echo "${PKG_MANAGER_CMDS[$manager]}"
+      for pkg in "${PKG_LIST[@]}"; do
+        echo "flatpak mask --remove $pkg"
+      done
+      ;;
+  esac
+}
+
+# Parse command line arguments
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --ignore)
+      if [[ -z "$2" ]]; then
+        echo "❌ Error: --ignore requiere una lista de paquetes en formato 'gestor:paquete1,paquete2'"
+        exit 1
+      fi
+      # Procesar cada par gestor:paquetes
+      while IFS=: read -r manager packages; do
+        if [[ -n "$manager" && -n "$packages" ]]; then
+          if [[ "$manager" == "pacman" ]]; then
+            IGNORED_PACKAGES["pacman"]="$packages"
+            IGNORED_PACKAGES["yay"]="$packages"
+          else
+            IGNORED_PACKAGES[$manager]="$packages"
+          fi
+        fi
+      done <<< "$2"
+      shift 2
+      ;;
+    *)
+      echo "❌ Error: argumento desconocido '$1'"
+      exit 1
+      ;;
+  esac
+done
+
+echo "IGNORED_PACKAGES: ${IGNORED_PACKAGES[@]}"
+
+# Comprobar si el script se está ejecutando como root
+if [[ "$(id -u)" -ne 0 ]]; then
+  echo "❌ Error: este script debe ejecutarse con sudo o como root."
   exit 1
 fi
 
-echo "Checking build directory..."
-if [[ ! -d $BUILD_DIR ]]; then
-  echo "Creating build directory..."
-  mkdir $BUILD_DIR
-  chgrp $BUILD_USER $BUILD_DIR
-
-  setfacl -m u::rwx,g::rwx $BUILD_DIR
-  setfacl -d --set u::rwx,grwx,o::- $BUILD_DIR
-else
-  echo "Build directory already exists."
-fi
-
-for pkg in ${PKG_MANAGERS[*]}
-do
-  pkg_path=$(which $pkg)
-  if [[ ! -f $pkg_path ]]; then
-    echo "Package manager $pkg not found in the system"
+# Iterar sobre gestores de paquetes
+for pkg in "${PKG_MANAGERS[@]}"; do
+  if ! command -v "$pkg" &> /dev/null; then
+    echo "⚠️  Gestor de paquetes '$pkg' no encontrado, se omite."
     continue
   fi
 
-  echo "Updaing packages with $pkg..."
-  case $pkg in
-    pacman)
-      $pkg -Syu --noconfirm
-    ;;
-    snap)
-      $pkg refresh
-    ;;
-    flatpak)
-      $pkg update
-    ;;
-    yay)
-      sudo -u $BUILD_USER $pkg -Syu --noconfirm
-    ;;
-  esac
+  echo "🔄 Actualizando paquetes con $pkg..."
 
-  wait $!
-  echo "Updated packages with $pkg."
+  # Ejecutar comandos de actualización con paquetes ignorados si existen
+  if [[ -n "${IGNORED_PACKAGES[$pkg]}" ]]; then
+    while IFS= read -r cmd; do
+      if ! eval "$cmd"; then
+        echo "❌ Error al ejecutar: $cmd"
+        continue
+      fi
+    done < <(process_ignored_packages "$pkg" "${IGNORED_PACKAGES[$pkg]}")
+  else
+    if ! eval "${PKG_MANAGER_CMDS[$pkg]}"; then
+      echo "❌ Error al ejecutar: ${PKG_MANAGER_CMDS[$pkg]}"
+      continue
+    fi
+  fi
+
+  echo "✅ Actualización completada con $pkg."
 done
 
-echo "System updated"
+echo "🎉 Sistema actualizado correctamente."

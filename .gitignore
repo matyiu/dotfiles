@@ -1,7 +1,9 @@
 .idea
 backup
 
-.oh-my-zsh
+.oh-my-zsh/*
+!.oh-my-zsh/custom/global.zsh
+!.oh-my-zsh/custom/dev.zsh
 
 .config/kitty/kitty-themes/*
 !.config/kitty/kitty-themes/Rjeffvalle*.conf
