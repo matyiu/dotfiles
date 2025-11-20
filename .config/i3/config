@@ -162,6 +162,7 @@ assign [class="Telegram"] $ws6
 assign [class="discord"] $ws7
 assign [title="^Catd"] $ws9
 assign [instance="brave-browser"] $ws10
+assign [class="zen"] $ws10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -181,7 +182,7 @@ bindsym $mod+Shift+l resize grow width 2 px or 2 ppt
 bindsym $mod+Tab exec "flameshot gui"
 bindsym $mod+t exec --no-startup-id "kitty"
 bindsym $mod+p exec "phpstorm"
-bindsym $mod+b exec "brave"
+bindsym $mod+b exec "$HOME/.scripts/open-browser.js"
 bindsym $mod+Shift+w exec "google-chrome-stable"
 bindsym $mod+m exec "telegram-desktop"
 bindsym $mod+d exec "rofi -modi combi -show combi -combi-modi drun,run"
