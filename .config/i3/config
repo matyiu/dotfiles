@@ -189,6 +189,17 @@ bindsym $mod+Shift+d exec "$HOME/.scripts/rofi-emoji"
 bindsym $mod+c exec --no-startup-id "rofi -modi calc -show calc"
 bindsym Mod1+Tab exec "rofi -show window"
 bindcode $mod+53 exec "$HOME/.scripts/change-kbd"
+bindsym $mod+Shift+s move scratchpad
+bindsym $mod+Shift+g scratchpad show
+
+# ---------------------------------
+# Custom Bindyms
+# ---------------------------------
+# Increment brightness by 5%
+bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
+
+# Decrease brightness by 5%
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 
 # ---------------------------------
 # EXEC PROGRAMS
