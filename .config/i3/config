@@ -215,3 +215,4 @@ exec xscreensaver -no-splash
 exec_always autorandr --change dual-hd60-hd144DP
 exec --no-startup-id redshift
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+# exec ~/.scripts/wall_changer.py -d --seconds 300
