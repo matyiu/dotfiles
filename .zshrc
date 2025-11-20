@@ -96,7 +96,10 @@ PROMPT='%F{green}%1~%f %F{1}$(git_get.sh curr_branch)%f %# '
 export PATH="$PATH:$HOME/.local/bin:$HOME/.scripts:$HOME/.config/rofi/bin:$HOME/ide:$HOME/.local/share/nvim/mason/bin:/home/rjeffvalle/.local/share/gem/ruby/3.0.0/bin"
 export LANG=es_ES.UTF-8
 export LC_ALL=es_ES.UTF-8
+
+# Adding app directories
 export XDG_DATA_DIRS="$XDG_DATA_DIRS:~/.local/share/flatpak/exports/share/applications:/var/lib/flatpak/exports/share/applications"
+export XDG_DATA_DIRS="$XDG_DATA_DIRS:/var/lib/snapd/snap/bin"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -112,3 +115,6 @@ alias cdcatdb="cd ~/Projects/catd-fire/catd-fire-api"
 
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+export PATH="$PATH:/var/lib/snapd/snap/bin"
+
