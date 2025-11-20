@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# A script to interact with an Obsidian vault via Neovim.
+#
+# Usage:
+#   nt             - Opens Neovim in the root of the Obsidian vault.
+#   nt <note title> - Creates a new note with a formatted title and opens it.
+#
+OBSIDIAN_VAULT="$HOME/Nextcloud/Personal/Notes"
+
+if [ ! -d "$OBSIDIAN_VAULT" ]; then
+    echo "Error: The Obsidian vault directory does not exist at: $OBSIDIAN_VAULT"
+    exit 1
+fi
+
+# Case 1: No arguments were provided.
+if [ $# -eq 0 ]; then
+  echo "Opening Obsidian vault at $OBSIDIAN_VAULT..."
+  cd "$OBSIDIAN_VAULT" && nvim
+else
+  # Case 2: Arguments were provided, so we create a new note.
+  TARGET_DIR="$OBSIDIAN_VAULT/0 - Index"
+
+  mkdir -p "$TARGET_DIR"
+
+  DATE_PREFIX=$(date +%F)
+
+  TITLE=$*
+
+  TITLE_SLUG=$(echo "$TITLE" | tr ' ' '-')
+
+  ID="$DATE_PREFIX-$TITLE_SLUG"
+
+  FULL_PATH="$TARGET_DIR/$ID.md"
+
+  if [ -f "$FULL_PATH" ]; then
+    echo "Warning: the note $ID already exists."
+    read -r -n 1 -p "Do you want to replace it? [y/n] " answer
+    
+    if [[ "$answer" != "y" && "$answer" != "Y" ]]; then
+      echo ""
+      echo "Aborting..."
+      exit 1
+    fi
+  fi
+
+  echo "Creating new note at: $FULL_PATH"
+
+  cat > "$FULL_PATH" <<EOF
+---
+id: $ID
+aliases:
+- $TITLE_SLUG
+- $TITLE
+tags: []
+---
+
+# $TITLE
+
+
+EOF
+
+  cd "$OBSIDIAN_VAULT" && nvim "$FULL_PATH"
+fi
