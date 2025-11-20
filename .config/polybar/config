@@ -51,9 +51,9 @@ separator = |
 separator-foreground = ${colors.disabled}
 
 font-0 = Iosevka Extended;4
-font-1 = Font Awesome 6 Free:pixelsize=10;3
-font-2 = Font Awesome 6 Free Solid:pixelsize=10;3
-font-3 = Font Awesome 6 Brands:pixelsize=10;3
+font-1 = Font Awesome 7 Free:pixelsize=10;3
+font-2 = Font Awesome 7 Free Solid:pixelsize=10;3
+font-3 = Font Awesome 7 Brands:pixelsize=10;3
 
 
 [bar/primary]
@@ -61,7 +61,7 @@ inherit = bar/common
 monitor = ${env:MONITOR:}
 
 modules-left = i3
-modules-right = filesystem pulseaudio xkeyboard memory cpu wlan eth date power
+modules-right = filesystem pulseaudio xkeyboard backlight memory cpu wlan eth date power
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -80,7 +80,7 @@ inherit = bar/common
 monitor = ${env:MONITOR:}
 
 modules-left = i3
-modules-right = battery filesystem pulseaudio xkeyboard memory cpu wlan eth date power
+modules-right = battery filesystem pulseaudio xkeyboard backlight memory cpu wlan eth date power
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -257,6 +257,12 @@ date = %H:%M
 date-alt = %Y-%m-%d %H:%M:%S
 
 label = %date%
+
+[module/backlight]
+type = internal/backlight
+card = intel_backlight
+format = <label>
+label = %{F#0DB9A2}%{F-} %percentage%%
 
 [settings]
 screenchange-reload = true
