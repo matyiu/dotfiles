@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+IS_PAUSED=$(dunstctl is-paused)
+
+if [ "$IS_PAUSED" = "true" ]; then
+    DND_STATUS="󰂛 Turn DND OFF"
+else
+    DND_STATUS="󰂚 Turn DND ON"
+fi
+
+OPTIONS="$DND_STATUS\n󰎁 Clear Notification History\n---\n"
+
+HISTORY=$(dunstctl history | jq -r '.[] | .[] | "\(.appname.content): \(.summary.content) - \(.body.content)"' | tac)
+
+CHOICE=$(echo -e "$OPTIONS$HISTORY" | rofi -dmenu -p "Notifications" -i -l 10)
+
+case "$CHOICE" in
+    *"Turn DND ON"*)
+        dunstctl set-paused true
+        ;;
+    *"Turn DND OFF"*)
+        dunstctl set-paused false
+        ;;
+    *"Clear Notification History"*)
+        dunstctl history-clear
+        ;;
+    *)
+        if [ -n "$CHOICE" ] && [ "$CHOICE" != "---" ]; then
+            notify-send "Recalled" "$CHOICE"
+        fi
+        ;;
+esac

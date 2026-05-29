@@ -51,8 +51,8 @@ separator = |
 separator-foreground = ${colors.disabled}
 
 font-0 = Iosevka Extended;4
-font-1 = Font Awesome 7 Free:pixelsize=10;3
-font-2 = Font Awesome 7 Free Solid:pixelsize=10;3
+font-1 = Font Awesome 7 Free Solid:pixelsize=10;3
+font-2 = Font Awesome 7 Free:pixelsize=10;3
 font-3 = Font Awesome 7 Brands:pixelsize=10;3
 
 
@@ -61,7 +61,7 @@ inherit = bar/common
 monitor = ${env:MONITOR:}
 
 modules-left = i3
-modules-right = filesystem pulseaudio xkeyboard backlight memory cpu wlan eth date power
+modules-right = filesystem pulseaudio xkeyboard backlight memory cpu wlan eth date power notifications
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -80,7 +80,7 @@ inherit = bar/common
 monitor = ${env:MONITOR:}
 
 modules-left = i3
-modules-right = battery filesystem pulseaudio xkeyboard backlight memory cpu wlan eth date power
+modules-right = battery filesystem pulseaudio xkeyboard backlight memory cpu wlan eth date notifications power
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -263,6 +263,18 @@ type = internal/backlight
 card = intel_backlight
 format = <label>
 label = %{F#0DB9A2}%{F-} %percentage%%
+
+[module/notifications]
+type = custom/script
+exec = if [ "$(dunstctl is-paused)" = "true" ]; then echo "%{F#E47878}%{F-}"; else echo "%{F#0DB9A2}%{F-}"; fi
+tail = false
+interval = 1
+
+click-left = $HOME/.scripts/rofi-notification-menu
+click-right = dunstctl set-paused toggle; polybar-msg action "#notifications.exec"
+
+format-background = ${colors.background}
+format-foreground = ${colors.foreground}
 
 [settings]
 screenchange-reload = true
