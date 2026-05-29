@@ -1,0 +1,102 @@
+#!/usr/bin/env python3
+import sys
+import os
+import re
+import pathlib
+import fitz  # PyMuPDF
+import pymupdf4llm
+
+def get_toc(doc):
+    """Retrieves native TOC (Level 1 only) or falls back to font-size analysis."""
+    toc = doc.get_toc()
+    if toc:
+        # Filtrar exclusivamente los capítulos de primer nivel (level == 1)
+        level_1_toc = [item for item in toc if item[0] == 1]
+        if level_1_toc:
+            return level_1_toc
+
+    # Fallback: Identify largest font (Chapters)
+    font_stats = {}
+    for page in doc[:30]:
+        for b in page.get_text("dict").get("blocks", []):
+            if "lines" in b:
+                for l in b["lines"]:
+                    for s in l["spans"]:
+                        size = round(s["size"], 1)
+                        # Contar ocurrencias por bloque de texto, no por longitud de caracteres
+                        font_stats[size] = font_stats.get(size, 0) + 1
+    
+    if not font_stats: return []
+    
+    # Refinar: elegir el tamaño de fuente más grande que aparezca más de 2 veces 
+    # (Evita atrapar títulos de portada únicos, pero atrapa los capítulos reales)
+    header_size_candidates = sorted([s for s in font_stats if font_stats[s] > 2], reverse=True)
+    header_size = header_size_candidates[0] if header_size_candidates else max(font_stats, key=font_stats.get)
+
+    gen_toc = []
+    for i, page in enumerate(doc):
+        for b in page.get_text("dict").get("blocks", []):
+            if "lines" in b:
+                for l in b["lines"]:
+                    for s in l["spans"]:
+                        if round(s["size"], 1) == header_size and len(s["text"].strip()) > 3:
+                            gen_toc.append([1, s["text"].strip(), i + 1])
+                            break # Evitar duplicados en el mismo bloque
+    return gen_toc
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: ./split_book.py <input.pdf> [output_dir]")
+        sys.exit(1)
+
+    pdf_path = sys.argv[1]
+    output_dir = sys.argv[2] if len(sys.argv) > 2 else "LLM"
+
+    # Extraer y limpiar el nombre del libro del archivo original
+    book_name = pathlib.Path(pdf_path).stem
+    clean_book_name = re.sub(r'[^a-zA-Z0-9]', '_', book_name)[:50]
+    
+    pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
+    doc = fitz.open(pdf_path)
+    toc = get_toc(doc)
+
+    if not toc:
+        print("[-] No se pudo extraer ni generar un índice válido.")
+        sys.exit(1)
+
+    print(f"[*] Processing {len(toc)} top-level sections...")
+
+    for i, (level, title, start_page) in enumerate(toc):
+        # Calcular end_page basándose ÚNICAMENTE en el siguiente capítulo de nivel 1
+        end_page = toc[i+1][2] - 1 if i < len(toc) - 1 else doc.page_count
+        
+        # Evitar errores de PDFs con índices mal construidos (páginas invertidas)
+        if start_page > end_page and i < len(toc) - 1:
+            continue
+            
+        # Isolate chapter
+        chapter_doc = fitz.open()
+        chapter_doc.insert_pdf(doc, from_page=start_page-1, to_page=end_page-1)
+        
+        tmp_name = f".tmp_{i}.pdf"
+        chapter_doc.save(tmp_name)
+        
+        # Convert to Markdown
+        md_content = pymupdf4llm.to_markdown(tmp_name)
+        
+        clean_title = re.sub(r'[^a-zA-Z0-9]', '_', title)[:50]
+        
+        # Formato: book_name_index_chapter_name.md
+        file_name = f"{clean_book_name}_{i+1:02d}_{clean_title}.md"
+        file_path = os.path.join(output_dir, file_name)
+        
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(md_content)
+            
+        os.remove(tmp_name)
+        print(f"[+] Saved: {file_path}")
+
+    doc.close()
+
+if __name__ == "__main__":
+    main()
