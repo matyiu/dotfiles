@@ -68,11 +68,6 @@ cursor-scroll = ns-resize
 
 enable-ipc = true
 
-# Tray
-tray-position = right
-tray-maxsize = 16
-tray-background = ${root.background}
-
 bottom = true
 
 [bar/secondary]
@@ -80,18 +75,12 @@ inherit = bar/common
 monitor = ${env:MONITOR:}
 
 modules-left = i3
-modules-right = battery filesystem pulseaudio xkeyboard backlight memory cpu wlan eth date notifications power
+modules-right = battery filesystem pulseaudio xkeyboard backlight memory cpu wlan eth date tray notifications power
 
 cursor-click = pointer
 cursor-scroll = ns-resize
 
 enable-ipc = true
-
-# Tray
-# tray-position = none
-tray-position = right
-tray-maxsize = 16
-tray-background = ${root.background}
 
 bottom = true
 
@@ -266,8 +255,8 @@ label = %{F#0DB9A2}%{F-} %percentage%%
 
 [module/notifications]
 type = custom/script
-exec = if [ "$(dunstctl is-paused)" = "true" ]; then echo "%{F#E47878}%{F-}"; else echo "%{F#0DB9A2}%{F-}"; fi
-tail = false
+exec = $HOME/.scripts/polybar-notification-status
+tail = true
 interval = 1
 
 click-left = $HOME/.scripts/rofi-notification-menu
@@ -275,6 +264,14 @@ click-right = dunstctl set-paused toggle; polybar-msg action "#notifications.exe
 
 format-background = ${colors.background}
 format-foreground = ${colors.foreground}
+
+[module/tray]
+type = internal/tray
+
+tray-spacing = 8px
+tray-size = 16
+
+tray-background = ${colors.background}
 
 [settings]
 screenchange-reload = true

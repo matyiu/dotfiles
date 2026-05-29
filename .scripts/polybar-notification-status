@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+if [ "$(dunstctl is-paused)" = "true" ]; then
+    echo "%{T3}%{F#E47878}%{F-}%{T-}"
+    exit 0
+fi
+
+RAW_HISTORY=$(dunstctl history)
+COUNT=$(echo "$RAW_HISTORY" | jq '.data[0] | length' 2>/dev/null)
+
+if [ "$COUNT" -gt 0 ]; then
+    # CON NOTIFICACIONES: Icono LLENO (Solid -> T3) en color Cian principal
+    echo "%{T2}%{F#0DB9A2}%{F-}%{T-}"
+else
+    # SIN NOTIFICACIONES: Icono OUTLINE (Regular -> T2) en el mismo color Cian principal
+    echo "%{T3}%{F#0DB9A2}%{F-}%{T-}"
+fi
