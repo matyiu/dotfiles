@@ -1,0 +1,206 @@
+#!/usr/bin/env python3
+
+import curses
+import time
+import json
+import os
+import subprocess
+from datetime import datetime, timedelta
+
+# Configuration
+DATA_FILE = os.path.expanduser("~/.pomodoro_stats.json")
+WORK_TIME = 25 * 60
+BREAK_TIME = 5 * 60
+LONG_WORK_TIME = 50 * 60
+LONG_BREAK_TIME = 10 * 60
+COMPLETED_CYCLE_BREAK_TIME = 20 * 60
+
+
+class Mode:
+    WORK = "WORK"
+    BREAK = "BREAK"
+    FINISHED = "FINISHED"
+
+
+class PomodoroStats:
+    def __init__(self):
+        self.data = self.load_data()
+
+    def load_data(self):
+        if os.path.exists(DATA_FILE):
+            try:
+                with open(DATA_FILE, 'r') as f:
+                    return json.load(f)
+            except:
+                return {}
+        return {}
+
+    def save_data(self, focus_mins, break_mins):
+        today = datetime.now().strftime("%Y-%m-%d")
+        if today not in self.data:
+            self.data[today] = {"focus": 0, "break": 0}
+        self.data[today]["focus"] += focus_mins
+        self.data[today]["break"] += break_mins
+        with open(DATA_FILE, 'w') as f:
+            json.dump(self.data, f)
+
+    def get_stats(self, days_ago):
+        target_date = (datetime.now() - timedelta(days=days_ago)
+                       ).strftime("%Y-%m-%d")
+        return self.data.get(target_date, {"focus": 0, "break": 0})
+
+    def get_weekly_avg(self):
+        total_focus = 0
+        for i in range(1, 8):
+            total_focus += self.get_stats(i)["focus"]
+        return total_focus // 7
+
+
+def send_notification(title, message):
+    try:
+        # Standard Linux notification tool
+        subprocess.run(["notify-send", title, message],
+                       stderr=subprocess.DEVNULL)
+    except:
+        print(f"Notification failed: {title}: {message}")
+
+
+def init_colors():
+    curses.start_color()
+    curses.use_default_colors()
+    # Catppuccin Mocha Pallete (approximate for 256-color terminals)
+    # Pair: (ID, Foreground, Background)
+    curses.init_pair(1, 141, -1)  # Mauve (Primary/Timer)
+    curses.init_pair(2, 114, -1)  # Green (Work)
+    curses.init_pair(3, 117, -1)  # Blue (Break)
+    curses.init_pair(4, 210, -1)  # Maroon/Red (Finished)
+    curses.init_pair(5, 147, -1)  # Lavender (Stats labels)
+    curses.init_pair(6, 245, -1)  # Overlay/Dim (UI hints)
+
+
+def main(stdscr):
+    init_colors()
+    curses.curs_set(0)
+    stdscr.nodelay(True)
+    stdscr.timeout(1000)
+
+    stats = PomodoroStats()
+
+    # State
+    mode = Mode.WORK
+    is_long_mode = False
+    auto_next = False
+    cycle = 1
+    timer = WORK_TIME
+    running = False
+
+    session_focus = 0
+
+    while True:
+        stdscr.erase()
+        # Get cycle limit based on mode
+        max_cycles = 2 if is_long_mode else 4
+
+        # Logic
+        if running and timer > 0:
+            timer -= 1
+            if mode == Mode.WORK:
+                session_focus += 1/60
+                if int(timer) % 60 == 0:
+                    stats.save_data(1, 0)
+            else:
+                if int(timer) % 60 == 0:
+                    stats.save_data(0, 1)
+
+        # State Transition
+        if timer <= 0:
+            if mode == Mode.WORK:
+                send_notification(
+                    "Pomodoro", "Work session finished. Time to rest.")
+                mode = Mode.BREAK
+
+                if cycle >= max_cycles:
+                    timer = COMPLETED_CYCLE_BREAK_TIME
+                else:
+                    timer = LONG_BREAK_TIME if is_long_mode else BREAK_TIME
+
+                running = auto_next
+            elif mode == Mode.BREAK:
+                if cycle >= max_cycles:
+                    send_notification("Cycle Complete", f"Completed {
+                                      max_cycles} sessions.")
+                    mode = Mode.WORK
+                    running = False
+                    cycle = 1
+                    timer = LONG_WORK_TIME if is_long_mode else WORK_TIME
+                else:
+                    send_notification("Pomodoro", "Break over. Back to focus.")
+                    mode = Mode.WORK
+                    cycle += 1
+                    timer = LONG_WORK_TIME if is_long_mode else WORK_TIME
+                    running = auto_next
+
+        # --- TUI Render ---
+        # Header
+        mode_color = curses.color_pair(
+            2) if mode == Mode.WORK else curses.color_pair(3)
+        if mode == Mode.FINISHED:
+            mode_color = curses.color_pair(4)
+
+        stdscr.addstr(1, 2, "󱎫 POMODORO CLI",
+                      curses.color_pair(1) | curses.A_BOLD)
+        stdscr.addstr(3, 2, f"MODE:  ", curses.color_pair(5))
+        stdscr.addstr(f"{mode}", mode_color | curses.A_BOLD)
+
+        stdscr.addstr(4, 2, f"CYCLE: ", curses.color_pair(5))
+        stdscr.addstr(f"{cycle}/{max_cycles}", curses.A_BOLD)
+
+        stdscr.addstr(5, 2, f"AUTO:  ", curses.color_pair(5))
+        stdscr.addstr("ON" if auto_next else "OFF",
+                      curses.color_pair(2 if auto_next else 4))
+
+        # Timer
+        mins, secs = divmod(timer, 60)
+        stdscr.addstr(7, 4, f"{mins:02d}:{secs:02d}",
+                      curses.color_pair(1) | curses.A_BOLD)
+
+        # Stats
+        stdscr.addstr(10, 2, "📊 STATISTICS",
+                      curses.color_pair(5) | curses.A_UNDERLINE)
+        stdscr.addstr(11, 2, f"Session focus:   {
+                      stats.get_stats(0)['focus']}m", curses.color_pair(6))
+        stdscr.addstr(12, 2, f"Yesterday:       {
+                      stats.get_stats(1)['focus']}m", curses.color_pair(6))
+        stdscr.addstr(13, 2, f"Weekly Avg:      {
+                      stats.get_weekly_avg()}m", curses.color_pair(6))
+
+        # Legend
+        stdscr.addstr(15, 2, "KEYS:", curses.color_pair(5))
+        stdscr.addstr(
+            16, 2, "[spc] Play/Pause  [s] Skip  [l] 25/50m  [a] Auto-Next  [q] Quit", curses.color_pair(6))
+
+        stdscr.refresh()
+
+        # --- Input ---
+        try:
+            key = stdscr.getch()
+        except:
+            key = -1
+
+        if key == ord('q'):
+            break
+        elif key == ord(' '):
+            running = not running
+        elif key == ord('s'):
+            timer = 0
+        elif key == ord('a'):
+            auto_next = not auto_next
+        elif key == ord('l'):
+            is_long_mode = not is_long_mode
+            if not running:
+                timer = LONG_WORK_TIME if is_long_mode else WORK_TIME
+                cycle = 1  # Reset cycle when mode changes
+
+
+if __name__ == "__main__":
+    curses.wrapper(main)
