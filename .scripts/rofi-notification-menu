@@ -10,7 +10,7 @@ fi
 
 OPTIONS="$DND_STATUS\n󰎁 Clear Notification History\n---\n"
 
-HISTORY=$(dunstctl history | jq -r '.[] | .[] | "\(.appname.content): \(.summary.content) - \(.body.content)"' | tac)
+HISTORY=$(dunstctl history | jq -r '.data[0][] | " \(.appname.data): \(.summary.data) — \(.body.data)"' | tac)
 
 CHOICE=$(echo -e "$OPTIONS$HISTORY" | rofi -dmenu -p "Notifications" -i -l 10)
 
