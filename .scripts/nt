@@ -25,11 +25,11 @@ else
 
   DATE_PREFIX=$(date +%F)
 
-  TITLE=$*
+  TITLE="$*"
 
-  TITLE_SLUG=$(echo "$TITLE" | tr ' ' '-')
+  TITLE_SLUG=$(echo "$TITLE" | tr ' ' '-' | tr '[:upper:]' '[:lower:]' | sed 's/[^a-zA-Z0-9_-]//g')
 
-  ID="$DATE_PREFIX-$TITLE_SLUG"
+  ID="$TITLE_SLUG"
 
   FULL_PATH="$TARGET_DIR/$ID.md"
 
@@ -38,9 +38,9 @@ else
     read -r -n 1 -p "Do you want to replace it? [y/n] " answer
     
     if [[ "$answer" != "y" && "$answer" != "Y" ]]; then
+      ID="$DATE_PREFIX-$TITLE_SLUG"
       echo ""
-      echo "Aborting..."
-      exit 1
+      echo "Appending timestamp prefix..."
     fi
   fi
 
@@ -51,7 +51,6 @@ else
 id: $ID
 aliases:
 - $TITLE_SLUG
-- $TITLE
 tags: []
 ---
 
