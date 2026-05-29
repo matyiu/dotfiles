@@ -192,6 +192,7 @@ bindsym Mod1+Tab exec "rofi -show window"
 bindcode $mod+53 exec "$HOME/.scripts/change-kbd"
 bindsym $mod+Shift+s move scratchpad
 bindsym $mod+Shift+g scratchpad show
+bindsym $mod+Shift+f exec --no-startup-id "$HOME/.scripts/ffinder"
 
 # ---------------------------------
 # Custom Bindyms

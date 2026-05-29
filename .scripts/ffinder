@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if ! command -v fd &> /dev/null; then
+    notify-send -u critical "System Error" "fd-find is not installed."
+    exit 1
+fi
+
+FILE_LIST=$(fd . "$HOME" --type f 2>/dev/null)
+
+if [ -z "$FILE_LIST" ]; then
+    notify-send "Fuzzy Finder" "No files found or directory is empty."
+    exit 1
+fi
+
+SELECTION=$(echo "$FILE_LIST" | rofi -dmenu -i -p "Fuzzy Finder:" -theme-str 'window { width: 60%; }')
+
+if [ -n "$SELECTION" ]; then
+    xdg-open "$SELECTION" >/dev/null 2>&1 &
+    
+    if [ $? -ne 0 ]; then
+        notify-send -u normal "Open Error" "No application associated with: $(basename "$SELECTION")"
+    fi
+    
+    disown
+fi
