@@ -17,11 +17,25 @@ return {
     opts = {
       legacy_commands = false,
       -- obsidian_command = "setsid /usr/bin/obsidian",
+      ui = {
+        enabled = false,
+      },
       workspaces = {
         {
           name = "personal",
           path = "~/Nextcloud/Personal/Notes",
           overrides = {
+            daily_notes = {
+              folder = "2 - Areas/Life/journal",
+              template = "3 - Resources/Templates/daily.md",
+            },
+            templates = {
+              subdir = "3 - Resources/Templates",
+              date_format = "%Y-%m-%d",
+              time_format = "%H:%M",
+              substitutions = {},
+            },
+            ui = { enabled = false },
             -- new_notes_location = "0 - Index",
             note_id_func = function(title)
               local timestamp = os.date "%Y%m%d%H%M"

@@ -30,17 +30,16 @@ return {
 		"neovim/nvim-lspconfig",
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local lspconfig = require("lspconfig")
-
-			-- require("lspconfig.configs").vtsls = require("vtsls").lspconfig
 
 			for _, lang in pairs(languages) do
-				lspconfig[lang].setup({
+				vim.lsp.config(lang,{
 					capabilities = capabilities,
 				})
+
+        vim.lsp.enable(lang)
 			end
 
-			lspconfig.vtsls.setup({
+			vim.lsp.config('vtsls', {
 				capabilities = capabilities,
 				settings = {
 					vtsls = {
@@ -58,6 +57,8 @@ return {
 					-- },
 				},
 			})
+
+      vim.lsp.enable('vtsls')
 
 			-- lspconfig.tsserver.setup({
 			--   capabilities = capabilities,
