@@ -1,6 +1,7 @@
 #--------------------------------------------------------------------
-# Load compositor for shadows/fading 
-exec_always --no-startup-id picom
+# Load compositor for shadows/fading
+# Script to kill picom when the laptop is not plugged in
+exec --no-startup-id "$HOME/.scripts/picom_sync"
 
 #--------------------------------------------------------------------
 # Set colors from wal

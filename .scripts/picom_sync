@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+sync_picom() {
+    local ac_state
+    ac_state=$(cat /sys/class/power_supply/AC*/online 2>/dev/null | head -n1)
+
+    if [ "$ac_state" -eq 1 ]; then
+        pgrep -x picom >/dev/null || picom -b
+    else
+        pkill -x picom
+    fi
+}
+
+sync_picom
+
+upower --monitor-detail | while read -r line; do
+    if echo "$line" | grep -q "updated"; then
+        sync_picom
+    fi
+done
