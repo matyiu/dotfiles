@@ -18,6 +18,15 @@ const PACKAGES = [
     "zsh",
     "tmux",
     "zsh-autosuggestions"
+    // Battery optimization
+    "tlp",
+    "tlp-rdw",
+    "tlp-pd",
+    "tlpui",
+    // Nvidia drivers
+    "nvidia-open",
+    "nvidia-prime",
+    "nvidia-settings",
 ]
 
 const DIRECTORIES = [
