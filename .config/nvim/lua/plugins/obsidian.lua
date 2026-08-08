@@ -1,3 +1,5 @@
+local templates_dir = "99 - Meta/Templates"
+
 return {
   {
     "obsidian-nvim/obsidian.nvim",
@@ -26,11 +28,11 @@ return {
           path = "~/Nextcloud/Personal/Notes",
           overrides = {
             daily_notes = {
-              folder = "2 - Areas/Life/journal",
-              template = "3 - Resources/Templates/daily.md",
+              folder = "02 - Areas/Life/journal",
+              template =  templates_dir .. "/daily.md",
             },
             templates = {
-              subdir = "3 - Resources/Templates",
+              subdir = templates_dir,
               date_format = "%Y-%m-%d",
               time_format = "%H:%M",
               substitutions = {},
