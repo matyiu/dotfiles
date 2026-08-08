@@ -182,7 +182,7 @@ bindsym $mod+Shift+l resize grow width 2 px or 2 ppt
 bindsym $mod+Tab exec "flameshot gui"
 bindsym $mod+t exec --no-startup-id "kitty"
 bindsym $mod+p exec "phpstorm"
-bindsym $mod+b exec "brave"
+bindsym $mod+b exec "app.zen_browser.zen"
 bindsym $mod+Shift+b exec "prime-run brave"
 bindsym $mod+m exec "telegram-desktop"
 bindsym $mod+d exec "rofi -modi combi -show combi -combi-modi drun,run"
