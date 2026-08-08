@@ -147,3 +147,15 @@ source ~/.zsh_private
 export PATH="$PATH:/home/rjeffvalle/.lmstudio/bin"
 # End of LM Studio CLI section
 
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/rjeffvalle/.local/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/home/rjeffvalle/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end
