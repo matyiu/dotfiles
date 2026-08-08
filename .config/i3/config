@@ -207,17 +207,14 @@ bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 # EXEC PROGRAMS
 # ---------------------------------
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-exec_always feh --bg-fill $HOME/.wallpapers/selected.*
-exec_always blueman-applet
-exec_always nm-applet
+exec_always --no-startup-id feh --bg-fill $HOME/.wallpapers/selected.*
+exec_always --no-startup-id blueman-applet
+exec_always --no-startup-id nm-applet
 # exec_always xrandr --output HDMI-1 --rate 143.98 --left-of HDMI-0 --mode 1920x1080
 exec_always xrandr --output HDMI-1 --rate 60.00 --right-of eDP-1 --mode 1920x1080
-# exec --no-startup-id ulauncher --hide-window
 exec --no-startup-id xfsettingsd
-exec xscreensaver -no-splash
-# exec_always autorandr --change dual-hd60-hd144DP
+exec --no-startup-id xscreensaver -no-splash
 exec --no-startup-id redshift
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-# exec ~/.scripts/wall_changer.py -d --seconds 300
-exec aw-qt
+exec --no-startup-id aw-qt
 exec_always --no-startup-id xinput set-prop "$(xinput list --name-only | grep -i touchpad | head -n 1)" "libinput Tapping Enabled" 1
