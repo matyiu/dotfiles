@@ -176,6 +176,11 @@ assign [title="^Catd"] $ws9
 assign [instance="brave-browser"] $ws10
 assign [class="zen"] $ws10
 
+# ---------------------------------
+# App window placement
+# ---------------------------------
+for_window [class="(?i)handy" title="(?i)recording"] floating enable, border none, sticky enable
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
