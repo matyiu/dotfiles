@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+HOST=$(uname -n)
+
+case "$HOST" in
+    "jeff-arch")
+        INTERNAL="eDP-1"
+        EXTERNAL="HDMI-1"
+
+        if xrandr | grep -q "^$EXTERNAL connected"; then
+            xrandr --output "$EXTERNAL" --auto --below "$INTERNAL" \
+                   --output "$INTERNAL" --auto --primary
+        else
+            xrandr --output "$INTERNAL" --auto --primary \
+                   --output "$EXTERNAL" --off 2>/dev/null || true
+        fi
+        ;;
+
+    *)
+        xrandr --auto
+        ;;
+esac

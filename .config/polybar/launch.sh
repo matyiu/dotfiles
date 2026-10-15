@@ -2,26 +2,19 @@
 
 # Terminate already running bar instances
 # If all your bars have ipc enabled, you can use 
-polybar-msg cmd quit
+# polybar-msg cmd quit
 # Otherwise you can use the nuclear option:
-# killall -q polybar
+killall -q polybar
 
-# Launch bar1 and bar2
+while read -r name info; do
+  display="${name%:}"
+  is_primary=$(echo $info | grep -o '(primary)')
 
-if type "xrandr" > /dev/null; then
-      for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-	if [ $m == 'HDMI-1' ] 
-	then		
-		MONITOR=$m polybar primary 2>&1 & disown	
-	elif [ $m == 'HDMI-0' ]
-	then
-		MONITOR=$m polybar secondary 2>&1 & disown
-	else
-		MONITOR=$m polybar secondary 2>&1 & disown
-	fi
-      done
-    else
-    	polybar primary 2>&1 & disown
-    fi
+  if [ "$is_primary" ]; then
+    MONITOR=$display polybar primary &
+  else
+    MONITOR=$display polybar secondary &
+  fi
+done < <(polybar -m)
 
 echo "Bars launched..."
