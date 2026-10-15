@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+SESSION="logs"
+WINDOW="monitor"
+
+FILE1="/var/log/AmneziaVPN/AmneziaVPN-service.log"
+FILE2="/var/log/AmneziaVPN/post-install.log"
+FILE3="$HOME/.local/share/AmneziaVPN.ORG/AmneziaVPN/log/AmneziaVPN.log"
+
+if ! tmux has-session -t "$SESSION" 2> /dev/null; then
+  tmux new-session -d -s "$SESSION" -n "$WINDOW" "tail -f '$FILE1'"
+
+  tmux split-window -v -t "$SESSION:$WINDOW" "tail -f '$FILE2'"
+  tmux split-window -v -t "$SESSION:$WINDOW" "tail -f '$FILE3'"
+
+  tmux select-layout -t "$SESSION:$WINDOW" even-vertical
+fi
+
+if [ -n "${TMUX:-}" ]; then
+  tmux switch-client -t "$SESSION"
+else
+  tmux attach-session -t "$SESSION"
+fi
+
