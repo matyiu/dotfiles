@@ -28,7 +28,7 @@ return {
           path = "~/Nextcloud/Personal/Notes",
           overrides = {
             daily_notes = {
-              folder = "02 - Areas/Life/journal",
+              folder = "02 - Areas/Life/Journal",
               template =  templates_dir .. "/daily.md",
             },
             templates = {
