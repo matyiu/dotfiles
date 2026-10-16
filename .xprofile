@@ -1,0 +1,3 @@
+# Sincronización de cursor para Qt y librerías agnósticas
+export XCURSOR_THEME="Adwaita"
+export XCURSOR_SIZE=16

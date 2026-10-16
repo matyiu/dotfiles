@@ -221,8 +221,28 @@ bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 
 # ---------------------------------
+# CURSOR unificado (orquestador central)
+# ---------------------------------
+# Variables de cursor
+set $cursor_theme Adwaita
+set $cursor_size 16
+
+# 1. Inyectar configuración a Xresources / X11 root window
+exec_always --no-startup-id printf "Xcursor.theme: %s\nXcursor.size: %d\n" "$cursor_theme" "$cursor_size" | xrdb -merge
+
+# 2. Sincronizar esquemas GTK / GNOME en caliente
+exec_always --no-startup-id gsettings set org.gnome.desktop.interface cursor-theme "$cursor_theme"
+exec_always --no-startup-id gsettings set org.gnome.desktop.interface cursor-size $cursor_size
+
+# 3. Forzar el puntero por defecto de X11 en la ventana raíz
+# (equivalente a `xsetroot -cursor_name left_ptr`, que necesita xorg-xsetroot;
+#  se usa un script propio con libX11 para no instalar paquetes extra)
+exec_always --no-startup-id $HOME/.scripts/root-cursor
+
+# ---------------------------------
 # EXEC PROGRAMS
 # ---------------------------------
+exec --no-startup-id dbus-update-activation-environment --systemd DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP=i3
 exec --no-startup-id xrdb -merge $HOME/.Xresources
 exec_always --no-startup-id $HOME/.scripts/display-setup
 exec_always --no-startup-id feh --bg-fill $HOME/.wallpapers/selected.*

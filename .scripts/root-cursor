@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+"""Fija el puntero por defecto de la ventana raíz de X11.
+
+Sustituto sin dependencias extra de:  xsetroot -cursor_name left_ptr
+(el paquete xorg-xsetroot no está instalado y no se quiere instalar).
+
+Usa solo python + libX11 del sistema (ctypes, sin módulos externos).
+Equivalente en protocolo a lo que hace xsetroot, por lo que el puntero
+persiste en la ventana raíz tras salir el proceso.
+"""
+import ctypes
+
+XC_LEFT_PTR = 68  # X11/cursorfont.h
+
+x11 = ctypes.CDLL("libX11.so.6")
+x11.XOpenDisplay.argtypes = [ctypes.c_char_p]
+x11.XOpenDisplay.restype = ctypes.c_void_p
+x11.XDefaultRootWindow.argtypes = [ctypes.c_void_p]
+x11.XDefaultRootWindow.restype = ctypes.c_ulong
+x11.XCreateFontCursor.argtypes = [ctypes.c_void_p, ctypes.c_uint]
+x11.XCreateFontCursor.restype = ctypes.c_ulong
+x11.XDefineCursor.argtypes = [ctypes.c_void_p, ctypes.c_ulong, ctypes.c_ulong]
+x11.XFlush.argtypes = [ctypes.c_void_p]
+x11.XCloseDisplay.argtypes = [ctypes.c_void_p]
+
+dpy = x11.XOpenDisplay(None)  # None -> usa $DISPLAY
+if not dpy:
+    raise SystemExit(0)  # sin sesión X: no hacer nada
+
+root = x11.XDefaultRootWindow(dpy)
+cursor = x11.XCreateFontCursor(dpy, XC_LEFT_PTR)
+x11.XDefineCursor(dpy, root, cursor)
+x11.XFlush(dpy)
+x11.XCloseDisplay(dpy)
