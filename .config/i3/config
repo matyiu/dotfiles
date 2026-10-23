@@ -242,18 +242,27 @@ exec_always --no-startup-id $HOME/.scripts/root-cursor
 # ---------------------------------
 # EXEC PROGRAMS
 # ---------------------------------
-# Keyring
+# Authentication
 exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=secrets
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+# X11
 exec --no-startup-id dbus-update-activation-environment --systemd DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP=i3
 exec --no-startup-id xrdb -merge $HOME/.Xresources
+exec --no-startup-id xinput set-prop "$(xinput list --name-only | grep -i touchpad | head -n 1)" "libinput Tapping Enabled" 1
+
+# Display
 exec_always --no-startup-id $HOME/.scripts/display-setup
 exec_always --no-startup-id feh --bg-fill $HOME/.wallpapers/selected.*
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec --no-startup-id xscreensaver -no-splash
+
+# Network / Bluetooth / Peripherals
 exec_always --no-startup-id blueman-applet
 exec_always --no-startup-id nm-applet
+exec --no-startup-id openrgb --startminimized
+
+# Other
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec --no-startup-id xfsettingsd
-exec --no-startup-id xscreensaver -no-splash
 exec --no-startup-id redshift
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id aw-qt
-exec_always --no-startup-id xinput set-prop "$(xinput list --name-only | grep -i touchpad | head -n 1)" "libinput Tapping Enabled" 1
