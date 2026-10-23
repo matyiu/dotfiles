@@ -242,6 +242,8 @@ exec_always --no-startup-id $HOME/.scripts/root-cursor
 # ---------------------------------
 # EXEC PROGRAMS
 # ---------------------------------
+# Keyring
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=secrets
 exec --no-startup-id dbus-update-activation-environment --systemd DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP=i3
 exec --no-startup-id xrdb -merge $HOME/.Xresources
 exec_always --no-startup-id $HOME/.scripts/display-setup
