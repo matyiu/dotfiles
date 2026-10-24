@@ -1,4 +1,4 @@
-(defpoll amn_status :interval "2s" "systemctl is-active --quiet AmneziaVPN.service && echo on || pgrep -f AmneziaVPN >/dev/null && echo on || echo off")
+(defpoll amn_status :interval "2s" "systemctl is-active --quiet AmneziaVPN.service && echo on || echo off")
 
 (defwidget amnezia_widget []
   (button :class "toggle-tile vpn-toggle ${amn_status == 'on' ? 'active' : ''}" :hexpand true
