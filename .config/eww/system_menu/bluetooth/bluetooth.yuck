@@ -26,4 +26,4 @@
                   (box :orientation "v" :space-evenly false :hexpand true
                     (label :class "bt-device-name" :text "${device.name}" :halign "start" :truncate true)
                     (label :class "bt-device-status" :text "${device.connected ? 'Conectado' : device.paired ? 'Emparejado' : 'Nuevo'}" :halign "start" :truncate true))
-                  (label :class "bt-device-arrow" :text "󰅂")))))))))
+                  (label :class "bt-device-arrow" :text "󰅂"))))))))))
