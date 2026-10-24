@@ -27,27 +27,27 @@ disabled = #707880
 
 [bar/common]
 width = 100%
-height = 24pt
-radius = 6
+height = 32px
+radius = 16
+offset-x = 1%
+offset-y = 8px
 
 background = ${colors.background}
 foreground = ${colors.foreground}
 
 line-size = 3pt
 
-border-top-size = 4pt
-border-bottom-size = 4pt
-border-left-size = 30px
-border-right-size = 30px
+border-top-size = 4
+border-bottom-size = 4
+border-left-size = 30
+border-right-size = 30
 
 border-color = #00000000
 
-padding-left = 0
-padding-right = 1
+padding = 2
 
-module-margin = 1
+module-margin = 8px
 
-separator = |
 separator-foreground = ${colors.disabled}
 
 font-0 = Iosevka Extended;4
@@ -61,7 +61,8 @@ inherit = bar/common
 monitor = ${env:MONITOR:}
 
 modules-left = i3
-modules-right = battery filesystem pulseaudio xkeyboard backlight memory cpu wlan eth date tray notifications power
+modules-center = clock
+modules-right = battery filesystem pulseaudio xkeyboard backlight memory cpu wlan eth tray power
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -159,6 +160,15 @@ label-empty = %name%
 label-empty-foreground = ${colors.disabled}
 label-empty-padding = 1
 
+[module/clock]
+type = custom/script
+exec = ~/.config/polybar/scripts/clock.sh "$POLYBAR_COLOR_PRIMARY" "$POLYBAR_COLOR_DISABLED"
+interval = 1
+click-left = eww open --toggle notification_center_closer && eww open --toggle notification_center
+
+format-padding = 2
+format-foreground = ${colors.foreground}
+
 [module/xwindow]
 type = internal/xwindow
 label = %title:0:60:...%
@@ -252,18 +262,6 @@ type = internal/backlight
 card = intel_backlight
 format = <label>
 label = %{F#0DB9A2}%{F-} %percentage%%
-
-[module/notifications]
-type = custom/script
-exec = $HOME/.scripts/polybar-notification-status
-tail = true
-interval = 1
-
-click-left = $HOME/.scripts/rofi-notification-menu
-click-right = dunstctl set-paused toggle; polybar-msg action "#notifications.exec"
-
-format-background = ${colors.background}
-format-foreground = ${colors.foreground}
 
 [module/tray]
 type = internal/tray
