@@ -31,12 +31,13 @@
                       (label :class "wifi-net-name" :text "${net.ssid}" :halign "start" :truncate true)
                       (label :class "wifi-net-sec" :text "${net.security == '--' ? 'Abierta' : net.security}" :halign "start" :truncate true))
                     (label :class "wifi-net-sig" :text "${net.signal}")))
-                (revealer :transition "slideup" :reveal {wifi_selected == net.ssid} :duration "150ms"
+                (box :orientation "v" :space-evenly false :spacing 4 :visible {wifi_selected == net.ssid}
                   (box :class "wifi-pass-box" :orientation "v" :space-evenly false :spacing 8 :hexpand true
                     (input :class "wifi-pass-input"
                            :password true
                            :value wifi_password
-                           :onchange "eww update wifi_password='{}'")
+                           :onchange "eww update wifi_password='{}'"
+                           :onaccept "$HOME/.scripts/eww-wifi-connect.sh '${net.ssid}' '${wifi_password}' ${wifi_remember}")
                     (box :space-evenly false :spacing 10
                       (checkbox :class "wifi-rem" 
                                 :checked wifi_remember
@@ -45,4 +46,4 @@
                       (label :text "Recordar")
                       (button :class "wifi-connect" :hexpand true :halign "end"
                               :onclick "$HOME/.scripts/eww-wifi-connect.sh '${net.ssid}' '${wifi_password}' ${wifi_remember}"
-                        (label :text "Conectar"))))))))))))
+                        (label :text "Conectar")))))))))))))
