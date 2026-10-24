@@ -1,0 +1,208 @@
+$bg-wrapper: rgba(14, 15, 18, 0.85);
+$surface-container: #192031;
+$surface-variant: #252B39;
+$primary: #0DB9A2;
+$secondary: #5DA5DE;
+$on-surface: #DAEDEB;
+$on-variant: #707880;
+
+.system-menu-wrapper {
+  background-color: $bg-wrapper;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 16px;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  color: $on-surface;
+}
+
+/* Header */
+.menu-header {
+  .battery-badge {
+    background-color: $surface-container;
+    border-radius: 12px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    .icon {
+      color: $primary;
+      font-size: 1rem;
+    }
+  }
+
+  .action-btn {
+    background-color: $surface-container;
+    border-radius: 12px;
+    padding: 6px 12px;
+    color: $on-surface;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: $surface-variant;
+      color: $primary;
+    }
+
+    &.power:hover {
+      color: #E47878;
+    }
+  }
+}
+
+/* Sliders */
+.sliders-box {
+  background-color: $surface-container;
+  border-radius: 16px;
+  padding: 12px 14px;
+
+  .slider-icon {
+    font-size: 1.1rem;
+    color: $primary;
+  }
+
+  scale trough {
+    background-color: $surface-variant;
+    border-radius: 10px;
+    min-height: 10px;
+    min-width: 140px;
+
+    highlight {
+      background-color: $primary;
+      border-radius: 10px;
+    }
+  }
+}
+
+/* Toggles / M3 Tiles */
+.toggle-tile {
+  background-color: $surface-container;
+  border-radius: 14px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  transition: all 0.2s ease;
+
+  .tile-icon {
+    font-size: 1.1rem;
+    color: $on-variant;
+  }
+
+  .tile-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: $on-surface;
+  }
+
+  &:hover {
+    background-color: $surface-variant;
+  }
+
+  &.active {
+    background-color: $primary;
+    border-color: $primary;
+
+    .tile-icon,
+    .tile-label {
+      color: #0b2521;
+    }
+
+    &:hover {
+      background-color: lighten(#0DB9A2, 5%);
+    }
+  }
+}
+
+.bt-group {
+  .bt-toggle {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .bt-arrow {
+    background-color: $surface-container;
+    border-radius: 14px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-left: 0;
+    color: $on-variant;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: $surface-variant;
+      color: $on-surface;
+    }
+
+    &.active {
+      background-color: $primary;
+      color: #0b2521;
+    }
+  }
+}
+
+.bt-list-box {
+  background-color: $surface-container;
+  border-radius: 16px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+
+  .bt-scroll {
+    .bt-device {
+      background-color: transparent;
+      border-radius: 12px;
+      padding: 8px 10px;
+      transition: background-color 0.2s ease;
+
+      .bt-device-icon {
+        font-size: 1.1rem;
+        color: $on-variant;
+      }
+
+      .bt-device-name {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: $on-surface;
+      }
+
+      .bt-device-status {
+        font-size: 0.72rem;
+        color: $on-variant;
+      }
+
+      .bt-device-arrow {
+        font-size: 1rem;
+        color: $on-variant;
+      }
+
+      &:hover {
+        background-color: $surface-variant;
+
+        .bt-device-icon,
+        .bt-device-arrow {
+          color: $on-surface;
+        }
+      }
+
+      &.paired {
+        .bt-device-icon {
+          color: $secondary;
+        }
+      }
+
+      &.connected {
+        .bt-device-icon {
+          color: $primary;
+        }
+
+        .bt-device-status {
+          color: $primary;
+        }
+      }
+
+      &.unpaired {
+        .bt-device-icon {
+          color: $on-variant;
+        }
+      }
+    }
+  }
+}

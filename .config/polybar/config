@@ -95,6 +95,8 @@ interval = 2
 format-foreground = ${colors.foreground}
 format-padding = 2
 
+click-left = eww open --toggle system_menu_closer && eww open --toggle system_menu
+
 [module/battery]
 type = internal/battery
 full-at = 95

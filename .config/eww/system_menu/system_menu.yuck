@@ -1,0 +1,86 @@
+(defpoll current_volume :interval "1s" "pamixer --get-volume || echo 50")
+(defpoll current_brightness :interval "1s" "brightnessctl g | awk '{print int($1/255*100)}' || echo 50")
+(defpoll wifi_status :interval "3s" "nmcli -t -f WIFI g")
+(defpoll bt_status :interval "3s" "bluetoothctl show | grep -q 'Powered: yes' && echo on || echo off")
+(defpoll bt_devices :interval "5s" "$HOME/.scripts/eww-bt-devices.sh")
+
+(defvar bt_show_list false)
+
+(defwidget system_menu_widget []
+  (box :class "system-menu-wrapper" :orientation "v" :space-evenly false :spacing 14
+    
+    (box :class "menu-header" :space-evenly false :spacing 10
+      (box :class "battery-badge" :space-evenly false :spacing 6 :hexpand true
+        (label :class "icon" :text "󰁹")
+        (label :text "${EWW_BATTERY.BAT1.capacity}%"))
+      (button :class "action-btn" :onclick "betterlockscreen -l" (label :text "󰌾"))
+      (button :class "action-btn power" :onclick "$HOME/.scripts/rofi-power-menu.sh" (label :text "")))
+
+    (box :class "sliders-box" :orientation "v" :space-evenly false :spacing 10
+      (box :class "slider-row" :space-evenly false :spacing 12
+        (label :class "slider-icon" :text "󰕾")
+        (scale :class "slider-scale" 
+               :hexpand true 
+               :min 0 :max 101 
+               :value current_volume 
+               :onchange "pamixer --set-volume {}"))
+      (box :class "slider-row" :space-evenly false :spacing 12
+        (label :class "slider-icon" :text "󰃠")
+        (scale :class "slider-scale" 
+               :hexpand true 
+               :min 5 :max 101 
+               :value current_brightness 
+               :onchange "brightnessctl s {}%")))
+
+    (box :class "toggles-grid" :orientation "v" :space-evenly false :spacing 8
+      (box :class "toggle-row" :space-evenly true :spacing 8
+        (button :class "toggle-tile ${wifi_status == 'enabled' ? 'active' : ''}"
+                :onclick "nmcli r wifi ${wifi_status == 'enabled' ? 'off' : 'on'}"
+          (box :space-evenly false :spacing 10
+            (label :class "tile-icon" :text "󰤨")
+            (label :class "tile-label" :text "Wi-Fi" :hexpand true :halign "start")))
+        
+        (box :class "bt-group" :space-evenly false :spacing 4 :hexpand true
+          (button :class "toggle-tile bt-toggle ${bt_status == 'on' ? 'active' : ''}" :hexpand true
+                  :onclick "bluetoothctl power ${bt_status == 'on' ? 'off' : 'on'}"
+            (box :space-evenly false :spacing 10
+              (label :class "tile-icon" :text "󰂯")
+              (label :class "tile-label" :text "Bluetooth" :hexpand true :halign "start")))
+          (button :class "bt-arrow ${bt_show_list ? 'active' : ''}" 
+                  :onclick "eww update bt_show_list=${bt_show_list ? false : true}"
+            (label :text "${bt_show_list ? '󰅃' : '󰅀'}"))))
+
+      (box :class "toggle-row" :space-evenly true :spacing 8
+        (button :class "toggle-tile" :onclick "$HOME/.scripts/rofi-wifi-menu.sh &"
+          (box :space-evenly false :spacing 10
+            (label :class "tile-icon" :text "󰈀")
+            (label :class "tile-label" :text "Redes" :hexpand true :halign "start")))))
+
+    (revealer :transition "slideup" :reveal bt_show_list :duration "200ms"
+      (box :class "bt-list-box" :orientation "v" :space-evenly false :spacing 6
+        (scroll :class "bt-scroll" :vscroll true :hscroll false :height 180
+          (box :orientation "v" :space-evenly false :spacing 4
+            (for device in bt_devices
+              (button :class "bt-device ${device.connected ? 'connected' : device.paired ? 'paired' : 'unpaired'}"
+                      :onclick "$HOME/.scripts/eww-bt-action.sh '${device.mac}'"
+                (box :space-evenly false :spacing 10
+                  (label :class "bt-device-icon" :text "${device.connected ? '󰂱' : '󰂯'}")
+                  (box :orientation "v" :space-evenly false :hexpand true
+                    (label :class "bt-device-name" :text "${device.name}" :halign "start" :truncate true)
+                    (label :class "bt-device-status" :text "${device.connected ? 'Conectado' : device.paired ? 'Emparejado' : 'Nuevo'}" :halign "start" :truncate true))
+                  (label :class "bt-device-arrow" :text "󰅂"))))))))))
+
+(defwindow system_menu_closer
+  :monitor 0
+  :geometry (geometry :width "100%" :height "100%")
+  :stacking "fg"
+  :focusable false
+  (eventbox :onclick "eww close system_menu_closer && eww close system_menu && eww update bt_show_list=false"))
+
+(defwindow system_menu
+  :monitor 0
+  :geometry (geometry :x "-30px" :y "-52px" :anchor "bottom right" :width "500px")
+  :stacking "fg"
+  :windowtype "dock"
+  :wm-ignore true
+  (system_menu_widget))
