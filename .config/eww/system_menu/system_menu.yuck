@@ -53,7 +53,7 @@
 
 (defwindow system_menu
   :monitor 0
-  :geometry (geometry :x "-30px" :y "-52px" :anchor "bottom right" :width "500px")
+  :geometry (geometry :x "-30px" :y "-52px" :anchor "bottom right" :width "500px" :height "800px")
   :stacking "fg"
   :focusable true
   :vm-ignore false
