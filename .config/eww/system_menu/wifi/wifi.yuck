@@ -13,6 +13,7 @@
   (box :orientation "v" :space-evenly false :spacing 8 :hexpand true
     (box :class "wifi-group" :space-evenly false :spacing 4 :hexpand true
       (button :class "toggle-tile wifi-toggle ${wifi_status == 'enabled' ? 'active' : ''}" :hexpand true
+              :timeout 2000
               :onclick "nmcli r wifi ${wifi_status == 'enabled' ? 'off' : 'on'}"
         (box :space-evenly false :spacing 10
           (label :class "tile-icon" :text "󰤨")
@@ -26,5 +27,5 @@
         (scroll :class "wifi-scroll" :vscroll true :hscroll false :height 300
           (box :orientation "v" :space-evenly false :spacing 4
             (for net in wifi_networks
-              (wifi_item :net net :active {wifi_selected ? wifi_selected.ssid : wifi_label}))))
+              (wifi_item :net net :active {wifi_selected != '' ? wifi_selected.ssid : wifi_label}))))
         (wifi_form :selected wifi_selected)))))

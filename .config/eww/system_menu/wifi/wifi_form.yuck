@@ -3,24 +3,24 @@
 (defwidget wifi_form [selected]
   (revealer :transition "slidedown" :reveal {selected != ""} :duration "150ms"
     (box :class "wifi-pass-box" :orientation "v" :space-evenly false :spacing 8 :hexpand true
-      (label :class "wifi-target-label" :text "Conectar a: ${selected.ssid}" :halign "start" :truncate true)
-      (input :visible {selected.security != '--' && !selected.saved}
+      (label :class "wifi-target-label" :text "Conectar a: ${selected != '' ? selected.ssid : ''}" :halign "start" :truncate true)
+      (input :visible {selected != '' && selected.security != '--' && !selected?.saved}
              :class "wifi-pass-input" :hexpand true
              :password true
              :timeout 30000
              :onchange "printf '%s' '{}' > /tmp/eww-wifi-pass"
-             :onaccept "$HOME/.scripts/eww-wifi-connect.sh '${selected.ssid}' '{}' ${wifi_remember || selected.saved}")
+             :onaccept "$HOME/.scripts/eww-wifi-connect.sh '${selected != '' ? selected.ssid : ''}' '{}' ${wifi_remember ? wifi_remember : selected?.saved}")
       (box :orientation "h" :space-evenly false :spacing 8
-        (box :visible {!selected.saved && selected.security != '--'} :space-evenly false :spacing 6 :halign "start" :hexpand true
+        (box :visible {selected != '' && !selected.saved && selected.security != '--'} :space-evenly false :spacing 6 :halign "start" :hexpand true
           (checkbox :class "wifi-rem"
                     :onchecked "eww update wifi_remember=true"
                     :onunchecked "eww update wifi_remember=false")
           (label :text "Recordar"))
         (box :space-evenly false :spacing 6 :halign "end" :hexpand true
-          (button :visible {selected.saved} :class "wifi-forget"
-                  :onclick "eww update wifi_connecting=''; $HOME/.scripts/eww-wifi-forget.sh '${selected.ssid}'"
+          (button :visible {selected != '' ? selected.saved : false} :class "wifi-forget"
+                  :onclick "eww update wifi_connecting=''; $HOME/.scripts/eww-wifi-forget.sh '${selected != '' ? selected.ssid : ''}'"
             (label :text "Olvidar"))
           (button :class "wifi-connect" :halign "end"
                   :timeout 30000
-                  :onclick "$HOME/.scripts/eww-wifi-connect.sh '${selected.ssid}' \"$(cat /tmp/eww-wifi-pass 2>/dev/null)\" ${wifi_remember || selected.saved}"
+                  :onclick "$HOME/.scripts/eww-wifi-connect.sh '${selected?.ssid}' \"$(cat /tmp/eww-wifi-pass 2>/dev/null)\" ${wifi_remember ? wifi_remember : selected?.saved}"
             (label :text "Conectar")))))))
