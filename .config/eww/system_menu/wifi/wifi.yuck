@@ -25,7 +25,7 @@
               (button :class "wifi-net ${net.inuse ? 'active' : ''} ${wifi_selected == net.ssid ? 'selected' : ''}"
                       :onclick "eww update wifi_selected='${net.ssid}' wifi_password=''"
                 (box :space-evenly false :spacing 10
-                  (label :class "wifi-net-icon" :text "${net.inuse ? '󰤨' : '󰤩'}")
+                  (label :class "wifi-net-icon" :text "${net.inuse ? '󰤨' : '󰤯'}")
                   (box :orientation "v" :space-evenly false :hexpand true
                     (label :class "wifi-net-name" :text "${net.ssid}" :halign "start" :truncate true)
                     (label :class "wifi-net-sec" :text "${net.security == '--' ? 'Abierta' : net.security}" :halign "start" :truncate true))
@@ -48,3 +48,4 @@
               (button :class "wifi-connect" :halign "end"
                       :onclick "$HOME/.scripts/eww-wifi-connect.sh '${wifi_selected}' '${wifi_password}' ${wifi_remember}"
                 (label :text "Conectar"))))))))
+)
