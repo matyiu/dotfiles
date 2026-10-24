@@ -22,29 +22,29 @@
         (scroll :class "wifi-scroll" :vscroll true :hscroll false :height 160
           (box :orientation "v" :space-evenly false :spacing 4
             (for net in wifi_networks
-              (box :orientation "v" :space-evenly false :spacing 4
-                (button :class "wifi-net ${net.inuse ? 'active' : ''}"
-                        :onclick "eww update wifi_selected='${net.ssid}' wifi_password='' wifi_remember=false; rm -f /tmp/eww-wifi-pass /tmp/eww-wifi-pass-cur"
-                  (box :space-evenly false :spacing 10
-                    (label :class "wifi-net-icon" :text "${net.inuse ? '󰤨' : '󰤯'}")
-                    (box :orientation "v" :space-evenly false :hexpand true
-                      (label :class "wifi-net-name" :text "${net.ssid}" :halign "start" :truncate true)
-                      (label :class "wifi-net-sec" :text "${net.security == '--' ? 'Abierta' : net.security}" :halign "start" :truncate true))
-                    (label :class "wifi-net-sig" :text "${net.signal}")))
-                (box :orientation "v" :space-evenly false :spacing 6 :visible {wifi_selected == net.ssid} :hexpand true
-                  (box :class "wifi-pass-box" :orientation "v" :space-evenly false :spacing 8 :hexpand true
-                    (input :class "wifi-pass-input" :hexpand true
-                           :password true
-                           :value wifi_password
-                           :onchange "$HOME/.scripts/eww-wifi-pass-debounce.sh '{}'"
-                           :onaccept "$HOME/.scripts/eww-wifi-connect.sh '${net.ssid}' '${wifi_password}' false")
-                    (box :orientation "v" :space-evenly false :spacing 8
-                      (box :space-evenly false :spacing 6 :halign "start"
-                        (checkbox :class "wifi-rem"
-                                  :checked wifi_remember
-                                  :onchecked "${EWW_CMD} update wifi_remember=true"
-                                  :onunchecked "${EWW_CMD} update wifi_remember=false")
-                        (label :text "Recordar"))
-                      (button :class "wifi-connect" :halign "fill"
-                              :onclick "$HOME/.scripts/eww-wifi-connect.sh '${net.ssid}' '${wifi_password}' ${wifi_remember}"
-                        (label :text "Conectar")))))))))))))
+              (button :class "wifi-net ${net.inuse ? 'active' : ''} ${wifi_selected == net.ssid ? 'selected' : ''}"
+                      :onclick "eww update wifi_selected='${net.ssid}' wifi_password=''"
+                (box :space-evenly false :spacing 10
+                  (label :class "wifi-net-icon" :text "${net.inuse ? '󰤨' : '󰤩'}")
+                  (box :orientation "v" :space-evenly false :hexpand true
+                    (label :class "wifi-net-name" :text "${net.ssid}" :halign "start" :truncate true)
+                    (label :class "wifi-net-sec" :text "${net.security == '--' ? 'Abierta' : net.security}" :halign "start" :truncate true))
+                  (label :class "wifi-net-sig" :text "${net.signal}"))))))
+        (revealer :transition "slidedown" :reveal {wifi_selected != ""} :duration "150ms"
+          (box :class "wifi-pass-box" :orientation "v" :space-evenly false :spacing 8 :hexpand true
+            (label :class "wifi-target-label" :text "Conectar a: ${wifi_selected}" :halign "start" :truncate true)
+            (input :class "wifi-pass-input" :hexpand true
+                   :password true
+                   :value wifi_password
+                   :onchange "eww update wifi_password='{}'"
+                   :onaccept "$HOME/.scripts/eww-wifi-connect.sh '${wifi_selected}' '{}' ${wifi_remember}")
+            (box :orientation "h" :space-evenly false :spacing 8
+              (box :space-evenly false :spacing 6 :halign "start" :hexpand true
+                (checkbox :class "wifi-rem"
+                          :checked wifi_remember
+                          :onchecked "eww update wifi_remember=true"
+                          :onunchecked "eww update wifi_remember=false")
+                (label :text "Recordar"))
+              (button :class "wifi-connect" :halign "end"
+                      :onclick "$HOME/.scripts/eww-wifi-connect.sh '${wifi_selected}' '${wifi_password}' ${wifi_remember}"
+                (label :text "Conectar"))))))))

@@ -61,7 +61,7 @@
         color: $on-variant;
       }
 
-      &:hover {
+      &:hover, &.selected {
         background-color: $surface-variant;
 
         .wifi-net-icon,
@@ -76,34 +76,40 @@
         }
       }
     }
+  }
 
-    .wifi-pass-box {
-      background-color: $surface-variant;
-      border-radius: 12px;
-      padding: 10px 12px;
+  .wifi-pass-box {
+    background-color: $surface-variant;
+    border-radius: 12px;
+    padding: 10px 12px;
 
-      .wifi-pass-input {
-        background-color: $surface-container;
-        border-radius: 10px;
-        padding: 6px 10px;
-        color: $on-surface;
-        min-height: 28px;
-      }
+    .wifi-target-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: $on-variant;
+    }
 
-      .wifi-rem {
-        background-color: $surface-container;
-        border-radius: 4px;
-        min-width: 16px;
-        min-height: 16px;
-        border: 1px solid $on-variant;
-      }
+    .wifi-pass-input {
+      background-color: $surface-container;
+      border-radius: 10px;
+      padding: 6px 10px;
+      color: $on-surface;
+      min-height: 28px;
+    }
 
-      .wifi-connect {
-        background-color: $primary;
-        color: #0b2521;
-        border-radius: 10px;
-        padding: 6px 12px;
-      }
+    .wifi-rem {
+      background-color: $surface-container;
+      border-radius: 4px;
+      min-width: 16px;
+      min-height: 16px;
+      border: 1px solid $on-variant;
+    }
+
+    .wifi-connect {
+      background-color: $primary;
+      color: #0b2521;
+      border-radius: 10px;
+      padding: 6px 12px;
     }
   }
 }
