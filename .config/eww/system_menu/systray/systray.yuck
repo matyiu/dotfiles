@@ -1,3 +1,4 @@
 (defwidget systray_widget []
-  (box :class "systray-box" :orientation "h" :space-evenly false :spacing 8 :hexpand true :halign "fill" :valign "end"
-    (systray :class "system-tray" :icon-size 18 :spacing 8)))
+  (box :valign "end" :vexpand true :hexpand true
+    (box :class "systray-box" :orientation "h" :space-evenly false :spacing 8 :halign "fill"
+      (systray :class "system-tray" :icon-size 18 :spacing 8))))
