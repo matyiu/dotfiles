@@ -7,8 +7,8 @@
 (defvar wifi_remember false)
 
 (defwidget wifi_widget []
-  (box :orientation "v" :space-evenly false :spacing 8
-    (box :class "wifi-group" :space-evenly false :spacing 4
+  (box :orientation "v" :space-evenly false :spacing 8 :hexpand true
+    (box :class "wifi-group" :space-evenly false :spacing 4 :hexpand true
       (button :class "toggle-tile wifi-toggle ${wifi_status == 'enabled' ? 'active' : ''}" :hexpand true
               :onclick "nmcli r wifi ${wifi_status == 'enabled' ? 'off' : 'on'}"
         (box :space-evenly false :spacing 10
@@ -18,7 +18,7 @@
               :onclick "if [ '${wifi_show_list}' = 'true' ]; then eww update wifi_show_list=false wifi_selected=\"\" wifi_password=\"\" wifi_remember=false; else eww update bt_show_list=false; eww update wifi_show_list=true wifi_selected=\"\" wifi_password=\"\" wifi_remember=false; fi"
         (label :text "${wifi_show_list ? '󰅃' : '󰅀'}")))
     (revealer :transition "slideup" :reveal wifi_show_list :duration "200ms"
-      (box :class "wifi-list-box" :orientation "v" :space-evenly false :spacing 6
+      (box :class "wifi-list-box" :orientation "v" :space-evenly false :spacing 6 :hexpand true
         (scroll :class "wifi-scroll" :vscroll true :hscroll false :height 160
           (box :orientation "v" :space-evenly false :spacing 4
             (for net in wifi_networks
@@ -32,7 +32,7 @@
                       (label :class "wifi-net-sec" :text "${net.security == '--' ? 'Abierta' : net.security}" :halign "start" :truncate true))
                     (label :class "wifi-net-sig" :text "${net.signal}")))
                 (revealer :transition "slideup" :reveal {wifi_selected == net.ssid} :duration "150ms"
-                  (box :class "wifi-pass-box" :orientation "v" :space-evenly false :spacing 8
+                  (box :class "wifi-pass-box" :orientation "v" :space-evenly false :spacing 8 :hexpand true
                     (input :class "wifi-pass-input"
                            :password true
                            :value wifi_password
@@ -45,4 +45,4 @@
                       (label :text "Recordar")
                       (button :class "wifi-connect" :hexpand true :halign "end"
                               :onclick "$HOME/.scripts/eww-wifi-connect.sh '${net.ssid}' '${wifi_password}' ${wifi_remember}"
-                        (label :text "Conectar")))))))))))))
+                        (label :text "Conectar"))))))))))))

@@ -4,8 +4,8 @@
 (defvar bt_show_list false)
 
 (defwidget bluetooth_widget []
-  (box :orientation "v" :space-evenly false :spacing 8
-    (box :class "bt-group" :space-evenly false :spacing 4
+  (box :orientation "v" :space-evenly false :spacing 8 :hexpand true
+    (box :class "bt-group" :space-evenly false :spacing 4 :hexpand true
       (button :class "toggle-tile bt-toggle ${bt_status == 'on' ? 'active' : ''}" :hexpand true
               :onclick "bluetoothctl power ${bt_status == 'on' ? 'off' : 'on'}"
         (box :space-evenly false :spacing 10
@@ -15,7 +15,7 @@
               :onclick "if [ '${bt_show_list}' = 'true' ]; then eww update bt_show_list=false; else eww update wifi_show_list=false wifi_selected=\"\" wifi_password=\"\" wifi_remember=false; eww update bt_show_list=true; fi"
         (label :text "${bt_show_list ? '󰅃' : '󰅀'}")))
     (revealer :transition "slideup" :reveal bt_show_list :duration "200ms"
-      (box :class "bt-list-box" :orientation "v" :space-evenly false :spacing 6
+      (box :class "bt-list-box" :orientation "v" :space-evenly false :spacing 6 :hexpand true
         (scroll :class "bt-scroll" :vscroll true :hscroll false :height 160
           (box :orientation "v" :space-evenly false :spacing 4
             (for device in bt_devices
@@ -26,4 +26,4 @@
                   (box :orientation "v" :space-evenly false :hexpand true
                     (label :class "bt-device-name" :text "${device.name}" :halign "start" :truncate true)
                     (label :class "bt-device-status" :text "${device.connected ? 'Conectado' : device.paired ? 'Emparejado' : 'Nuevo'}" :halign "start" :truncate true))
-                  (label :class "bt-device-arrow" :text "󰅂"))))))))))
+                  (label :class "bt-device-arrow" :text "󰅂")))))))))
