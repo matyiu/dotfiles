@@ -1,6 +1,5 @@
 (defpoll wifi_status :interval "3s" "nmcli -t -f WIFI g")
-(defvar wifi_poll_interval 10000)
-(defpoll wifi_networks :interval "10s" :run-while {wifi_poll_interval < 200000} "$HOME/.scripts/eww-wifi-networks.sh")
+(defpoll wifi_networks :interval "10s" "$HOME/.scripts/eww-wifi-networks.sh")
 
 (defvar wifi_show_list false)
 (defvar wifi_selected "")
@@ -16,7 +15,7 @@
           (label :class "tile-icon" :text "󰤨")
           (label :class "tile-label" :text "Wi-Fi" :hexpand true :halign "start")))
       (button :class "wifi-arrow ${wifi_show_list ? 'active' : ''}" 
-              :onclick "$HOME/.scripts/eww-wifi-scan-toggle.sh ${wifi_show_list ? false : true}; if [ '${wifi_show_list}' = 'true' ]; then eww update wifi_show_list=false wifi_selected=\"\" wifi_password=\"\" wifi_remember=false; else eww update bt_show_list=false; eww update wifi_show_list=true wifi_selected=\"\" wifi_password=\"\" wifi_remember=false; fi"
+              :onclick "if [ '${wifi_show_list}' = 'true' ]; then eww update wifi_show_list=false wifi_selected=\"\" wifi_password=\"\" wifi_remember=false; eww poll wifi_networks; else eww update bt_show_list=false; eww update wifi_show_list=true wifi_selected=\"\" wifi_password=\"\" wifi_remember=false; eww poll wifi_networks; sleep 12; eww poll wifi_networks; fi"
         (label :text "${wifi_show_list ? '󰅃' : '󰅀'}")))
     (revealer :transition "slideup" :reveal wifi_show_list :duration "200ms"
       (box :class "wifi-list-box" :orientation "v" :space-evenly false :spacing 6 :hexpand true
@@ -38,7 +37,7 @@
                            :password true
                            :value wifi_password
                            :onchange "$HOME/.scripts/eww-wifi-pass-debounce.sh '{}'"
-                           :onaccept "/bin/sh -c '$HOME/.scripts/eww-wifi-connect.sh \"${net.ssid}\" \"${wifi_password}\" ${wifi_remember}; $HOME/.scripts/eww-wifi-scan-toggle.sh false' && ${EWW_CMD} update wifi_selected=\"\"")
+                           :onaccept "/bin/sh -c '$HOME/.scripts/eww-wifi-connect.sh \"${net.ssid}\" \"${wifi_password}\" ${wifi_remember}' && ${EWW_CMD} update wifi_selected=\"\"")
                     (box :orientation "v" :space-evenly false :spacing 8
                       (box :space-evenly false :spacing 6 :halign "start"
                         (checkbox :class "wifi-rem"
@@ -47,5 +46,5 @@
                                   :onunchecked "${EWW_CMD} update wifi_remember=false")
                         (label :text "Recordar"))
                       (button :class "wifi-connect" :halign "fill"
-                              :onclick "/bin/sh -c '$HOME/.scripts/eww-wifi-connect.sh \"${net.ssid}\" \"${wifi_password}\" ${wifi_remember}; $HOME/.scripts/eww-wifi-scan-toggle.sh false' && ${EWW_CMD} update wifi_selected=\"\""
+                              :onclick "/bin/sh -c '$HOME/.scripts/eww-wifi-connect.sh \"${net.ssid}\" \"${wifi_password}\" ${wifi_remember}' && ${EWW_CMD} update wifi_selected=\"\""
                         (label :text "Conectar")))))))))))))
