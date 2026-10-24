@@ -1,0 +1,30 @@
+(include "./system_menu/performance/metrics/metrics.yuck")
+(include "./system_menu/performance/history/history.yuck")
+(include "./system_menu/performance/modules/processes.yuck")
+
+(defvar perf_tab 0)
+
+(defpoll sys_stats :interval "1s" :initial '{"cpu_perc":0,"cpu_ghz":"0.00 GHz","cpu_cores":"-","cores":[],"ram_perc":0,"ram_used":"0.0 GB","ram_avail":"0.0 GB","ram_total":"0.0 GB","swap_perc":0,"swap_used":"0.0 GB","gpu_perc":0,"gpu_mem":"0 / 0 MB","gpu_name":"-","net_rx":"0 KB/s","net_tx":"0 KB/s","net_val":0,"top":[]}'
+  "python3 /home/rjeffvalle/.config/eww/system_menu/performance/sys_info.py")
+
+(defpoll perf_metrics_data :interval "1s"
+  :run-while {main_view == 1 && perf_tab == 0}
+  :initial '{"cpu":{"model":"CPU","perc":0,"ghz":"0 GHz","cores_count":0,"cores":[],"temp":"-","load":"-"},"ram":{"perc":0,"used":"0 GB","total":"0 GB","avail":"0 GB","cache":"0 GB","swap_perc":0,"swap_used":"0 GB","swap_total":"0 GB"},"gpu0":{"name":"iGPU","perc":0,"mem":"-","temp":"-"},"gpu1":{"name":"dGPU","perc":0,"mem":"-","temp":"-"},"net":{"iface":"-","ip":"-","rx_kbs":"0 KB/s","tx_kbs":"0 KB/s","rx_perc":0,"tx_perc":0}}'
+  "./system_menu/performance/metrics/metrics.py")
+
+(defwidget performance_fullscreen_widget []
+  (box :orientation "v" :space-evenly false :spacing 12 :class "perf-screen"
+    (box :space-evenly false :class "perf-nav" :height 38
+      (button :class "perf-back-btn" :onclick "eww update main_view=0"
+        (box :space-evenly false :spacing 6
+          (label :text "󰅁")
+          (label :text "Volver")))
+      (box :space-evenly true :spacing 6 :hexpand true :class "perf-tabs"
+        (button :class "tab-btn ${perf_tab == 0 ? 'active' : ''}" :onclick "eww update perf_tab=0" "Métricas")
+        (button :class "tab-btn ${perf_tab == 1 ? 'active' : ''}" :onclick "eww update perf_tab=1" "Historial")
+        (button :class "tab-btn ${perf_tab == 2 ? 'active' : ''}" :onclick "eww update perf_tab=2" "Procesos")))
+
+    (stack :selected perf_tab :transition "slideleft" :valign "fill"
+      (perf_metrics_view)
+      (perf_history_view)
+      (perf_processes_view))))

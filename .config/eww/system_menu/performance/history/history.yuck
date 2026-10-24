@@ -1,0 +1,65 @@
+(defwidget perf_history_view []
+  (scroll :vscroll true :hscroll false :height 540 :class "perf-history-scroll"
+    (box :orientation "v" :space-evenly false :spacing 12 :class "perf-page"
+      (box :orientation "v" :space-evenly false :spacing 8 :class "metric-card"
+        (box :space-evenly false
+          (label :class "metric-name" :text "CPU POR NÚCLEO (UNIFICADO)" :halign "start" :hexpand true)
+          (label :class "metric-val" :text "${sys_stats.cpu_ghz} • ${sys_stats.cpu_perc}%"))
+
+        (box :space-evenly true :spacing 4 :class "core-legend"
+          (label :class "c-leg c0" :text "c0")
+          (label :class "c-leg c1" :text "c1")
+          (label :class "c-leg c2" :text "c2")
+          (label :class "c-leg c3" :text "c3")
+          (label :class "c-leg c4" :text "c4")
+          (label :class "c-leg c5" :text "c5")
+          (label :class "c-leg c6" :text "c6")
+          (label :class "c-leg c7" :text "c7"))
+
+        (overlay :height 140
+          (graph :class "sys-graph core-0" :value {sys_stats.cores.c0} :time-range "40s" :min 0 :max 100 :thickness 2.0)
+          (graph :class "sys-graph core-1" :value {sys_stats.cores.c1} :time-range "40s" :min 0 :max 100 :thickness 2.0)
+          (graph :class "sys-graph core-2" :value {sys_stats.cores.c2} :time-range "40s" :min 0 :max 100 :thickness 2.0)
+          (graph :class "sys-graph core-3" :value {sys_stats.cores.c3} :time-range "40s" :min 0 :max 100 :thickness 2.0)
+          (graph :class "sys-graph core-4" :value {sys_stats.cores.c4} :time-range "40s" :min 0 :max 100 :thickness 2.0)
+          (graph :class "sys-graph core-5" :value {sys_stats.cores.c5} :time-range "40s" :min 0 :max 100 :thickness 2.0)
+          (graph :class "sys-graph core-6" :value {sys_stats.cores.c6} :time-range "40s" :min 0 :max 100 :thickness 2.0)
+          (graph :class "sys-graph core-7" :value {sys_stats.cores.c7} :time-range "40s" :min 0 :max 100 :thickness 2.0)))
+
+      (box :orientation "v" :space-evenly false :spacing 8 :class "metric-card"
+        (box :space-evenly false
+          (label :class "metric-name" :text "MEMORIA RAM" :halign "start" :hexpand true)
+          (label :class "metric-val" :text "${sys_stats.ram_used} / ${sys_stats.ram_total}"))
+        (graph :class "sys-graph ram-history"
+               :value {sys_stats.ram_perc}
+               :time-range "40s"
+               :min 0
+               :max 100
+               :thickness 2.5
+               :height 80))
+
+      (box :orientation "v" :space-evenly false :spacing 8 :class "metric-card"
+        (box :space-evenly false
+          (label :class "metric-name" :text "GPUS (iGPU / dGPU)" :halign "start" :hexpand true)
+          (label :class "metric-val" :text "GPU0: ${sys_stats.gpu0_perc}% • GPU1: ${sys_stats.gpu1_perc}%"))
+
+        (box :space-evenly true :spacing 4 :class "gpu-legend"
+          (label :class "g-leg g0" :text "GPU0 (${sys_stats.gpu0_name})")
+          (label :class "g-leg g1" :text "GPU1 (${sys_stats.gpu1_name})"))
+
+        (overlay :height 100
+          (graph :class "sys-graph gpu0-graph" :value {sys_stats.gpu0_perc} :time-range "40s" :min 0 :max 100 :thickness 2.0)
+          (graph :class "sys-graph gpu1-graph" :value {sys_stats.gpu1_perc} :time-range "40s" :min 0 :max 100 :thickness 2.0)))
+
+      (box :orientation "v" :space-evenly false :spacing 8 :class "metric-card"
+        (box :space-evenly false
+          (label :class "metric-name" :text "RED TRÁFICO I/O" :halign "start" :hexpand true)
+          (label :class "metric-val" :text "󰛴 ${sys_stats.net_rx} • 󰛶 ${sys_stats.net_tx}"))
+
+        (box :space-evenly true :spacing 4 :class "net-legend"
+          (label :class "n-leg n-rx" :text "Descarga (Rx)")
+          (label :class "n-leg n-tx" :text "Subida (Tx)"))
+
+        (overlay :height 90
+          (graph :class "sys-graph net-rx-graph" :value {sys_stats.net_rx_val} :time-range "40s" :min 0 :max 100 :thickness 2.0)
+          (graph :class "sys-graph net-tx-graph" :value {sys_stats.net_tx_val} :time-range "40s" :min 0 :max 100 :thickness 2.0))))))

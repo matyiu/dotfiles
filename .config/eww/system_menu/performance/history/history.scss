@@ -1,0 +1,31 @@
+.gpu-legend {
+  padding: 2px 0;
+
+  .g-leg {
+    font-size: 11px;
+    font-weight: 800;
+  }
+  .g0 { color: #fabd2f; }
+  .g1 { color: #b8bb26; }
+}
+
+.net-legend {
+  padding: 2px 0;
+
+  .n-leg {
+    font-size: 11px;
+    font-weight: 800;
+  }
+  .n-rx { color: #83a598; }
+  .n-tx { color: #d3869b; }
+}
+
+.sys-graph {
+  background-color: transparent;
+
+  &.gpu0-graph { color: #fabd2f; }
+  &.gpu1-graph { color: #b8bb26; }
+
+  &.net-rx-graph { color: #83a598; }
+  &.net-tx-graph { color: #d3869b; }
+}

@@ -1,0 +1,16 @@
+.perf-tile {
+  background-color: $surface-container;
+  border-radius: 14px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  transition: all 0.2s ease;
+
+  .sys-icon-cpu { color: $primary; }
+  .sys-icon-ram { color: $secondary; }
+  .sys-icon-gpu { color: #fabd2f; }
+  .sys-icon-net { color: #d3869b; }
+
+  &:hover {
+    background-color: $surface-variant;
+  }
+}

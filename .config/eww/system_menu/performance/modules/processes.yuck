@@ -1,0 +1,13 @@
+(defwidget perf_processes_view []
+  (box :orientation "v" :space-evenly false :spacing 8 :class "perf-page proc-page"
+    (box :space-evenly false :class "proc-header-row"
+      (label :class "h-name" :text "PROCESO" :hexpand true :halign "start")
+      (label :class "h-stat" :text "CPU" :halign "end")
+      (label :class "h-stat" :text "MEM" :halign "end"))
+    (scroll :vscroll true :hscroll false :height 420
+      (box :orientation "v" :space-evenly false :spacing 4 :class "proc-table"
+        (for p in "${sys_stats.top}"
+          (box :space-evenly false :class "proc-item"
+            (label :class "proc-name" :text "${p.name}" :hexpand true :halign "start" :truncate true)
+            (label :class "proc-stat cpu" :text "${p.cpu}" :halign "end")
+            (label :class "proc-stat mem" :text "${p.mem}" :halign "end")))))))

@@ -1,0 +1,293 @@
+@import "./summary/summary.scss";
+@import "./history/history.scss";
+@import "./metrics/metrics.scss";
+
+.sys-header-btn {
+  background-color: $surface-container;
+  border-radius: 14px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  transition: all 0.2s ease;
+
+  .sys-icon-cpu {
+    color: $primary;
+    font-size: 18px;
+  }
+
+  .sys-icon-ram {
+    color: $secondary;
+    font-size: 18px;
+  }
+
+  .sys-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: $on-surface;
+  }
+
+  .sys-perc-val {
+    font-size: 15px;
+    font-weight: 800;
+    color: $on-surface;
+  }
+
+  .sys-sep {
+    color: rgba(255, 255, 255, 0.15);
+    font-size: 16px;
+  }
+
+  &:hover {
+    background-color: $surface-variant;
+  }
+}
+
+.perf-screen {
+  padding: 4px;
+
+  .perf-nav {
+    margin-bottom: 4px;
+
+    .perf-back-btn {
+      background-color: $surface-container;
+      border-radius: 12px;
+      padding: 0 14px;
+      font-size: 13px;
+      font-weight: 700;
+      color: $primary;
+      margin-right: 8px;
+
+      &:hover {
+        background-color: $surface-variant;
+      }
+    }
+
+    .perf-tabs {
+      background-color: rgba(0, 0, 0, 0.25);
+      border-radius: 12px;
+      padding: 3px;
+
+      .tab-btn {
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 700;
+        color: $on-variant;
+
+        &.active {
+          background-color: $surface-variant;
+          color: $on-surface;
+        }
+
+        &:hover {
+          color: $on-surface;
+        }
+      }
+    }
+  }
+
+  .metric-card {
+    background: $surface-container;
+    border-radius: 14px;
+    padding: 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+
+    .metric-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: $on-surface;
+    }
+
+    .metric-val {
+      font-size: 13px;
+      font-weight: 800;
+      color: $primary;
+    }
+
+    .metric-bar {
+      margin: 4px 0;
+      trough {
+        min-height: 8px;
+        background-color: rgba(255, 255, 255, 0.08);
+        border-radius: 4px;
+
+        highlight {
+          border-radius: 4px;
+        }
+      }
+
+      &.cpu-bar trough highlight {
+        background-color: $primary;
+      }
+
+      &.ram-bar trough highlight {
+        background-color: $secondary;
+      }
+
+      &.gpu-bar trough highlight {
+        background-color: #fabd2f;
+      }
+
+      &.net-bar trough highlight {
+        background-color: #d3869b;
+      }
+    }
+
+    .metric-sub {
+      font-size: 11px;
+      color: $on-variant;
+    }
+
+    .core-box {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      padding: 6px 8px;
+
+      .core-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: $on-surface;
+      }
+
+      .core-val {
+        font-size: 11px;
+        font-weight: 800;
+        color: $primary;
+      }
+    }
+
+    .sys-graph {
+      margin-top: 4px;
+
+      &.cpu-history {
+        color: $primary;
+        background-color: rgba(0, 230, 180, 0.04);
+      }
+
+      &.ram-history {
+        color: $secondary;
+        background-color: rgba(0, 200, 255, 0.04);
+      }
+    }
+  }
+
+  .proc-page {
+    background: $surface-container;
+    border-radius: 14px;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+
+    .proc-header-row {
+      font-size: 11px;
+      font-weight: 800;
+      color: $on-variant;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+      .h-stat {
+        min-width: 60px;
+      }
+    }
+
+    .proc-table {
+      margin-top: 4px;
+
+      .proc-item {
+        padding: 5px 0;
+
+        .proc-name {
+          font-size: 13px;
+          font-weight: 600;
+          color: $on-surface;
+        }
+
+        .proc-stat {
+          min-width: 60px;
+          font-size: 12px;
+          font-weight: 700;
+
+          &.cpu {
+            color: $primary;
+          }
+
+          &.mem {
+            color: $secondary;
+          }
+        }
+      }
+    }
+  }
+}
+
+.sys-header-btn {
+  background-color: $surface-container;
+  border-radius: 14px;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  transition: all 0.2s ease;
+
+  .sys-icon-cpu { color: $primary; font-size: 16px; }
+  .sys-icon-ram { color: $secondary; font-size: 16px; }
+  .sys-icon-gpu { color: #fabd2f; font-size: 16px; }
+  .sys-icon-net { color: #d3869b; font-size: 16px; }
+
+  .sys-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: $on-surface;
+  }
+
+  .sys-perc-val {
+    font-size: 13px;
+    font-weight: 800;
+    color: $on-surface;
+  }
+
+  .sys-sep {
+    color: rgba(255, 255, 255, 0.12);
+    font-size: 14px;
+  }
+
+  &:hover {
+    background-color: $surface-variant;
+  }
+}
+
+.core-legend {
+  padding: 2px 0;
+
+  .c-leg {
+    font-size: 11px;
+    font-weight: 800;
+  }
+  .c0 { color: #fb4934; }
+  .c1 { color: #fe8019; }
+  .c2 { color: #fabd2f; }
+  .c3 { color: #b8bb26; }
+  .c4 { color: #8ec07c; }
+  .c5 { color: #83a598; }
+  .c6 { color: #d3869b; }
+  .c7 { color: #ebdbb2; }
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.35);
+  border-radius: 10px;
+}
+
+.sys-graph {
+  background-color: transparent;
+
+  &.core-0 { color: #fb4934; }
+  &.core-1 { color: #fe8019; }
+  &.core-2 { color: #fabd2f; }
+  &.core-3 { color: #b8bb26; }
+  &.core-4 { color: #8ec07c; }
+  &.core-5 { color: #83a598; }
+  &.core-6 { color: #d3869b; }
+  &.core-7 { color: #ebdbb2; }
+
+  &.ram-history {
+    color: $secondary;
+    background-color: rgba(0, 200, 255, 0.05);
+    border-radius: 10px;
+  }
+}

@@ -7,49 +7,58 @@
 (include "./system_menu/vpn/amneziavpn/amnezia.yuck")
 (include "./system_menu/vpn/tailscale/tailscale.yuck")
 (include "./system_menu/systray/systray.yuck")
+(include "./system_menu/performance/performance.yuck")
+(include "./system_menu/performance/summary/summary.yuck")
+
+(defvar main_view 0)
 
 (defwidget system_menu_widget []
-  (box :class "system-menu-wrapper" :orientation "v" :space-evenly false :spacing 14 :valign "fill"    
-    (box :class "menu-header" :space-evenly false :spacing 10
-      (box :class "battery-badge" :space-evenly false :spacing 6 :hexpand true
-        (label :class "icon" :text "󰁹")
-        (label :text "${EWW_BATTERY.BAT1.capacity}%"))
-      (button :class "action-btn" :onclick "betterlockscreen -l" (label :text "󰌾"))
-      (button :class "action-btn power" :onclick "$HOME/.scripts/rofi-power-menu.sh" (label :text "")))
+  (box :class "system-menu-wrapper" :orientation "v" :space-evenly false :valign "fill"
+    (stack :selected main_view :transition "slideleft"
+      (box :orientation "v" :space-evenly false :spacing 14 :valign "fill"
+        (box :class "menu-header" :space-evenly false :spacing 10
+          (box :class "battery-badge" :space-evenly false :spacing 6 :hexpand true
+            (label :class "icon" :text "󰁹")
+            (label :text "${EWW_BATTERY.BAT1.capacity}%"))
+          (button :class "action-btn" :onclick "betterlockscreen -l" (label :text "󰌾"))
+          (button :class "action-btn power" :onclick "$HOME/.scripts/rofi-power-menu.sh" (label :text "󰐥")))
 
-    (box :class "sliders-box" :orientation "v" :space-evenly false :spacing 10
-      (box :class "slider-row" :space-evenly false :spacing 12
-        (label :class "slider-icon" :text "󰕾")
-        (scale :class "slider-scale" 
-               :hexpand true 
-               :min 0 :max 100 
-               :value current_volume 
-               :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ {}%"))
-      (box :class "slider-row" :space-evenly false :spacing 12
-        (label :class "slider-icon" :text "󰃠")
-        (scale :class "slider-scale" 
-               :hexpand true 
-               :min 0 :max 100 
-               :value current_brightness
-               :onchange "$HOME/.scripts/eww-set-brightness.sh {}")))
+        (box :class "sliders-box" :orientation "v" :space-evenly false :spacing 10
+          (box :class "slider-row" :space-evenly false :spacing 12
+            (label :class "slider-icon" :text "󰕾")
+            (scale :class "slider-scale" 
+                   :hexpand true 
+                   :min 0 :max 100 
+                   :value current_volume 
+                   :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ {}%"))
+          (box :class "slider-row" :space-evenly false :spacing 12
+            (label :class "slider-icon" :text "󰃠")
+            (scale :class "slider-scale" 
+                   :hexpand true 
+                   :min 0 :max 100 
+                   :value current_brightness
+                   :onchange "$HOME/.scripts/eww-set-brightness.sh {}")))
 
-    (box :class "toggles-grid" :orientation "v" :space-evenly false :spacing 8
-      (box :class "toggle-row" :space-evenly true :spacing 8
-        (wifi_widget)
-        (bluetooth_widget))
+        (perf_summary)
 
-      (box :class "toggle-row" :space-evenly true :spacing 8
-        (button :class "toggle-tile" :onclick "$HOME/.scripts/rofi-wifi-menu.sh &"
-          (box :space-evenly false :spacing 10
-            (label :class "tile-icon" :text "󰈀")
-            (label :class "tile-label" :text "Redes" :hexpand true :halign "start")))))
+        (box :class "toggles-grid" :orientation "v" :space-evenly false :spacing 8
+          (box :class "toggle-row" :space-evenly true :spacing 8
+            (wifi_widget)
+            (bluetooth_widget))
 
-    (box :class "vpn-row" :orientation "h" :space-evenly true :spacing 8
-      (amnezia_widget)
-      (tailscale_widget))
+          (box :class "toggle-row" :space-evenly true :spacing 8
+            (button :class "toggle-tile" :onclick "$HOME/.scripts/rofi-wifi-menu.sh &"
+              (box :space-evenly false :spacing 10
+                (label :class "tile-icon" :text "󰖩")
+                (label :class "tile-label" :text "Redes" :hexpand true :halign "start")))))
 
-    (systray_widget)
-))
+        (box :class "vpn-row" :orientation "h" :space-evenly true :spacing 8
+          (amnezia_widget)
+          (tailscale_widget))
+
+        (systray_widget))
+
+      (performance_fullscreen_widget))))
 
 (defwindow system_menu_closer
   :monitor 0
@@ -58,7 +67,7 @@
   :windowtype "dialog"
   :focusable false
   :wm-ignore false
-  (closer :window "system_menu" :update "bt_show_list=false wifi_show_list=false wifi_selected=\"\""))
+  (closer :window "system_menu" :update "bt_show_list=false wifi_show_list=false wifi_selected=\"\" main_view=0"))
 
 (defwindow system_menu
   :monitor 0

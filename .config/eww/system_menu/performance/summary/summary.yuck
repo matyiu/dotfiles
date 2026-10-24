@@ -1,0 +1,39 @@
+(defwidget perf_summary []
+  (box :orientation "v" :space-evenly false :spacing 8 :class "perf-grid-box"
+    (box :space-evenly true :spacing 8 :height 60
+      (button :class "toggle-tile perf-tile"
+              :height 60
+              :onclick "eww update main_view=1 perf_tab=0"
+        (box :space-evenly false :spacing 10
+          (label :class "tile-icon sys-icon-cpu" :text "")
+          (box :orientation "v" :space-evenly false :valign "center"
+            (label :class "tile-label" :text "CPU" :halign "start")
+            (label :class "tile-body" :text "${sys_stats.cpu_perc}%" :halign "start"))))
+
+      (button :class "toggle-tile perf-tile"
+              :height 60
+              :onclick "eww update main_view=1 perf_tab=0"
+        (box :space-evenly false :spacing 10
+          (label :class "tile-icon sys-icon-ram" :text "󰘚")
+          (box :orientation "v" :space-evenly false :valign "center"
+            (label :class "tile-label" :text "RAM" :halign "start")
+            (label :class "tile-body" :text "${sys_stats.ram_perc}%" :halign "start")))))
+
+    (box :space-evenly true :spacing 8 :height 60
+      (button :class "toggle-tile perf-tile"
+              :height 60
+              :onclick "eww update main_view=1 perf_tab=0"
+        (box :space-evenly false :spacing 10
+          (label :class "tile-icon sys-icon-gpu" :text "󰢮")
+          (box :orientation "v" :space-evenly false :valign "center"
+            (label :class "tile-label" :text "GPU" :halign "start")
+            (label :class "tile-body" :text "${sys_stats.gpu_perc}%" :halign "start"))))
+
+      (button :class "toggle-tile perf-tile"
+              :height 60
+              :onclick "eww update main_view=1 perf_tab=0"
+        (box :space-evenly false :spacing 10
+          (label :class "tile-icon sys-icon-net" :text "󰛴")
+          (box :orientation "v" :space-evenly false :valign "center"
+            (label :class "tile-label" :text "RED" :halign "start")
+            (label :class "tile-body" :text "${sys_stats.net_rx}" :halign "start")))))))

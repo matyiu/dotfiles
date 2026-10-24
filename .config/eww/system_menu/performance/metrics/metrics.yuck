@@ -1,0 +1,83 @@
+(defwidget perf_metrics_view []
+  (scroll :vscroll true :hscroll false :height 700 :class "perf-metrics-scroll"
+    (box :orientation "v" :space-evenly false :spacing 12 :class "perf-page"
+      
+      (box :orientation "v" :space-evenly false :spacing 8 :class "metric-card"
+        (box :space-evenly false
+          (box :space-evenly false :spacing 8 :hexpand true :halign "start"
+            (label :class "tile-icon sys-icon-cpu" :text "")
+            (label :class "metric-name" :text "${perf_metrics_data.cpu.model}" :truncate true))
+          (label :class "metric-val" :text "${perf_metrics_data.cpu.perc}%"))
+
+        (scale :class "metric-bar cpu-bar" :min 0 :max 100 :active false :value {perf_metrics_data.cpu.perc})
+
+        (box :space-evenly true :class "metric-sub-row"
+          (label :text "Frecuencia: ${perf_metrics_data.cpu.ghz}" :halign "start")
+          (label :text "Temp: ${perf_metrics_data.cpu.temp}" :halign "center")
+          (label :text "Load: ${perf_metrics_data.cpu.load}" :halign "end"))
+
+        (box :orientation "v" :space-evenly false :spacing 4 :class "cores-grid"
+          (for core in "${perf_metrics_data.cpu.cores}"
+            (box :space-evenly false :spacing 8 :class "core-row"
+              (label :class "core-id" :text "Core ${core.id}" :halign "start")
+              (scale :class "core-bar" :hexpand true :min 0 :max 100 :active false :value {core.perc})
+              (label :class "core-val" :text "${core.perc}%" :halign "end")))))
+
+      (box :orientation "v" :space-evenly false :spacing 8 :class "metric-card"
+        (box :space-evenly false
+          (box :space-evenly false :spacing 8 :hexpand true :halign "start"
+            (label :class "tile-icon sys-icon-ram" :text "󰘚")
+            (label :class "metric-name" :text "MEMORIA RAM Y SWAP"))
+          (label :class "metric-val" :text "${perf_metrics_data.ram.used} / ${perf_metrics_data.ram.total}"))
+
+        (scale :class "metric-bar ram-bar" :min 0 :max 100 :active false :value {perf_metrics_data.ram.perc})
+
+        (box :space-evenly true :class "metric-sub-row"
+          (label :text "Disponible: ${perf_metrics_data.ram.avail}" :halign "start")
+          (label :text "Cache/Buffers: ${perf_metrics_data.ram.cache}" :halign "end"))
+
+        (box :space-evenly false :spacing 8 :class "swap-box"
+          (label :class "swap-title" :text "SWAP:" :halign "start")
+          (scale :class "swap-bar" :hexpand true :min 0 :max 100 :active false :value {perf_metrics_data.ram.swap_perc})
+          (label :class "swap-val" :text "${perf_metrics_data.ram.swap_used} / ${perf_metrics_data.ram.swap_total} (${perf_metrics_data.ram.swap_perc}%)" :halign "end")))
+
+      (box :orientation "v" :space-evenly false :spacing 10 :class "metric-card"
+        (box :space-evenly false :spacing 8
+          (label :class "tile-icon sys-icon-gpu" :text "󰢮")
+          (label :class "metric-name" :text "UNIDADES GRÁFICAS (DUAL GPU)"))
+
+        (box :orientation "v" :space-evenly false :spacing 4 :class "sub-gpu-box"
+          (box :space-evenly false
+            (label :class "gpu-unit-title" :text "${perf_metrics_data.gpu0.name}" :halign "start" :hexpand true)
+            (label :class "gpu-unit-val" :text "${perf_metrics_data.gpu0.perc}%"))
+          (scale :class "gpu-bar-0" :min 0 :max 100 :active false :value {perf_metrics_data.gpu0.perc})
+          (box :space-evenly true :class "metric-sub-row"
+            (label :text "VRAM: ${perf_metrics_data.gpu0.mem}" :halign "start")
+            (label :text "Temp: ${perf_metrics_data.gpu0.temp}" :halign "end")))
+
+        ;; GPU 1: Dedicada
+        (box :orientation "v" :space-evenly false :spacing 4 :class "sub-gpu-box"
+          (box :space-evenly false
+            (label :class "gpu-unit-title" :text "${perf_metrics_data.gpu1.name}" :halign "start" :hexpand true)
+            (label :class "gpu-unit-val" :text "${perf_metrics_data.gpu1.perc}%"))
+          (scale :class "gpu-bar-1" :min 0 :max 100 :active false :value {perf_metrics_data.gpu1.perc})
+          (box :space-evenly true :class "metric-sub-row"
+            (label :text "VRAM: ${perf_metrics_data.gpu1.mem}" :halign "start")
+            (label :text "Temp: ${perf_metrics_data.gpu1.temp}" :halign "end"))))
+
+      (box :orientation "v" :space-evenly false :spacing 8 :class "metric-card"
+        (box :space-evenly false
+          (box :space-evenly false :spacing 8 :hexpand true :halign "start"
+            (label :class "tile-icon sys-icon-net" :text "󰛴")
+            (label :class "metric-name" :text "INTERFAZ: ${perf_metrics_data.net.iface} (${perf_metrics_data.net.ip})"))
+          (label :class "metric-val" :text "󰛴 ${perf_metrics_data.net.rx_kbs}"))
+
+        (box :space-evenly false :spacing 8
+          (label :class "net-dir-label" :text "Bajada" :halign "start")
+          (scale :class "net-bar-rx" :hexpand true :min 0 :max 100 :active false :value {perf_metrics_data.net.rx_perc})
+          (label :class "net-rate" :text "${perf_metrics_data.net.rx_kbs}" :halign "end"))
+
+        (box :space-evenly false :spacing 8
+          (label :class "net-dir-label" :text "Subida" :halign "start")
+          (scale :class "net-bar-tx" :hexpand true :min 0 :max 100 :active false :value {perf_metrics_data.net.tx_perc})
+          (label :class "net-rate" :text "${perf_metrics_data.net.tx_kbs}" :halign "end"))))))

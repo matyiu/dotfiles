@@ -4,4 +4,5 @@
               :show-heading true
               :show-day-names true
               :show-details false
+              :timeout 10000
               :onclick "~/.config/eww/notification_center/agenda/omacal.sh '{0}' '{1}' '{2}'")))
