@@ -1,14 +1,33 @@
-(defpoll notif_count :interval "2s" "dunstctl count waiting || echo 0")
+(defpoll notifs :interval "1s"
+  "dunstctl history 2>/dev/null | jq -c '[.data[0][]? | { id: .id.data, app: (.appname.data // \"System\"), summary: (.summary.data // \"\"), body: (.body.data // \"\"), time: (.timestamp.data // 0) }] | sort_by(.time) | reverse // []'")
 
 (defwidget notifications_widget []
   (box :class "notifications-card" :orientation "v" :space-evenly false :vexpand true
     (box :class "notif-toolbar" :space-evenly false
-      (label :class "notif-title" :text "NOTIFICACIONES" :halign "start")
-      (label :class "notif-badge" :text "${notif_count} activas")
+      (label :class "notif-title" :text "NOTIFICATIONS" :halign "start")
+      (label :class "notif-badge" :text "${arraylength(notifs)} active")
       (box :hexpand true)
-      (button :class "notif-clear-btn" :onclick "dunstctl history-clear" "Limpiar todas"))
-    (scroll :class "notif-scroll" :vscroll true :hscroll false :height 260
-      (box :class "notif-empty" :orientation "v" :space-evenly false :valign "center" :halign "center"
-        (label :class "notif-empty-icon" :text "󰂚")
-        (label :class "notif-empty-title" :text "Bandeja despejada")
-        (label :class "notif-empty-sub" :text "No hay notificaciones pendientes")))))
+      (button :class "notif-clear-btn" 
+              :onclick "dunstctl history-clear && eww update notifs='[]'" 
+              "Clear all"))
+    (scroll :class "notif-scroll" :vscroll true :hscroll false :vexpand true
+      (box :class "notif-content" :orientation "v" :space-evenly false
+        (box :class "notif-list" :orientation "v" :spacing 8 :space-evenly false
+             :visible "${arraylength(notifs) > 0}"
+          (for n in notifs
+            (box :class "notif-item" :orientation "v" :space-evenly false
+              (box :class "notif-header" :space-evenly false
+                (label :class "notif-item__app" :text "${n.app}" :halign "start")
+                (box :hexpand true)
+                (button :class "notif-item__close-btn"
+                        :onclick "dunstctl history-rm ${n.id} && dunstctl history 2>/dev/null | jq -c '[.data[0][]? | { id: .id.data, app: (.appname.data // \\\"System\\\"), summary: (.summary.data // \\\"\\\"), body: (.body.data // \\\"\\\"), time: (.timestamp.data // 0) }] | sort_by(.time) | reverse // []' | xargs -0 -I{} eww update notifs='{}'" 
+                        "✕"))
+              (label :class "notif-item__title" :text "${n.summary}" :halign "start" :wrap true)
+              (label :class "notif-item__body" :text "${n.body}" :halign "start" :wrap true
+                     :visible "${n.body != ''}"))))
+
+        (box :class "notif-empty" :orientation "v" :space-evenly false :valign "center" :halign "center"
+             :visible "${arraylength(notifs) == 0}"
+          (label :class "notif-empty-icon" :text "󰂚")
+          (label :class "notif-empty-title" :text "No notifications")
+          (label :class "notif-empty-sub" :text "Your inbox is clear"))))))

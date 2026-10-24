@@ -56,3 +56,40 @@
   color: #5b5e66;
   margin-top: 2px;
 }
+
+.notif-item {
+  background-color: #24262c;
+  border-radius: 8px;
+  padding: 10px 12px;
+
+
+  &__app {
+    font-family: monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #5da5de;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #e2e2e6;
+    margin-top: 2px;
+  }
+
+  &__body {
+    font-size: 1rem;
+    color: #8e9199;
+    margin-top: 2px;
+  }
+
+  &__close-btn {
+    color: #707880;
+    font-size: 0.75rem;
+  }
+
+  .notif-close-btn:hover {
+    color: #e47878;
+  }
+}
+
