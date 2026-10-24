@@ -37,7 +37,7 @@
                            :password true
                            :value wifi_password
                            :onchange "$HOME/.scripts/eww-wifi-pass-debounce.sh '{}'"
-                           :onaccept "/bin/sh -c '$HOME/.scripts/eww-wifi-connect.sh \"${net.ssid}\" \"${wifi_password}\" ${wifi_remember}' && ${EWW_CMD} update wifi_selected=\"\"")
+                           :onaccept "$HOME/.scripts/eww-wifi-connect.sh '${net.ssid}' '${wifi_password}' false")
                     (box :orientation "v" :space-evenly false :spacing 8
                       (box :space-evenly false :spacing 6 :halign "start"
                         (checkbox :class "wifi-rem"
@@ -46,5 +46,5 @@
                                   :onunchecked "${EWW_CMD} update wifi_remember=false")
                         (label :text "Recordar"))
                       (button :class "wifi-connect" :halign "fill"
-                              :onclick "/bin/sh -c '$HOME/.scripts/eww-wifi-connect.sh \"${net.ssid}\" \"${wifi_password}\" ${wifi_remember}' && ${EWW_CMD} update wifi_selected=\"\""
+                              :onclick "$HOME/.scripts/eww-wifi-connect.sh '${net.ssid}' '${wifi_password}' ${wifi_remember}"
                         (label :text "Conectar")))))))))))))
