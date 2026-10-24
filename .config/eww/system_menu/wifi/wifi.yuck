@@ -25,7 +25,7 @@
             (for net in wifi_networks
               (box :orientation "v" :space-evenly false :spacing 4
                 (button :class "wifi-net ${net.inuse ? 'active' : ''}"
-                        :onclick "eww update wifi_selected='${net.ssid}' wifi_password='' wifi_remember=false"
+                        :onclick "eww update wifi_selected='${net.ssid}' wifi_password='' wifi_remember=false; rm -f /tmp/eww-wifi-pass /tmp/eww-wifi-pass-cur"
                   (box :space-evenly false :spacing 10
                     (label :class "wifi-net-icon" :text "${net.inuse ? '󰤨' : '󰤯'}")
                     (box :orientation "v" :space-evenly false :hexpand true
@@ -37,7 +37,7 @@
                     (input :class "wifi-pass-input" :hexpand true
                            :password true
                            :value wifi_password
-                           :onchange "${EWW_CMD} update wifi_password='{}'"
+                           :onchange "$HOME/.scripts/eww-wifi-pass-debounce.sh '{}'"
                            :onaccept "/bin/sh -c '$HOME/.scripts/eww-wifi-connect.sh \"${net.ssid}\" \"${wifi_password}\" ${wifi_remember}; $HOME/.scripts/eww-wifi-scan-toggle.sh false' && ${EWW_CMD} update wifi_selected=\"\"")
                     (box :orientation "v" :space-evenly false :spacing 8
                       (box :space-evenly false :spacing 6 :halign "start"
