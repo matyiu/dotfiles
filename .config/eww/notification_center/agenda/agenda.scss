@@ -1,0 +1,49 @@
+.agenda-card {
+  background-color: #1a1b20;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.agenda-toolbar {
+  margin-bottom: 12px;
+}
+
+.agenda-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #8e9199;
+  letter-spacing: 0.8px;
+}
+
+.agenda-tag {
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 0.65rem;
+  color: #5b5e66;
+}
+
+.event-row {
+  background-color: #24262c;
+  border-left: 3px solid #a8c7fa;
+  border-radius: 0 8px 8px 0;
+  padding: 8px 12px;
+}
+
+.ev-time {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #a8c7fa;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+}
+
+.ev-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #e2e2e6;
+  margin-top: 2px;
+}
+
+.ev-loc {
+  font-size: 0.7rem;
+  color: #8e9199;
+  margin-top: 1px;
+}

@@ -1,0 +1,33 @@
+(defpoll omacal_agenda :interval "5m" 
+  "~/.config/eww/notification_center/agenda/omacal.sh")
+
+(defwidget agenda_widget []
+  (box :class "agenda-card" :orientation "v" :space-evenly false
+    (box :class "agenda-toolbar" :space-evenly false
+      (label :class "agenda-title" :text "UPCOMING EVENTS" :halign "start")
+      (box :hexpand true)
+      (label :class "agenda-tag" :text "omacal"))
+    (scroll :vscroll true :hscroll false :height 360
+      (box :class "agenda-list" :orientation "v" :spacing 12 :space-evenly false
+        (box :class "events-section" :orientation "v" :spacing 6 :space-evenly false
+             :visible "${arraylength(omacal_agenda.all_day) > 0}"
+          (label :class "section-subtitle" :text "ALL DAY" :halign "start")
+          (for ev in "${omacal_agenda.all_day}"
+            (box :class "event-row all-day-row" :orientation "v" :space-evenly false
+              (label :class "ev-title" :text "${ev.title}" :halign "start" :wrap true)
+              (label :class "ev-loc" :text "${ev.location}" :halign "start"
+                     :visible "${ev.location != ''}"))))
+
+        (box :class "events-section" :orientation "v" :spacing 6 :space-evenly false
+             :visible "${arraylength(omacal_agenda.timed) > 0}"
+          (label :class "section-subtitle" :text "TIMED" :halign "start")
+          (for ev in "${omacal_agenda.timed}"
+            (box :class "event-row timed-row" :orientation "v" :space-evenly false
+              (label :class "ev-time" :text "${ev.time}" :halign "start")
+              (label :class "ev-title" :text "${ev.title}" :halign "start" :wrap true)
+              (label :class "ev-loc" :text "${ev.location}" :halign "start"
+                     :visible "${ev.location != ''}"))))
+
+        (box :class "empty-agenda" :orientation "v" :space-evenly false :valign "center" :halign "center"
+             :visible "${arraylength(omacal_agenda.all_day) == 0 && arraylength(omacal_agenda.timed) == 0}"
+          (label :class "empty-agenda-text" :text "No scheduled events"))))))

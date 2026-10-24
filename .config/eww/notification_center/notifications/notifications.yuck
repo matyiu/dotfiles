@@ -1,0 +1,14 @@
+(defpoll notif_count :interval "2s" "dunstctl count waiting || echo 0")
+
+(defwidget notifications_widget []
+  (box :class "notifications-card" :orientation "v" :space-evenly false :vexpand true
+    (box :class "notif-toolbar" :space-evenly false
+      (label :class "notif-title" :text "NOTIFICACIONES" :halign "start")
+      (label :class "notif-badge" :text "${notif_count} activas")
+      (box :hexpand true)
+      (button :class "notif-clear-btn" :onclick "dunstctl history-clear" "Limpiar todas"))
+    (scroll :class "notif-scroll" :vscroll true :hscroll false :height 260
+      (box :class "notif-empty" :orientation "v" :space-evenly false :valign "center" :halign "center"
+        (label :class "notif-empty-icon" :text "󰂚")
+        (label :class "notif-empty-title" :text "Bandeja despejada")
+        (label :class "notif-empty-sub" :text "No hay notificaciones pendientes")))))

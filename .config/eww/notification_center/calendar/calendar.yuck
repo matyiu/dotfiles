@@ -1,0 +1,7 @@
+(defwidget calendar_widget []
+  (box :class "calendar-card" :orientation "v" :space-evenly false
+    (calendar :class "native-calendar"
+              :show-heading true
+              :show-day-names true
+              :show-details false
+              :onclick "~/.config/eww/notification_center/agenda/omacal.sh '{0}' '{1}' '{2}'")))

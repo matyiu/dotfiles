@@ -1,0 +1,20 @@
+(defpoll current_time :interval "1s" "date '+%H:%M'")
+(defpoll current_date :interval "1m" "date '+%A, %d de %B de %Y'")
+
+(defvar dnd_active false)
+(defpoll dnd_poll :interval "10s" "dunstctl is-paused && eww update dnd_active=true || eww update dnd_active=false")
+
+(defwidget quick_glance_widget []
+  (box :class "quick-glance-card" :space-evenly false
+    (box :class "time-date-box" :orientation "v" :space-evenly false :hexpand true
+      (label :class "glance-clock" :text current_time :halign "start")
+      (label :class "glance-date" :text current_date :halign "start"))
+    
+    (button :class "dnd-switch ${dnd_active == 'true' ? 'active' : ''}" 
+            :onclick "dunstctl set-paused toggle; [ \"$(dunstctl is-paused)\" = \"true\" ] && eww update dnd_active=true || eww update dnd_active=false"
+      (box :class "switch-track" :space-evenly false :orientation "h" :spacing 12
+        (label :class "switch-icon" 
+               :text "${dnd_active == 'true' ? '󰂛' : '󰂚'}")
+        ;; Texto descriptivo
+        (label :class "switch-label" 
+               :text "DND")))))

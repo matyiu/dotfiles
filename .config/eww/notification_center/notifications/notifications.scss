@@ -1,0 +1,58 @@
+.notifications-card {
+  background-color: #1a1b20;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.notif-toolbar {
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #282a30;
+}
+
+.notif-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #8e9199;
+  letter-spacing: 0.8px;
+}
+
+.notif-badge {
+  background-color: #2b303d;
+  color: #a8c7fa;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 8px;
+}
+
+.notif-clear-btn {
+  font-size: 0.75rem;
+  color: #8e9199;
+  background: none;
+  &:hover {
+    color: #e2e2e6;
+  }
+}
+
+.notif-empty {
+  margin-top: 40px;
+}
+
+.notif-empty-icon {
+  font-size: 2.8rem;
+  color: #3b3d45;
+  margin-bottom: 8px;
+}
+
+.notif-empty-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #8e9199;
+}
+
+.notif-empty-sub {
+  font-size: 0.75rem;
+  color: #5b5e66;
+  margin-top: 2px;
+}

@@ -1,0 +1,10 @@
+(include "./notification_center/notification_center.yuck")
+
+(defwindow control_center
+  :monitor 0
+  :geometry (geometry :x "0px"
+                      :y "-58px"
+                      :width "1200px"
+                      :anchor "bottom center")
+  :wm-ignore true
+  (notification_center_layout))

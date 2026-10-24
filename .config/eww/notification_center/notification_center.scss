@@ -1,0 +1,11 @@
+@import "./quick_glance/quick_glance.scss";
+@import "./notifications/notifications.scss";
+@import "./calendar/calendar.scss";
+@import "./agenda/agenda.scss";
+
+.center-wrapper {
+  background-color: rgba(14, 15, 18, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 16px;
+}
