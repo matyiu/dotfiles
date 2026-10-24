@@ -10,6 +10,7 @@ $on-variant: #707880;
 @import "./wifi/wifi.scss";
 @import "./vpn/vpn.scss";
 @import "./systray/systray.scss";
+@import "./vpn/tailscale/tailscale.scss";
 
 .system-menu-wrapper {
   background-color: $bg-wrapper;

@@ -1,0 +1,45 @@
+(defvar ts_show_list false)
+
+(defpoll ts_status :interval "2s"
+  "tailscale status --json | jq -r '.BackendState // \"Stopped\"'")
+
+(defpoll ts_node :interval "2s"
+  "tailscale status --json | jq -r '([.Peer[]? | select(.ExitNode == true) | .DNSName | split(\".\")[0]] | first) // \"Direct\"'")
+
+(defpoll ts_exit_nodes :interval "5s" :initial "[]"
+  "tailscale status --json | jq -c '[ .Peer // {} | to_entries[] | select(.value.ExitNodeOption == true or .value.ExitNode == true) | { name: (.value.DNSName | split(\".\")[0]), active: (.value.ExitNode // false) } ]'")
+
+(defwidget tailscale_widget []
+  (box :orientation "v" :space-evenly false :spacing 8 :hexpand true :valign "fill"
+    (box :class "ts-group" :space-evenly false :spacing 4 :hexpand true :valign "fill" :height 60
+      (button :class "toggle-tile ts-toggle ${ts_status == 'Running' ? 'active' : ''}" :hexpand true
+              :onclick "${ts_status == 'Running' ? 'tailscale down' : 'tailscale up'}"
+        (box :space-evenly false :spacing 10
+          (label :class "tile-icon" :text "󰒄")
+          (box :orientation "v" :space-evenly false :class "vpn-box" :valign "center"
+            (label :class "tile-label" :text "Tailscale" :halign "start")
+            (label :class "tile-body" :visible {ts_node != "Direct"} :text "${ts_node}" :halign "start"))))
+
+      (button :class "ts-direct ${ts_node == 'Direct' ? 'disabled' : ''}"
+              :onclick "tailscale set --exit-node=''"
+              :tooltip "Desconectar Exit Node"
+        (label :text "󰅖"))
+
+      (button :class "ts-arrow ${ts_show_list ? 'active' : ''}"
+              :onclick "eww update ts_show_list=${!ts_show_list}"
+              :tooltip "Exit Nodes"
+        (label :text "${ts_show_list ? '󰅃' : '󰅀'}")))
+
+    (revealer :transition "slideup" :reveal ts_show_list :duration "200ms"
+      (box :class "ts-list-box" :orientation "v" :space-evenly false :spacing 6 :hexpand true
+        (scroll :class "ts-scroll" :vscroll true :hscroll false :height 240
+          (box :orientation "v" :space-evenly false :spacing 4
+            (for node in ts_exit_nodes
+              (button :class "ts-node-item ${node.active ? 'active' : ''}"
+                      :onclick "tailscale set --exit-node=${node.name} && eww update ts_show_list=false"
+                (box :space-evenly false :spacing 10
+                  (label :class "ts-node-icon" :text "${node.active ? '󰄴' : '󰄰'}")
+                  (box :orientation "v" :space-evenly false :hexpand true
+                    (label :class "ts-node-name" :text "${node.name}" :halign "start" :truncate true)
+                    (label :class "ts-node-status" :text "${node.active ? 'Exit Node Activo' : 'Disponible'}" :halign "start" :truncate true))
+                  (label :class "ts-node-arrow" :text "󰅂"))))))))))

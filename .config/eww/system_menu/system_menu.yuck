@@ -5,7 +5,7 @@
 (include "./system_menu/bluetooth/bluetooth.yuck")
 (include "./system_menu/wifi/wifi.yuck")
 (include "./system_menu/vpn/amneziavpn/amnezia.yuck")
-(include "./system_menu/vpn/tailscale.yuck")
+(include "./system_menu/vpn/tailscale/tailscale.yuck")
 (include "./system_menu/systray/systray.yuck")
 
 (defwidget system_menu_widget []
