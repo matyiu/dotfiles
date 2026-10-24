@@ -1,0 +1,96 @@
+.bt-group {
+  .bt-toggle {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .bt-arrow {
+    background-color: $surface-container;
+    border-radius: 14px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-left: 0;
+    color: $on-variant;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: $surface-variant;
+      color: $on-surface;
+    }
+
+    &.active {
+      background-color: $primary;
+      color: #0b2521;
+    }
+  }
+}
+
+.bt-list-box {
+  background-color: $surface-container;
+  border-radius: 16px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+
+  .bt-scroll {
+    .bt-device {
+      background-color: transparent;
+      border-radius: 12px;
+      padding: 8px 10px;
+      transition: background-color 0.2s ease;
+
+      .bt-device-icon {
+        font-size: 1.1rem;
+        color: $on-variant;
+      }
+
+      .bt-device-name {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: $on-surface;
+      }
+
+      .bt-device-status {
+        font-size: 0.72rem;
+        color: $on-variant;
+      }
+
+      .bt-device-arrow {
+        font-size: 1rem;
+        color: $on-variant;
+      }
+
+      &:hover {
+        background-color: $surface-variant;
+
+        .bt-device-icon,
+        .bt-device-arrow {
+          color: $on-surface;
+        }
+      }
+
+      &.paired {
+        .bt-device-icon {
+          color: $secondary;
+        }
+      }
+
+      &.connected {
+        .bt-device-icon {
+          color: $primary;
+        }
+
+        .bt-device-status {
+          color: $primary;
+        }
+      }
+
+      &.unpaired {
+        .bt-device-icon {
+          color: $on-variant;
+        }
+      }
+    }
+  }
+}

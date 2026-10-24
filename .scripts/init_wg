@@ -1,0 +1,16 @@
+#!/bin/bash
+
+USER_HOME=/home/rjeffvalle
+
+ufw disable
+
+echo "Connecting udp2raw tunnel..."
+# $USER_HOME/udp2raw_amd64 -c -l0.0.0.0:20530 -r 20.47.97.39:20530 -k passwd --raw-mode faketcp -a --fix-gro --cipher-mode xor --auth-mode simple --disable-anti-replay --lower-level auto &
+$USER_HOME/udp2raw_amd64 -c -l0.0.0.0:20530 -r 20.47.97.39:20530 -k passwd --raw-mode faketcp -a --fix-gro --cipher-mode xor --auth-mode simple --disable-anti-replay --lower-level auto > /var/log/udp2raw.log 2>&1 &
+
+sleep 3
+
+echo "Connecting VPN..."
+wg-quick up wg0
+
+ufw enable

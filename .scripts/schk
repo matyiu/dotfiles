@@ -1,0 +1,20 @@
+#!/bin/bash
+echo "=== 1. Verificando integridad de binarios oficiales ==="
+if ! command -v paccheck &> /dev/null; then
+    echo "Instalando pacman-contrib para usar paccheck..."
+    sudo pacman -S --needed pacman-contrib
+fi
+sudo paccheck --md5sum --libops --file-properties | grep -v "FILE_PACNEW"
+
+echo -e "\n=== 2. Buscando archivos huérfanos no registrados por Pacman en rutas críticas ==="
+if ! command -v lostfiles &> /dev/null; then
+    echo "Instalando lostfiles para buscar archivos huérfanos..."
+    sudo pacman -S --needed lostfiles
+fi
+sudo lostfiles | grep -vE '(flatpak|var/lib/flatpak|snap|AppImage|\.local/share/flatpak)' | less
+
+echo -e "\n=== 3. Comprobando vulnerabilidades conocidas ==="
+if ! command -v arch-audit &> /dev/null; then
+    sudo pacman -S --needed arch-audit
+fi
+arch-audit

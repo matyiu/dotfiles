@@ -165,16 +165,17 @@ workspace $ws10 output HDMI-1
 # ---------------------------------
 # App assignments to workspaces
 # ---------------------------------
-assign [class="jetbrains-phpstorm"] $ws3
-assign [class="jetbrains-webstorm"] $ws3
-assign [class="jetbrains-pycharm"] $ws3
+assign [class="(?i).*mail.*"] $ws2
+assign [title="(?i).*thunderbird.*"] $ws2
 assign [class="kitty"] $ws4
 assign [class="google-chrome"] $ws5
+assign [instance="brave-browser"] $ws5
+assign [class="zen"] $ws5
 assign [class="Telegram"] $ws6
 assign [class="discord"] $ws7
+assign [class="vesktop"] $ws7
 assign [title="^Catd"] $ws9
-assign [instance="brave-browser"] $ws10
-assign [class="zen"] $ws10
+assign [class="(?i).*obsidian.*"] $ws9
 
 # ---------------------------------
 # App window placement
