@@ -172,4 +172,4 @@ if [ -n "$BAT_DIR" ]; then
   fi
 fi
 
-echo "${LOAD_ICON}  ${NET_ICON}  ${BRIGHT_ICON}  ${VOL_ICON}  ${BAT_ICON} ${BAT_PERC}"
+echo "${LOAD_ICON} ${NET_ICON} ${BRIGHT_ICON} ${VOL_ICON} ${BAT_ICON} ${BAT_PERC}"
