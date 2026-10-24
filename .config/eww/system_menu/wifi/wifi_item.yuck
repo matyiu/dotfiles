@@ -1,0 +1,17 @@
+(defwidget wifi_item [net active]
+  (button :class "wifi-net ${net.inuse ? 'active' : ''} ${active == net.ssid ? 'selected' : ''}"
+          :onclick "eww update wifi_selected='${net}'; rm -f /tmp/eww-wifi-pass"
+    (box :space-evenly false :spacing 10
+      (label :class "wifi-net-icon" :text "${net.inuse ? '󰤨' : '󰤯'}")
+      (box :orientation "v" :space-evenly false :hexpand true
+        (label :class "wifi-net-name" 
+               :text "${wifi_connecting == net.ssid ? net.ssid + ' (Conectando...)' : net.ssid}" 
+               :halign "start" :truncate true)
+        (label :class "wifi-net-sec" 
+               :visible {net.saved}
+               :text "Saved" 
+               :halign "start" :truncate true)
+        (label :class "wifi-net-sec" 
+               :text "${net.security == '--' ? 'Open' : net.security}" 
+               :halign "start" :truncate true))
+      (label :class "wifi-net-sig" :text "${net.signal}"))))

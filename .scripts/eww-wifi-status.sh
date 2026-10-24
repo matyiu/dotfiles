@@ -4,5 +4,5 @@ if [ -n "$CONN" ] && [ "$CONN" != "--" ]; then
   echo "$CONN"
 else
   WIFI=$(nmcli -t -f WIFI g 2>/dev/null)
-  [ "$WIFI" = "enabled" ] && echo "Wi-Fi" || echo "Wi-Fi"
+  [ "$WIFI" = "enabled" ] && echo "Connecting..." || echo "Wi-Fi"
 fi

@@ -1,12 +1,13 @@
-(defpoll wifi_status :interval "3s" "nmcli -t -f WIFI g")
-(defpoll wifi_label :interval "3s" "$HOME/.scripts/eww-wifi-status.sh")
-(defpoll wifi_networks :interval "2s" "$HOME/.scripts/eww-wifi-networks.sh")
+(include "./system_menu/wifi/wifi_item.yuck")
+(include "./system_menu/wifi/wifi_form.yuck")
+
+(defpoll wifi_status :interval "500ms" "nmcli -t -f WIFI g")
+(defpoll wifi_label :interval "500ms" "$HOME/.scripts/eww-wifi-status.sh")
+(defpoll wifi_networks :interval "500ms" "$HOME/.scripts/eww-wifi-networks.py")
 
 (defvar wifi_show_list false)
 (defvar wifi_selected "")
-(defvar wifi_password "")
-(defvar wifi_remember false)
-(defvar wifi_connecting "")
+(defvar wifi_connecting false)
 
 (defwidget wifi_widget []
   (box :orientation "v" :space-evenly false :spacing 8 :hexpand true
@@ -15,45 +16,15 @@
               :onclick "nmcli r wifi ${wifi_status == 'enabled' ? 'off' : 'on'}"
         (box :space-evenly false :spacing 10
           (label :class "tile-icon" :text "󰤨")
-          (label :class "tile-label" :text "${wifi_label}" :hexpand true :halign "start" :truncate true)))
+          (label :class "tile-label" :text "${wifi_connecting ? 'Connecting...' : wifi_label}" :hexpand true :halign "start" :truncate true)))
       (button :class "wifi-arrow ${wifi_show_list ? 'active' : ''}" 
-              :onclick "if [ '${wifi_show_list}' = 'true' ]; then eww update wifi_show_list=false wifi_selected=\"\" wifi_password=\"\" wifi_remember=false wifi_connecting=\"\"; else eww update bt_show_list=false; eww update wifi_show_list=true wifi_selected=\"\" wifi_password=\"\" wifi_remember=false wifi_connecting=\"\"; fi"
+              :onclick "if [ '${wifi_show_list}' = 'true' ]; then eww update wifi_show_list=false; else eww update bt_show_list=false wifi_show_list=true wifi_selected=''; fi"
         (label :text "${wifi_show_list ? '󰅃' : '󰅀'}")))
+
     (revealer :transition "slideup" :reveal wifi_show_list :duration "200ms"
       (box :class "wifi-list-box" :orientation "v" :space-evenly false :spacing 6 :hexpand true
-        (scroll :class "wifi-scroll" :vscroll true :hscroll false :height 160
+        (scroll :class "wifi-scroll" :vscroll true :hscroll false :height 300
           (box :orientation "v" :space-evenly false :spacing 4
             (for net in wifi_networks
-              (button :class "wifi-net ${net.inuse ? 'active' : ''} ${wifi_selected == net.ssid ? 'selected' : ''}"
-                      :onclick "eww update wifi_selected='${net.ssid}' wifi_password=''"
-                (box :space-evenly false :spacing 10
-                  (label :class "wifi-net-icon" :text "${net.inuse ? '󰤨' : '󰤯'}")
-                  (box :orientation "v" :space-evenly false :hexpand true
-                    (label :class "wifi-net-name" :text "${wifi_connecting == net.ssid ? net.ssid + ' (Conectando...)' : net.ssid}" :halign "start" :truncate true)
-                    (label :class "wifi-net-sec" :text "${net.security == '--' ? 'Abierta' : net.security}" :halign "start" :truncate true))
-                  (label :class "wifi-net-sig" :text "${net.signal}"))))))
-        (revealer :transition "slidedown" :reveal {wifi_selected != ""} :duration "150ms"
-          (box :class "wifi-pass-box" :orientation "v" :space-evenly false :spacing 8 :hexpand true
-            (label :class "wifi-target-label" :text "Conectar a: ${wifi_selected}" :halign "start" :truncate true)
-            (input :visible {jq '[.[] | select(.ssid == $ssid) | .known] | first' --arg ssid wifi_selected wifi_networks | not}
-                   :class "wifi-pass-input" :hexpand true
-                   :password true
-                   :value wifi_password
-                   :onchange "eww update wifi_password='{}'"
-                   :onaccept "/bin/sh -c 'eww update wifi_connecting=\"${wifi_selected}\"; $HOME/.scripts/eww-wifi-connect.sh \"${wifi_selected}\" \"{}\" ${wifi_remember}; eww update wifi_connecting=\"\"'")
-            (box :orientation "h" :space-evenly false :spacing 8
-              (box :visible {jq '[.[] | select(.ssid == $ssid) | .known] | first' --arg ssid wifi_selected wifi_networks | not}
-                    :space-evenly false :spacing 6 :halign "start" :hexpand true
-                (checkbox :class "wifi-rem"
-                          :checked wifi_remember
-                          :onchecked "eww update wifi_remember=true"
-                          :onunchecked "eww update wifi_remember=false")
-                (label :text "Recordar"))
-              (box :space-evenly false :spacing 6 :halign "end" :hexpand true
-                (button :visible {jq '[.[] | select(.ssid == $ssid) | .known] | first' --arg ssid wifi_selected wifi_networks}
-                        :class "wifi-forget"
-                        :onclick "/bin/sh -c 'eww update wifi_connecting=\"\"; $HOME/.scripts/eww-wifi-forget.sh \"${wifi_selected}\"'"
-                  (label :text "Olvidar"))
-                (button :class "wifi-connect" :halign "end"
-                        :onclick "/bin/sh -c 'eww update wifi_connecting=\"${wifi_selected}\"; $HOME/.scripts/eww-wifi-connect.sh \"${wifi_selected}\" \"${wifi_password}\" ${wifi_remember}; eww update wifi_connecting=\"\"'"
-                  (label :text "${wifi_connecting == wifi_selected ? 'Conectando...' : 'Conectar'}"))))))))))
+              (wifi_item :net net :active {wifi_selected ? wifi_selected.ssid : wifi_label}))))
+        (wifi_form :selected wifi_selected)))))
