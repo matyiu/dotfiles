@@ -1,8 +1,6 @@
+(include "./common/closer/closer.yuck")
 (include "./notification_center/notification_center.yuck")
 (include "./system_menu/system_menu.yuck")
-
-(defwidget closer [window]
-  (eventbox :onclick "eww close ${window} && eww close ${window}_closer"))
 
 (defwindow notification_center_closer
   :monitor 0

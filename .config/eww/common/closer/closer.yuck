@@ -1,0 +1,5 @@
+(defwidget closer [window ?update]
+  (eventbox 
+    :class "backdrop-closer"
+    :onclick "eww close ${window} && eww close ${window}_closer && eww update ${update}"))
+

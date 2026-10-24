@@ -181,6 +181,7 @@ assign [class="(?i).*obsidian.*"] $ws9
 # App window placement
 # ---------------------------------
 for_window [class="(?i)handy" title="(?i)recording"] floating enable, border none, sticky enable
+for_window [title="(?i)eww - system_menu"] floating enable, border none, focus
 
 # reload the configuration file
 bindsym $mod+Shift+c reload

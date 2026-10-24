@@ -46,14 +46,16 @@
   :monitor 0
   :geometry (geometry :width "100%" :height "100%")
   :stacking "fg"
+  :windowtype "dialog"
   :focusable false
-  (eventbox :onclick "eww close system_menu_closer && eww close system_menu && eww update bt_show_list=false wifi_show_list=false wifi_selected=\"\" wifi_password=\"\" wifi_remember=false"))
+  :wm-ignore false
+  (closer :window "system_menu" :update "bt_show_list=false wifi_show_list=false wifi_selected=\"\" wifi_password=\"\" wifi_remember=false"))
 
 (defwindow system_menu
   :monitor 0
   :geometry (geometry :x "-30px" :y "-52px" :anchor "bottom right" :width "500px")
   :stacking "fg"
-  :windowtype "dock"
   :focusable true
-  :wm-ignore true
+  :vm-ignore false
+  :windowtype "dialog"
   (system_menu_widget))
