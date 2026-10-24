@@ -267,3 +267,4 @@ exec --no-startup-id xfsettingsd
 exec --no-startup-id redshift
 exec --no-startup-id aw-qt
 exec --no-startup-id $HOME/Apps/Handy.AppImage --start-hidden
+exec --no-startup-id AmneziaVPN
