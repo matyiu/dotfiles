@@ -4,8 +4,13 @@
     border-color: $primary;
 
     .tile-icon,
-    .tile-label {
+    .tile-label,
+    .tile-body {
       color: #0b2521;
+    }
+
+    .tile-body {
+      font-size: 1em;
     }
 
     &:hover {

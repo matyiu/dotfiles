@@ -3,6 +3,7 @@
 (defwidget tailscale_widget []
   (button :class "toggle-tile vpn-toggle ${ts_status == 'on' ? 'active' : ''}" :hexpand true
           :onclick "if tailscale status --json 2>/dev/null | jq -r '.BackendState' | grep -q Running; then sudo tailscale down 2>/dev/null || tailscale down 2>/dev/null; else sudo tailscale up 2>/dev/null || tailscale up 2>/dev/null; fi"
+          :height 60
     (box :space-evenly false :spacing 10
       (label :class "tile-icon" :text "󰒄")
       (label :class "tile-label" :text "Tailscale" :hexpand true :halign "start"))))

@@ -4,13 +4,12 @@
 
 (include "./system_menu/bluetooth/bluetooth.yuck")
 (include "./system_menu/wifi/wifi.yuck")
-(include "./system_menu/vpn/amnezia.yuck")
+(include "./system_menu/vpn/amneziavpn/amnezia.yuck")
 (include "./system_menu/vpn/tailscale.yuck")
 (include "./system_menu/systray/systray.yuck")
 
 (defwidget system_menu_widget []
-  (box :class "system-menu-wrapper" :orientation "v" :space-evenly false :spacing 14 :valign "fill" :height "100%"
-    
+  (box :class "system-menu-wrapper" :orientation "v" :space-evenly false :spacing 14 :valign "fill"    
     (box :class "menu-header" :space-evenly false :spacing 10
       (box :class "battery-badge" :space-evenly false :spacing 6 :hexpand true
         (label :class "icon" :text "󰁹")

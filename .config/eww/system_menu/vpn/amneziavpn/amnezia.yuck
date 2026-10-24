@@ -1,0 +1,18 @@
+(defpoll amn_status :interval "1s"
+  "sudo /usr/local/bin/amnezia-ctl status")
+
+(deflisten vpn_server "sudo /usr/local/bin/amnezia-ctl watch-server")
+
+(defwidget amnezia_widget []
+  (button :class "toggle-tile vpn-toggle ${amn_status}" :hexpand true
+          :onclick "sudo /usr/local/bin/amnezia-ctl toggle"
+          :height 60
+    (box :space-evenly false :spacing 10
+      (label :class "tile-icon" :text "󰖂")
+      (box :orientation "v"
+           :spacing 2
+           :space-evenly false
+           :class "vpn-box"
+           :valign "center"
+        (label :class "tile-label" :text "AmneziaVPN")
+        (label :class "tile-body" :visible {amn_status == 'active'} :text "${vpn_server}" :halign "start")))))
