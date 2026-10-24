@@ -1,0 +1,15 @@
+.vpn-toggle {
+  &.active {
+    background-color: $primary;
+    border-color: $primary;
+
+    .tile-icon,
+    .tile-label {
+      color: #0b2521;
+    }
+
+    &:hover {
+      background-color: lighten(#0DB9A2, 5%);
+    }
+  }
+}

@@ -8,6 +8,8 @@ $on-variant: #707880;
 
 @import "./bluetooth/bluetooth.scss";
 @import "./wifi/wifi.scss";
+@import "./vpn/vpn.scss";
+@import "./systray/systray.scss";
 
 .system-menu-wrapper {
   background-color: $bg-wrapper;
@@ -109,3 +111,5 @@ $on-variant: #707880;
     }
   }
 }
+
+

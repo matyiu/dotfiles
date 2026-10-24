@@ -4,9 +4,12 @@
 
 (include "./system_menu/bluetooth/bluetooth.yuck")
 (include "./system_menu/wifi/wifi.yuck")
+(include "./system_menu/vpn/amnezia.yuck")
+(include "./system_menu/vpn/tailscale.yuck")
+(include "./system_menu/systray/systray.yuck")
 
 (defwidget system_menu_widget []
-  (box :class "system-menu-wrapper" :orientation "v" :space-evenly false :spacing 14
+  (box :class "system-menu-wrapper" :orientation "v" :space-evenly false :spacing 14 :valign "fill" :height "100%"
     
     (box :class "menu-header" :space-evenly false :spacing 10
       (box :class "battery-badge" :space-evenly false :spacing 6 :hexpand true
@@ -40,8 +43,14 @@
         (button :class "toggle-tile" :onclick "$HOME/.scripts/rofi-wifi-menu.sh &"
           (box :space-evenly false :spacing 10
             (label :class "tile-icon" :text "󰈀")
-            (label :class "tile-label" :text "Redes" :hexpand true :halign "start"))))))
-)
+            (label :class "tile-label" :text "Redes" :hexpand true :halign "start")))))
+
+    (box :class "vpn-row" :orientation "h" :space-evenly true :spacing 8
+      (amnezia_widget)
+      (tailscale_widget))
+
+    (systray_widget)
+))
 
 (defwindow system_menu_closer
   :monitor 0

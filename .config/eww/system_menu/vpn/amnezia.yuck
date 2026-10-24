@@ -1,0 +1,8 @@
+(defpoll amn_status :interval "2s" "pgrep -x AmneziaVPN >/dev/null && echo on || echo off")
+
+(defwidget amnezia_widget []
+  (button :class "toggle-tile vpn-toggle ${amn_status == 'on' ? 'active' : ''}" :hexpand true
+          :onclick "if pgrep -x AmneziaVPN >/dev/null; then pkill -x AmneziaVPN 2>/dev/null; else $HOME/Apps/AmneziaVPN* 2>/dev/null || AmneziaVPN 2>/dev/null & fi"
+    (box :space-evenly false :spacing 10
+      (label :class "tile-icon" :text "󰖂")
+      (label :class "tile-label" :text "AmneziaVPN" :hexpand true :halign "start"))))
