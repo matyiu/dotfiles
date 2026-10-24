@@ -35,21 +35,23 @@
         (revealer :transition "slidedown" :reveal {wifi_selected != ""} :duration "150ms"
           (box :class "wifi-pass-box" :orientation "v" :space-evenly false :spacing 8 :hexpand true
             (label :class "wifi-target-label" :text "Conectar a: ${wifi_selected}" :halign "start" :truncate true)
-            (box :visible {!(jq '[.[] | select(.ssid == "'${wifi_selected}'") | .known] | any' wifi_networks)} :hexpand true
-              (input :class "wifi-pass-input" :hexpand true
-                     :password true
-                     :value wifi_password
-                     :onchange "eww update wifi_password='{}'"
-                     :onaccept "/bin/sh -c 'eww update wifi_connecting=\"${wifi_selected}\"; $HOME/.scripts/eww-wifi-connect.sh \"${wifi_selected}\" \"{}\" ${wifi_remember}; eww update wifi_connecting=\"\"'"))
+            (input :visible {jq '[.[] | select(.ssid == $ssid) | .known] | first' --arg ssid wifi_selected wifi_networks | not}
+                   :class "wifi-pass-input" :hexpand true
+                   :password true
+                   :value wifi_password
+                   :onchange "eww update wifi_password='{}'"
+                   :onaccept "/bin/sh -c 'eww update wifi_connecting=\"${wifi_selected}\"; $HOME/.scripts/eww-wifi-connect.sh \"${wifi_selected}\" \"{}\" ${wifi_remember}; eww update wifi_connecting=\"\"'")
             (box :orientation "h" :space-evenly false :spacing 8
-              (box :visible {!(jq '[.[] | select(.ssid == "'${wifi_selected}'") | .known] | any' wifi_networks)} :space-evenly false :spacing 6 :halign "start" :hexpand true
+              (box :visible {jq '[.[] | select(.ssid == $ssid) | .known] | first' --arg ssid wifi_selected wifi_networks | not}
+                    :space-evenly false :spacing 6 :halign "start" :hexpand true
                 (checkbox :class "wifi-rem"
                           :checked wifi_remember
                           :onchecked "eww update wifi_remember=true"
                           :onunchecked "eww update wifi_remember=false")
                 (label :text "Recordar"))
               (box :space-evenly false :spacing 6 :halign "end" :hexpand true
-                (button :visible {jq '[.[] | select(.ssid == "'${wifi_selected}'") | .known] | any' wifi_networks} :class "wifi-forget"
+                (button :visible {jq '[.[] | select(.ssid == $ssid) | .known] | first' --arg ssid wifi_selected wifi_networks}
+                        :class "wifi-forget"
                         :onclick "/bin/sh -c 'eww update wifi_connecting=\"\"; $HOME/.scripts/eww-wifi-forget.sh \"${wifi_selected}\"'"
                   (label :text "Olvidar"))
                 (button :class "wifi-connect" :halign "end"
