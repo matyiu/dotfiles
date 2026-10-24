@@ -1,5 +1,6 @@
-(defpoll current_volume :interval "1s" "pamixer --get-volume || echo 50")
-(defpoll current_brightness :interval "1s" "brightnessctl g | awk '{print int($1/255*100)}' || echo 50")
+(defpoll current_volume :interval "1s" "wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null | awk '{if($2+0==0){print 0}else{v=$2*100; if(v>100)v=100; if(v<0)v=0; printf \"%d\", v}}' || pamixer --get-volume 2>/dev/null || echo 50")
+
+(deflisten current_brightness "$HOME/.scripts/eww-brightness-listen.sh")
 
 (include "./system_menu/bluetooth/bluetooth.yuck")
 (include "./system_menu/wifi/wifi.yuck")
@@ -19,16 +20,16 @@
         (label :class "slider-icon" :text "󰕾")
         (scale :class "slider-scale" 
                :hexpand true 
-               :min 0 :max 101 
+               :min 0 :max 100 
                :value current_volume 
-               :onchange "pamixer --set-volume {}"))
+               :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ {}%"))
       (box :class "slider-row" :space-evenly false :spacing 12
         (label :class "slider-icon" :text "󰃠")
         (scale :class "slider-scale" 
                :hexpand true 
-               :min 5 :max 101 
-               :value current_brightness 
-               :onchange "brightnessctl s {}%")))
+               :min 0 :max 100 
+               :value current_brightness
+               :onchange "$HOME/.scripts/eww-set-brightness.sh {}")))
 
     (box :class "toggles-grid" :orientation "v" :space-evenly false :spacing 8
       (box :class "toggle-row" :space-evenly true :spacing 8
@@ -49,7 +50,7 @@
   :windowtype "dialog"
   :focusable false
   :wm-ignore false
-  (closer :window "system_menu" :update "bt_show_list=false wifi_show_list=false wifi_selected=\"\" wifi_password=\"\" wifi_remember=false"))
+  (closer :window "system_menu" :update "bt_show_list=false wifi_show_list=false wifi_selected=\"\""))
 
 (defwindow system_menu
   :monitor 0
