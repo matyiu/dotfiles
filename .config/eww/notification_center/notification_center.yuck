@@ -1,17 +1,18 @@
-;; Incluimos los 4 widgets aislados
 (include "./notification_center/quick_glance/quick_glance.yuck")
 (include "./notification_center/notifications/notifications.yuck")
 (include "./notification_center/calendar/calendar.yuck")
 (include "./notification_center/agenda/agenda.yuck")
 
-(defwidget notification_center_layout []
-  (box :class "center-wrapper" :orientation "h" :space-evenly true :spacing 16
-    ;; Columna Izquierda
+(defwidget notification_center []
+  (box :class "center-wrapper" 
+    :orientation "h" 
+    :space-evenly true 
+    :spacing 16 
     (box :class "left-column" :orientation "v" :space-evenly false
       (quick_glance_widget)
       (notifications_widget))
     
-    ;; Columna Derecha
     (box :class "right-column" :orientation "v" :space-evenly false
       (calendar_widget)
       (agenda_widget))))
+
